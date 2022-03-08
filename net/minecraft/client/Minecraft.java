@@ -8,6 +8,7 @@ import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListenableFutureTask;
+import com.invisiblecat.reload.Reload;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.properties.Property;
@@ -587,6 +588,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             this.gameSettings.enableVsync = false;
             this.gameSettings.saveOptions();
         }
+        Reload.instance.Start();
 
         this.renderGlobal.makeEntityOutlineShader();
     }
@@ -616,7 +618,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     private void createDisplay() throws LWJGLException
     {
         Display.setResizable(true);
-        Display.setTitle("Minecraft 1.8.8");
+        Display.setTitle("Loading " + Reload.instance.clientName);
 
         try
         {
