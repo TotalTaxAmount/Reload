@@ -1,5 +1,7 @@
 package com.invisiblecat.reload.module;
 
+import com.invisiblecat.reload.module.modules.movement.Sprint;
+
 import java.util.ArrayList;
 
 public class ModuleManager {
@@ -9,7 +11,7 @@ public class ModuleManager {
         //Combat
 
         //Movement
-
+        modules.add(new Sprint());
         //Player
 
         //World
