@@ -9,6 +9,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListenableFutureTask;
 import com.invisiblecat.reload.Reload;
+import com.invisiblecat.reload.event.events.EventKey;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.properties.Property;
@@ -1028,6 +1029,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
      */
     public void shutdownMinecraftApplet()
     {
+        Reload.instance.Stop();
         try
         {
             this.stream.shutdownStream();
@@ -1920,6 +1922,9 @@ public class Minecraft implements IThreadListener, IPlayerUsage
                     }
                     else
                     {
+                        EventKey eventKey = new EventKey(k);
+                        eventKey.call();
+
                         if (k == 1)
                         {
                             this.displayInGameMenu();
