@@ -1,7 +1,6 @@
 package com.invisiblecat.reload.module;
 
 import com.invisiblecat.reload.Reload;
-import com.invisiblecat.reload.event.EventManager;
 import net.minecraft.client.Minecraft;
 
 public class Module {
@@ -17,13 +16,15 @@ public class Module {
         this.key = key;
         this.category = category;
         toggled = false;
+
+        setup();
     }
 
     public void onEnable() {
         Reload.instance.eventManager.register(this);
     }
     public void onDisable() {
-        EventManager.unregister(this);
+        Reload.instance.eventManager.unregister(this);
     }
     public void onToggle() {}
     public void toggle() {
@@ -61,4 +62,5 @@ public class Module {
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
+    public void setup() {}
 }

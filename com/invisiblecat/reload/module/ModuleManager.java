@@ -5,7 +5,13 @@ import com.invisiblecat.reload.module.modules.movement.Sprint;
 import java.util.ArrayList;
 
 public class ModuleManager {
-    private ArrayList<Module> modules = new ArrayList<>();
+    private final ArrayList<Module> modules = new ArrayList<>();
+
+
+
+
+
+
 
     public ModuleManager() {
         //Combat

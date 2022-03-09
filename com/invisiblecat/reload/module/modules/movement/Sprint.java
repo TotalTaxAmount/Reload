@@ -1,6 +1,7 @@
 package com.invisiblecat.reload.module.modules.movement;
 
 import com.invisiblecat.reload.event.EventTarget;
+import com.invisiblecat.reload.event.events.EventUpdate;
 import com.invisiblecat.reload.module.Category;
 import com.invisiblecat.reload.module.Module;
 import org.lwjgl.input.Keyboard;
@@ -11,8 +12,8 @@ public class Sprint extends Module {
     }
 
     @EventTarget
-    public void onUpdate() {
-        if (!mc.thePlayer.isCollidedHorizontally && mc.thePlayer.moveForward > 0)
+    public void onUpdate(EventUpdate event) {
+        if(!mc.thePlayer.isCollidedHorizontally && mc.thePlayer.moveForward > 0)
             mc.thePlayer.setSprinting(true);
     }
 
@@ -20,5 +21,9 @@ public class Sprint extends Module {
     public void onDisable() {
         super.onDisable();
         mc.thePlayer.setSprinting(false);
+    }
+    @Override
+    public void onEnable() {
+        super.onEnable();
     }
 }
