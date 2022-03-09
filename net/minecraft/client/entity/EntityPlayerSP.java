@@ -1,5 +1,6 @@
 package net.minecraft.client.entity;
 
+import com.invisiblecat.reload.event.events.EventChat;
 import com.invisiblecat.reload.event.events.EventPostMotionUpdate;
 import com.invisiblecat.reload.event.events.EventPreMotionUpdate;
 import com.invisiblecat.reload.event.events.EventUpdate;
@@ -306,7 +307,13 @@ public class EntityPlayerSP extends AbstractClientPlayer
      */
     public void sendChatMessage(String message)
     {
-        this.sendQueue.addToSendQueue(new C01PacketChatMessage(message));
+        EventChat event = new EventChat(message);
+        event.call();
+
+        if(event.isCancelled())
+            return;
+
+        this.sendQueue.addToSendQueue(new C01PacketChatMessage(event.getMessage()));
     }
 
     /**
