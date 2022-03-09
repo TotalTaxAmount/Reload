@@ -1,6 +1,7 @@
 package com.invisiblecat.reload.module.setting;
 
 import com.invisiblecat.reload.module.Module;
+import com.invisiblecat.reload.module.modules.movement.Sprint;
 
 import java.util.ArrayList;
 
@@ -48,7 +49,6 @@ public class Setting {
         this.mode = "Slider";
 
     }
-
     public String getName() {
         return name;
     }
