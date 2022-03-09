@@ -37,4 +37,5 @@ public class Reload {
         moduleManager.getModules().stream().filter(module -> module.getKey() == event.getKey()).forEach(module -> module.toggle());
     }
 
+
 }
