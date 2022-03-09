@@ -1,5 +1,6 @@
 package com.invisiblecat.reload;
 
+import com.invisiblecat.reload.command.CommandManager;
 import com.invisiblecat.reload.event.EventManager;
 import com.invisiblecat.reload.event.EventTarget;
 import com.invisiblecat.reload.module.ModuleManager;
@@ -15,9 +16,11 @@ public class Reload {
     public EventManager eventManager;
     public ModuleManager moduleManager;
     public SettingManager settingManager;
+    public CommandManager commandManager;
 
     public void Start() {
         settingManager = new SettingManager();
+        commandManager = new CommandManager();
         eventManager = new EventManager();
         moduleManager = new ModuleManager();
 

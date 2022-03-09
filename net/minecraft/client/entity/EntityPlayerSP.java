@@ -308,10 +308,11 @@ public class EntityPlayerSP extends AbstractClientPlayer
     public void sendChatMessage(String message)
     {
         EventChat event = new EventChat(message);
-        event.call();
 
-        if(event.isCancelled())
+        if(event.isCancelled()) {
             return;
+        }
+        event.call();
 
         this.sendQueue.addToSendQueue(new C01PacketChatMessage(event.getMessage()));
     }
