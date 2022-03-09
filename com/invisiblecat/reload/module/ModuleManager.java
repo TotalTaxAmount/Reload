@@ -1,6 +1,7 @@
 package com.invisiblecat.reload.module;
 
 import com.invisiblecat.reload.module.modules.movement.Sprint;
+import com.invisiblecat.reload.module.modules.render.Fullbright;
 
 import java.util.ArrayList;
 
@@ -17,10 +18,14 @@ public class ModuleManager {
         //Combat
 
         //Movement
+
         modules.add(new Sprint());
         //Player
 
         //World
+
+        //Render
+        modules.add(new Fullbright());
 
         //Exploit
 
