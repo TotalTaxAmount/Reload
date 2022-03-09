@@ -2,10 +2,8 @@ package com.invisiblecat.reload;
 
 import com.invisiblecat.reload.event.EventManager;
 import com.invisiblecat.reload.event.EventTarget;
-import com.invisiblecat.reload.module.Module;
 import com.invisiblecat.reload.module.ModuleManager;
 import com.invisiblecat.reload.event.events.EventKey;
-import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.Display;
 
 
