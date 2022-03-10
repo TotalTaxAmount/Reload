@@ -5,7 +5,6 @@ import com.invisiblecat.reload.event.EventManager;
 import com.invisiblecat.reload.event.EventTarget;
 import com.invisiblecat.reload.module.ModuleManager;
 import com.invisiblecat.reload.event.events.EventKey;
-import com.invisiblecat.reload.module.setting.SettingManager;
 import org.lwjgl.opengl.Display;
 
 
