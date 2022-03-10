@@ -43,8 +43,8 @@ public class Bind extends Command {
                 for(Module m : Reload.instance.moduleManager.getModules()) {
                     m.setKey(Keyboard.KEY_NONE);
                 }
+                ChatUtils.sendChatMessageClient("Cleared all binds.");
             }
-            ChatUtils.sendChatMessageClient("Cleared all binds.");
         }
     }
 }

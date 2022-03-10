@@ -10,12 +10,13 @@ import java.util.List;
 import java.util.Locale;
 
 public class CommandManager {
-    private List<Command> commands = new ArrayList<>();
+    private ArrayList<Command> commands = new ArrayList<>();
     public String prefix = ".";
 
     public CommandManager() {
         commands.add(new Toggle());
         commands.add(new Bind());
+        commands.add(new Help());
 
     }
 
@@ -37,6 +38,9 @@ public class CommandManager {
                 }
             }
         }
+    }
+    public ArrayList<Command> getCommands() {
+        return commands;
     }
 
 }
