@@ -1,7 +1,10 @@
 package com.invisiblecat.reload.command.commands;
 
+import com.invisiblecat.reload.Reload;
 import com.invisiblecat.reload.command.Command;
+import com.invisiblecat.reload.module.Module;
 import com.invisiblecat.reload.utils.ChatUtils;
+import com.mojang.realmsclient.gui.ChatFormatting;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,9 +21,19 @@ public class Toggle extends Command {
     @Override
     public void onCommand(String[] args, String command) {
         if(args.length > 0) {
-            ChatUtils.sendChatMessageClient("test idk");
-            System.out.println("daf");
+            String moduleName = args[0];
+
+            for(Module module : Reload.instance.moduleManager.getModules()) {
+                if(module.getName().equalsIgnoreCase(moduleName)) {
+                    module.toggle();
+                    ChatUtils.sendChatMessageClient("Toggled: " + moduleName.substring(0, 1).toUpperCase() + moduleName.substring(1) + " [" +  (module.isToggled() ? ChatFormatting.GREEN + "On" : ChatFormatting.RED + "Off") + ChatFormatting.RESET + "]");
+
+                    return;
+                }
+            }
+            ChatUtils.sendChatMessageClient("Error: could not find module: " + moduleName.substring(0, 1).toUpperCase() + moduleName.substring(1));
         }
+
     }
 
 }
