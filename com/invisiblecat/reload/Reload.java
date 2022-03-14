@@ -24,9 +24,7 @@ public class Reload {
         eventManager = new EventManager();
         moduleManager = new ModuleManager();
         hud = new HUD();
-
         Display.setTitle(clientName + " b" + version);
-
         eventManager.register(this);
     }
     public void Stop() {

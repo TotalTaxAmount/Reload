@@ -2,6 +2,7 @@ package com.invisiblecat.reload.ui.elements;
 
 import com.invisiblecat.reload.Reload;
 import com.invisiblecat.reload.ui.Element;
+import com.invisiblecat.reload.utils.ColorUtils;
 
 public class Watermark extends Element {
     public Watermark() {
@@ -10,7 +11,8 @@ public class Watermark extends Element {
 
     @Override
     public void render() {
-        mc.fontRendererObj.drawString(Reload.instance.clientName + " b" + Reload.instance.version, this.getX(), this.getY(), -1);
+        mc.fontRendererObj.drawString(String.valueOf(Reload.instance.clientName.charAt(0)), this.getX(), this.getY(), ColorUtils.Rainbow());
+        mc.fontRendererObj.drawString(Reload.instance.clientName.substring(1) + " b" + Reload.instance.version, this.getX() + mc.fontRendererObj.getCharWidth(Reload.instance.clientName.charAt(0)), this.getY(), -1);
     }
 
 }
