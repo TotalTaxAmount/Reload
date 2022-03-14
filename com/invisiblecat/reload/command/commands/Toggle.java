@@ -26,12 +26,13 @@ public class Toggle extends Command {
             for(Module module : Reload.instance.moduleManager.getModules()) {
                 if(module.getName().equalsIgnoreCase(moduleName)) {
                     module.toggle();
-                    ChatUtils.sendChatMessageClient("Toggled: " + moduleName.substring(0, 1).toUpperCase() + moduleName.substring(1) + " [" +  (module.isToggled() ? ChatFormatting.GREEN + "On" : ChatFormatting.RED + "Off") + ChatFormatting.RESET + "]");
+
+                    //ChatUtils.sendChatMessageClient("Toggled: " + module.getDisplayName() + " [" +  (module.isToggled() ? ChatFormatting.GREEN + "On" : ChatFormatting.RED + "Off") + ChatFormatting.RESET + "]");
 
                     return;
                 }
             }
-            ChatUtils.sendChatMessageClient("Error: could not find module: " + moduleName.substring(0, 1).toUpperCase() + moduleName.substring(1));
+            ChatUtils.sendChatMessageClient("["+ ChatFormatting.RED + "Error" + ChatFormatting.RESET + "] could not find module: " + moduleName.substring(0, 1).toUpperCase() + moduleName.substring(1));
         }
 
     }

@@ -3,6 +3,7 @@ package com.invisiblecat.reload.command;
 import com.invisiblecat.reload.Reload;
 import com.invisiblecat.reload.command.commands.*;
 import com.invisiblecat.reload.event.events.EventChat;
+import com.invisiblecat.reload.utils.ChatUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,11 +33,14 @@ public class CommandManager {
         if(message.split(" ").length > 0) {
             String commandName = message.split(" ")[0];
 
+
             for (Command c : commands) {
                 if(c.getAliases().contains(commandName) || c.getName().contains(commandName.toLowerCase())) {
                     c.onCommand(Arrays.copyOfRange(message.split(" "), 1, message.split(" ").length), message);
+                    return;
                 }
             }
+            ChatUtils.sendChatMessageClient("Unknown command: " + commandName);
         }
     }
     public ArrayList<Command> getCommands() {
