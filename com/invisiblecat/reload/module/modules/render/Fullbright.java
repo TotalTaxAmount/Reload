@@ -10,7 +10,7 @@ public class Fullbright extends Module {
     private float oldBrightness;
 
     public Fullbright() {
-        super("Fullbright", Keyboard.KEY_O, Category.RENDER);
+        super("fullbright", Keyboard.KEY_O, Category.RENDER);
     }
     @Override
     public void onEnable() {

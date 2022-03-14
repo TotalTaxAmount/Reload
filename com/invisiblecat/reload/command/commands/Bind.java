@@ -33,7 +33,7 @@ public class Bind extends Command {
                 if(m.getName().equalsIgnoreCase(module)) {
                     m.setKey(Keyboard.getKeyIndex(key.toUpperCase()));
 
-                    ChatUtils.sendChatMessageClient("Bound " + m.getName().substring(0, 1).toUpperCase() + m.getName().substring(1) + " to " + key.toUpperCase());
+                    ChatUtils.sendChatMessageClient("Bound " + m.getName().substring(0, 1).toUpperCase() + m.getName().substring(1) + " to " + key.toUpperCase() + ".");
                     break;
                 }
             }

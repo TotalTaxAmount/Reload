@@ -45,6 +45,9 @@ public abstract class Command {
     public ArrayList<String> getAliases() {
         return aliases;
     }
+    public String getDisplayName() {
+        return this.name.substring(0, 1).toUpperCase() + this.name.substring(1);
+    }
 
     public void setAliases(ArrayList<String> aliases) {
         this.aliases = aliases;
