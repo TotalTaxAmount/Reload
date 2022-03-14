@@ -25,19 +25,19 @@ public class Help extends Command {
             text.append(c.getName().substring(0, 1).toUpperCase() + c.getName().substring(1) + ": " + c.getDescription() + ", " + ChatFormatting.GRAY + "(Usage: " + c.getSyntax() + ")\n");
         }
         lines = text.toString().split("\r\n|\r|\n").length;
-        if (lines - 1 > 6) {
-            StringBuilder page1 = new StringBuilder(text);
-            if (page1.length() > 0) {
-                int last, prev = page1.length() - 1;
-                while ((last = page1.lastIndexOf("\n", prev)) == prev) {
-                    prev = last - 1;
-                }
-                if (last >= 0) {
-                    page1.delete(last, page1.length());
-                }
-                System.out.println(page1);
-            }
-        }
+//        if (lines - 1 > 6) {
+//            StringBuilder page1 = new StringBuilder(text);
+//            if (page1.length() > 0) {
+//                int last, prev = page1.length() - 1;
+//                while ((last = page1.lastIndexOf("\n", prev)) == prev) {
+//                    prev = last - 1;
+//                }
+//                if (last >= 0) {
+//                    page1.delete(last, page1.length());
+//                }
+//                System.out.println(page1);
+//            }
+//        }
         ChatUtils.sendChatMessageClient(text.toString());
     }
 }
