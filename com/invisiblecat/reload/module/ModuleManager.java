@@ -21,6 +21,7 @@ public class ModuleManager {
         //World
 
         //Render
+        modules.add(new ChestESP());
         modules.add(new Fullbright());
 
         //Exploit
