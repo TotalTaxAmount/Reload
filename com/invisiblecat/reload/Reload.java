@@ -6,6 +6,7 @@ import com.invisiblecat.reload.event.EventTarget;
 import com.invisiblecat.reload.module.Module;
 import com.invisiblecat.reload.module.ModuleManager;
 import com.invisiblecat.reload.event.events.EventKey;
+import com.invisiblecat.reload.ui.HUD;
 import org.lwjgl.opengl.Display;
 
 
@@ -15,12 +16,14 @@ public class Reload {
     public static Reload instance = new Reload();
     public EventManager eventManager;
     public ModuleManager moduleManager;
+    public HUD hud;
     public CommandManager commandManager;
 
     public void Start() {
         commandManager = new CommandManager();
         eventManager = new EventManager();
         moduleManager = new ModuleManager();
+        hud = new HUD();
 
         Display.setTitle(clientName + " b" + version);
 

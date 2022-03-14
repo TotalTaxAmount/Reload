@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
-import com.invisiblecat.reload.event.Event;
+import com.invisiblecat.reload.Reload;
 import com.invisiblecat.reload.event.events.Event2D;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -351,11 +351,14 @@ public class GuiIngame extends Gui
             this.overlayPlayerList.updatePlayerList(true);
             this.overlayPlayerList.renderPlayerlist(i, scoreboard, scoreobjective1);
         }
+        Reload.instance.hud.render();
 
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.disableLighting();
         GlStateManager.enableAlpha();
     }
+
+
 
     protected void renderTooltip(ScaledResolution sr, float partialTicks)
     {
