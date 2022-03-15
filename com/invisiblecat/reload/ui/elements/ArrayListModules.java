@@ -13,25 +13,13 @@ public class ArrayListModules extends Element {
         super("ArrayList", 0, 0);
     }
 
-    public static class ModuleComparator implements Comparator<Module> {
-        @Override
-        public int compare(Module a, Module b) {
-            if(Minecraft.getMinecraft().fontRendererObj.getStringWidth(a.getName()) > Minecraft.getMinecraft().fontRendererObj.getStringWidth(b.getName())) {
-                return -1;
-            }
-            if(Minecraft.getMinecraft().fontRendererObj.getStringWidth(a.getName()) < Minecraft.getMinecraft().fontRendererObj.getStringWidth(b.getName())) {
-                return 1;
-            }
-            return 0;
-        }
-    }
 
     @Override
     public void render() {
 
         int moduleCount = 0;
 
-        Collections.sort(Reload.instance.moduleManager.getModules(), new ModuleComparator());
+        Reload.instance.moduleManager.getModules().sort(Comparator.comparingInt(m -> mc.fontRendererObj.getStringWidth(((Module)m).getName())).reversed());
 
         for (Module m : Reload.instance.moduleManager.getModules()) {
             if(m.isToggled()) {
