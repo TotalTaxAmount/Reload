@@ -1,6 +1,7 @@
 package com.invisiblecat.reload.module;
 
 import com.invisiblecat.reload.module.modules.movement.*;
+import com.invisiblecat.reload.module.modules.other.Kick;
 import com.invisiblecat.reload.module.modules.render.*;
 import com.invisiblecat.reload.module.modules.test.Test;
 //import com.invisiblecat.reload.module.modules.player.*;
@@ -27,6 +28,7 @@ public class ModuleManager {
         //Exploit
 
         //Other
+        modules.add(new Kick());
 
         //None
         modules.add(new Test());
