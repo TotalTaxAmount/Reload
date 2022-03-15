@@ -1,10 +1,9 @@
 package com.invisiblecat.reload.module;
 
 import com.invisiblecat.reload.module.modules.movement.*;
-import com.invisiblecat.reload.module.modules.other.Kick;
+import com.invisiblecat.reload.module.modules.exploit.*;
 import com.invisiblecat.reload.module.modules.render.*;
-import com.invisiblecat.reload.module.modules.test.Test;
-//import com.invisiblecat.reload.module.modules.player.*;
+import com.invisiblecat.reload.module.modules.test.*;
 
 import java.util.ArrayList;
 
@@ -26,9 +25,9 @@ public class ModuleManager {
         modules.add(new Fullbright());
 
         //Exploit
+        modules.add(new Kick());
 
         //Other
-        modules.add(new Kick());
 
         //None
         modules.add(new Test());

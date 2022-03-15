@@ -1,9 +1,13 @@
 package com.invisiblecat.reload.module;
 
 import com.invisiblecat.reload.Reload;
+import com.invisiblecat.reload.event.EventManager;
+import com.invisiblecat.reload.ui.sound.PlaySounds;
 import com.invisiblecat.reload.utils.ChatUtils;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
+
+import java.io.File;
 
 public class Module {
     protected Minecraft mc = Minecraft.getMinecraft();
@@ -12,6 +16,7 @@ public class Module {
     private int key;
     private Category category;
     private boolean toggled;
+    private boolean autoDisabled;
 
     public Module(String name, int key, Category category) {
         this.name = name;
@@ -19,24 +24,34 @@ public class Module {
         this.category = category;
         this.displayName = this.name.substring(0, 1).toUpperCase() + this.name.substring(1);
         toggled = false;
+        autoDisabled = false;
+
 
         setup();
     }
 
     public void onEnable() {
+        System.out.println(mc.mcDataDir);
         Reload.instance.eventManager.register(this);
+        PlaySounds sound = new PlaySounds(new File(mc.mcDataDir + ""));
+        sound.playSound();
     }
     public void onDisable() {
-        Reload.instance.eventManager.unregister(this);
+        EventManager.unregister(this);
+        PlaySounds sound = new PlaySounds(new File("assets/minecraft/reload/sound/disable.wav"));
+        sound.playSound();
     }
     public void onToggle() {
         //ChatUtils.sendChatMessageClient("Toggled: " + this.getDisplayName() + " [" +  (this.isToggled() ? ChatFormatting.GREEN + "On" : ChatFormatting.RED + "Off") + ChatFormatting.RESET + "]");
         ChatUtils.sendChatMessageClient("[" + (this.isToggled() ? ChatFormatting.GREEN + "Enabled" : ChatFormatting.RED + "Disabled") + ChatFormatting.RESET + "]: " + this.getDisplayName());
-
     }
-    public void toggle() {
+    public void setToggled(boolean t) {
+        this.toggled = t;
+    }
+    public void toggle(boolean onToggle) {
         toggled = !toggled;
-        onToggle();
+        if(onToggle)
+            onToggle();
         if(toggled)
             onEnable();
         else
@@ -68,6 +83,11 @@ public class Module {
     }
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
+    }
+    public boolean isAutoDisabled() {
+        return autoDisabled;}
+    public void setAutoDisabled(boolean autoDisabled) {
+        this.autoDisabled = autoDisabled;
     }
     public void setup() {}
 }

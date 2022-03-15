@@ -3,6 +3,7 @@ package net.minecraft.client.network;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
+import com.invisiblecat.reload.event.events.EventJoinWorld;
 import com.mojang.authlib.GameProfile;
 import io.netty.buffer.Unpooled;
 import java.io.File;
@@ -276,6 +277,9 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      */
     public void handleJoinGame(S01PacketJoinGame packetIn)
     {
+        EventJoinWorld eventJoinWorld = new EventJoinWorld();
+        eventJoinWorld.call();
+
         PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
         this.gameController.playerController = new PlayerControllerMP(this.gameController, this);
         this.clientWorldController = new WorldClient(this, new WorldSettings(0L, packetIn.getGameType(), false, packetIn.isHardcoreMode(), packetIn.getWorldType()), packetIn.getDimension(), packetIn.getDifficulty(), this.gameController.mcProfiler);

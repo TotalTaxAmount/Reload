@@ -2,6 +2,8 @@ package net.minecraft.network;
 
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.invisiblecat.reload.event.events.EventRecivePacket;
+import com.invisiblecat.reload.event.events.EventSendPacket;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelException;
@@ -152,9 +154,14 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
         {
             try
             {
+                EventRecivePacket eventReceivePacket = new EventRecivePacket(p_channelRead0_2_);
+
+                if(eventReceivePacket.isCancelled())
+                    return;
+                eventReceivePacket.call();
                 p_channelRead0_2_.processPacket(this.packetListener);
             }
-            catch (ThreadQuickExitException var4)
+            catch (ThreadQuickExitException ignored)
             {
                 ;
             }
@@ -174,10 +181,16 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
 
     public void sendPacket(Packet packetIn)
     {
+        EventSendPacket eventSendPacket = new EventSendPacket(packetIn);
+
+        if(eventSendPacket.isCancelled())
+            return;
+        eventSendPacket.call();
+
         if (this.isChannelOpen())
         {
             this.flushOutboundQueue();
-            this.dispatchPacket(packetIn, (GenericFutureListener <? extends Future <? super Void >> [])null);
+            this.dispatchPacket(eventSendPacket.getPacket() , (GenericFutureListener <? extends Future <? super Void >> [])null);
         }
         else
         {

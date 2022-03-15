@@ -1,11 +1,9 @@
-package com.invisiblecat.reload.ui.elements;
+package com.invisiblecat.reload.ui.hud.elements;
 
 import com.invisiblecat.reload.Reload;
 import com.invisiblecat.reload.module.Module;
-import com.invisiblecat.reload.ui.Element;
-import net.minecraft.client.Minecraft;
+import com.invisiblecat.reload.ui.hud.Element;
 
-import java.util.Collections;
 import java.util.Comparator;
 
 public class ArrayListModules extends Element {

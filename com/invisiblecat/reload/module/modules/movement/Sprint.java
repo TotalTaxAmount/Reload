@@ -1,6 +1,7 @@
 package com.invisiblecat.reload.module.modules.movement;
 
 import com.invisiblecat.reload.event.EventTarget;
+import com.invisiblecat.reload.event.events.EventJoinWorld;
 import com.invisiblecat.reload.event.events.EventUpdate;
 import com.invisiblecat.reload.module.Category;
 import com.invisiblecat.reload.module.Module;

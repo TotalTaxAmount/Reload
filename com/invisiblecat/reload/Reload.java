@@ -3,10 +3,9 @@ package com.invisiblecat.reload;
 import com.invisiblecat.reload.command.CommandManager;
 import com.invisiblecat.reload.event.EventManager;
 import com.invisiblecat.reload.event.EventTarget;
-import com.invisiblecat.reload.module.Module;
 import com.invisiblecat.reload.module.ModuleManager;
 import com.invisiblecat.reload.event.events.EventKey;
-import com.invisiblecat.reload.ui.HUD;
+import com.invisiblecat.reload.ui.hud.HUD;
 import org.lwjgl.opengl.Display;
 
 
@@ -33,7 +32,7 @@ public class Reload {
 
     @EventTarget
     public void onKey(EventKey event) {
-        moduleManager.getModules().stream().filter(module -> module.getKey() == event.getKey()).forEach(Module::toggle);
+        moduleManager.getModules().stream().filter(module -> module.getKey() == event.getKey()).forEach(m -> m.toggle(true));
     }
 
 }

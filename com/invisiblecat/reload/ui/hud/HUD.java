@@ -1,6 +1,6 @@
-package com.invisiblecat.reload.ui;
+package com.invisiblecat.reload.ui.hud;
 
-import com.invisiblecat.reload.ui.elements.*;
+import com.invisiblecat.reload.ui.hud.elements.*;
 
 import java.util.ArrayList;
 

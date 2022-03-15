@@ -25,10 +25,7 @@ public class Toggle extends Command {
 
             for(Module module : Reload.instance.moduleManager.getModules()) {
                 if(module.getName().equalsIgnoreCase(moduleName)) {
-                    module.toggle();
-
-                    //ChatUtils.sendChatMessageClient("Toggled: " + module.getDisplayName() + " [" +  (module.isToggled() ? ChatFormatting.GREEN + "On" : ChatFormatting.RED + "Off") + ChatFormatting.RESET + "]");
-
+                    module.toggle(true);
                     return;
                 }
             }
