@@ -562,6 +562,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         this.checkGLError("Post startup");
         this.ingameGUI = new GuiIngame(this);
 
+
         if (this.serverName != null)
         {
             this.displayGuiScreen(new GuiConnecting(new GuiMainMenu(), this, this.serverName, this.serverPort));
@@ -589,7 +590,9 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             this.gameSettings.enableVsync = false;
             this.gameSettings.saveOptions();
         }
+
         Reload.instance.Start();
+
 
         this.renderGlobal.makeEntityOutlineShader();
     }
@@ -1029,7 +1032,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
      */
     public void shutdownMinecraftApplet()
     {
-        Reload.instance.Stop();
+        Reload.instance.stop();
         try
         {
             this.stream.shutdownStream();
@@ -2320,6 +2323,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         networkmanager.sendPacket(new C00Handshake(47, socketaddress.toString(), 0, EnumConnectionState.LOGIN));
         networkmanager.sendPacket(new C00PacketLoginStart(this.getSession().getProfile()));
         this.myNetworkManager = networkmanager;
+        Reload.instance.discordRP.update("Playing Singleplayer", "In Game");
     }
 
     /**

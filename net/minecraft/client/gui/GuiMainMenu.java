@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import com.invisiblecat.reload.Reload;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -34,6 +36,7 @@ import org.lwjgl.util.glu.Project;
 
 public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 {
+
     private static final AtomicInteger field_175373_f = new AtomicInteger(0);
     private static final Logger logger = LogManager.getLogger();
     private static final Random RANDOM = new Random();
@@ -184,6 +187,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
 
+
         if (calendar.get(2) + 1 == 12 && calendar.get(5) == 24)
         {
             this.splashText = "Merry X-mas!";
@@ -225,6 +229,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
         }
 
         this.mc.func_181537_a(false);
+
     }
 
     /**
