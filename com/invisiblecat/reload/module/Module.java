@@ -1,5 +1,7 @@
 package com.invisiblecat.reload.module;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.invisiblecat.reload.Reload;
 import com.invisiblecat.reload.event.EventManager;
 import com.invisiblecat.reload.ui.sound.PlaySounds;
@@ -27,11 +29,8 @@ public class Module {
         this.displayName = this.name.substring(0, 1).toUpperCase() + this.name.substring(1);
         toggled = false;
         autoDisabled = false;
-
-
         setup();
     }
-
     public void onEnable() {
         Reload.instance.eventManager.register(this);
         if(Files.exists(Paths.get("../src/minecraft/assets/minecraft/reload/sound/enable.wav"))) {

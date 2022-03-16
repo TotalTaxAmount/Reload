@@ -8,6 +8,7 @@ import com.invisiblecat.reload.file.FileManager;
 import com.invisiblecat.reload.module.ModuleManager;
 import com.invisiblecat.reload.event.events.EventKey;
 import com.invisiblecat.reload.ui.hud.HUD;
+import net.minecraft.client.Minecraft;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
@@ -44,6 +45,7 @@ public class Reload {
     public void stop() {
         reloadLogger.info("[Reload] Shutting down...");
         EventManager.unregister(this);
+        fileManager.save();
         discordRP.stop();
     }
 

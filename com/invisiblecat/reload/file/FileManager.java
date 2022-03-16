@@ -1,6 +1,7 @@
 package com.invisiblecat.reload.file;
 
 import com.invisiblecat.reload.Reload;
+import com.invisiblecat.reload.file.files.ModuleSave;
 import net.minecraft.client.Minecraft;
 
 import java.io.File;
@@ -27,5 +28,9 @@ public class FileManager {
             Reload.instance.reloadLogger.info("[Reload] Created " + configs.getPath());
 
         }
+    }
+    public void save() {
+        ModuleSave moduleSaver = new ModuleSave();
+        moduleSaver.save();
     }
 }
