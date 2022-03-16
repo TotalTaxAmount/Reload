@@ -2,6 +2,7 @@ package com.invisiblecat.reload.module;
 
 import com.invisiblecat.reload.module.modules.movement.*;
 import com.invisiblecat.reload.module.modules.exploit.*;
+import com.invisiblecat.reload.module.modules.other.*;
 import com.invisiblecat.reload.module.modules.render.*;
 import com.invisiblecat.reload.module.modules.test.*;
 
@@ -23,11 +24,13 @@ public class ModuleManager {
         //Render
         modules.add(new ChestESP());
         modules.add(new Fullbright());
+        modules.add(new Chams());
 
         //Exploit
         modules.add(new Kick());
 
         //Other
+        modules.add(new AutoLogin());
 
         //None
         modules.add(new Test());

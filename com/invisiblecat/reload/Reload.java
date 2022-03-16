@@ -6,6 +6,7 @@ import com.invisiblecat.reload.event.EventTarget;
 import com.invisiblecat.reload.module.ModuleManager;
 import com.invisiblecat.reload.event.events.EventKey;
 import com.invisiblecat.reload.ui.hud.HUD;
+import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.Display;
 
 
@@ -24,6 +25,7 @@ public class Reload {
         moduleManager = new ModuleManager();
         hud = new HUD();
         Display.setTitle(clientName + " b" + version);
+        System.out.println(Minecraft.getMinecraft().mcDataDir);
         eventManager.register(this);
     }
     public void Stop() {

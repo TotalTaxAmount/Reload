@@ -8,6 +8,8 @@ import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Module {
     protected Minecraft mc = Minecraft.getMinecraft();
@@ -31,15 +33,18 @@ public class Module {
     }
 
     public void onEnable() {
-        System.out.println(mc.mcDataDir);
         Reload.instance.eventManager.register(this);
-        PlaySounds sound = new PlaySounds(new File(mc.mcDataDir + ""));
-        sound.playSound();
+        if(Files.exists(Paths.get("../src/minecraft/assets/minecraft/reload/sound/enable.wav"))) {
+            PlaySounds sound = new PlaySounds(new File("../src/minecraft/assets/minecraft/reload/sound/enable.wav"));
+            sound.playSound();
+        }
     }
     public void onDisable() {
         EventManager.unregister(this);
-        PlaySounds sound = new PlaySounds(new File("assets/minecraft/reload/sound/disable.wav"));
-        sound.playSound();
+        if(Files.exists(Paths.get("../src/minecraft/assets/minecraft/reload/sound/disable.wav"))) {
+            PlaySounds sound = new PlaySounds(new File("../src/minecraft/assets/minecraft/reload/sound/disable.wav"));
+            sound.playSound();
+        }
     }
     public void onToggle() {
         //ChatUtils.sendChatMessageClient("Toggled: " + this.getDisplayName() + " [" +  (this.isToggled() ? ChatFormatting.GREEN + "On" : ChatFormatting.RED + "Off") + ChatFormatting.RESET + "]");
