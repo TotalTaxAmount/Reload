@@ -4,6 +4,7 @@ import com.invisiblecat.reload.command.CommandManager;
 import com.invisiblecat.reload.discord.DiscordRP;
 import com.invisiblecat.reload.event.EventManager;
 import com.invisiblecat.reload.event.EventTarget;
+import com.invisiblecat.reload.file.FileManager;
 import com.invisiblecat.reload.module.ModuleManager;
 import com.invisiblecat.reload.event.events.EventKey;
 import com.invisiblecat.reload.ui.hud.HUD;
@@ -23,6 +24,7 @@ public class Reload {
     public HUD hud;
     public CommandManager commandManager;
     public DiscordRP discordRP;
+    public FileManager fileManager;
 
     public void Start() {
         commandManager = new CommandManager();
@@ -30,6 +32,8 @@ public class Reload {
         moduleManager = new ModuleManager();
         hud = new HUD();
         discordRP = new DiscordRP();
+        fileManager = new FileManager();
+
         discordRP.init();
 
         Display.setTitle(clientName + " b" + version);
