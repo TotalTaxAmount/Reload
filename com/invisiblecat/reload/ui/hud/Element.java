@@ -14,7 +14,7 @@ public class Element {
     public Element(String name, int x, int y) {
         this.x = x;
         this.y = y;
-        toggled = false;
+        toggled = true;
     }
 
     public void render() {

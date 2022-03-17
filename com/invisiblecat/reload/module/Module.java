@@ -2,6 +2,7 @@ package com.invisiblecat.reload.module;
 
 import com.invisiblecat.reload.Reload;
 import com.invisiblecat.reload.event.EventManager;
+import com.invisiblecat.reload.setting.Setting;
 import com.invisiblecat.reload.ui.sound.PlaySounds;
 import com.invisiblecat.reload.utils.ChatUtils;
 import com.mojang.realmsclient.gui.ChatFormatting;
@@ -10,6 +11,9 @@ import net.minecraft.client.Minecraft;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Module {
     protected Minecraft mc = Minecraft.getMinecraft();
@@ -20,6 +24,8 @@ public class Module {
     private Category category;
     private AutoDisable autoDisable;
     private boolean toggled;
+
+    private final List<Setting> settings = new ArrayList<>();
 
     public Module() {
         super();
@@ -34,6 +40,14 @@ public class Module {
         toggled = false;
         setup();
     }
+
+    public void addSettings(Setting... settings) {
+        this.settings.addAll(Arrays.asList(settings));
+    }
+    public List<Setting> getSettings() {
+        return settings;
+    }
+
     public void onEnable() {
         Reload.instance.eventManager.register(this);
         if(Files.exists(Paths.get("../src/minecraft/assets/minecraft/reload/sound/enable.wav"))) {

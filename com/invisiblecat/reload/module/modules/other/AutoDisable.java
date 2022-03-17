@@ -3,9 +3,11 @@ package com.invisiblecat.reload.module.modules.other;
 import com.invisiblecat.reload.Reload;
 import com.invisiblecat.reload.event.EventTarget;
 import com.invisiblecat.reload.event.events.EventJoinWorld;
+import com.invisiblecat.reload.event.events.EventRecivePacket;
 import com.invisiblecat.reload.event.events.EventRespawn;
 import com.invisiblecat.reload.module.Category;
 import com.invisiblecat.reload.module.Module;
+import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 
 public class AutoDisable extends Module {
     public AutoDisable() {
@@ -25,6 +27,7 @@ public class AutoDisable extends Module {
             }
         });
     }
+
     @EventTarget
     public void onRespawn(EventRespawn event) {
         Reload.instance.moduleManager.getModules().forEach(m -> {
@@ -32,5 +35,16 @@ public class AutoDisable extends Module {
                 m.setToggled(false);
             }
         });
+    }
+
+    @EventTarget
+    public void onRecivePacket(EventRecivePacket packet) {
+        if(packet.getPacket() instanceof S08PacketPlayerPosLook) {
+            Reload.instance.moduleManager.getModules().forEach(m -> {
+                if(m.getAutoDisable() == AutoDisable.FLAG && m.isToggled()) {
+                    m.setToggled(false);
+                }
+            });
+        }
     }
 }

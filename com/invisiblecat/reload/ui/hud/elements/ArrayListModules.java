@@ -22,7 +22,7 @@ public class ArrayListModules extends Element {
         for (Module m : Reload.instance.moduleManager.getModules()) {
             if(m.isToggled()) {
                 double offset = moduleCount*(mc.fontRendererObj.FONT_HEIGHT+4);
-                mc.fontRendererObj.drawString(m.getDisplayName(), sr.getScaledWidth() - mc.fontRendererObj.getStringWidth(m.getName()) - 4, 4 + offset, -1);
+                mc.fontRendererObj.drawString(m.getDisplayName(), this.getX() + sr.getScaledWidth() - mc.fontRendererObj.getStringWidth(m.getName()) - 4, this.getY() + 4 + offset, -1);
                 moduleCount++;
             }
         }
