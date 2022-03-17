@@ -29,6 +29,19 @@ public class FileManager {
 
         }
     }
+
+    public File getMainDir() {
+        return mainDir;
+    }
+
+    public File getFontDir() {
+        return fontDir;
+    }
+
+    public File getConfigs() {
+        return configs;
+    }
+
     public void save() {
         ModuleSave moduleSaver = new ModuleSave();
         moduleSaver.save();

@@ -44,8 +44,9 @@ public class Reload {
     }
     public void stop() {
         reloadLogger.info("[Reload] Shutting down...");
-        EventManager.unregister(this);
         fileManager.save();
+
+        EventManager.unregister(this);
         discordRP.stop();
     }
 
