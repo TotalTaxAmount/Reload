@@ -18,6 +18,7 @@ public class CommandManager {
         commands.add(new Toggle());
         commands.add(new Bind());
         commands.add(new Help());
+        commands.add(new Dev());
 
     }
 

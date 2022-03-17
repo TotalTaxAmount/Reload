@@ -1,7 +1,7 @@
 package com.invisiblecat.reload.file;
 
 import com.invisiblecat.reload.Reload;
-import com.invisiblecat.reload.file.files.ModuleSave;
+import com.invisiblecat.reload.file.files.ModuleFile;
 import net.minecraft.client.Minecraft;
 
 import java.io.File;
@@ -43,7 +43,11 @@ public class FileManager {
     }
 
     public void save() {
-        ModuleSave moduleSaver = new ModuleSave();
+        ModuleFile moduleSaver = new ModuleFile();
         moduleSaver.save();
+    }
+    public void loadOld() {
+        ModuleFile moduleSaver = new ModuleFile();
+        moduleSaver.load();
     }
 }

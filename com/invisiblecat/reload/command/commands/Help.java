@@ -13,7 +13,7 @@ public class Help extends Command {
     private final ArrayList<String> aliases = new ArrayList<>(Arrays.asList("h"));
 
     public Help() {
-        super("help", "displays this page", ".help");
+        super("help", "Displays this page", ".help");
         this.setAliases(aliases);
     }
 

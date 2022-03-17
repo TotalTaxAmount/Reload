@@ -1,5 +1,6 @@
 package com.invisiblecat.reload.module;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.invisiblecat.reload.Reload;
@@ -16,11 +17,16 @@ import java.nio.file.Paths;
 public class Module {
     protected Minecraft mc = Minecraft.getMinecraft();
 
-    private String name, displayName;
+    private String name;
+    private String displayName;
     private int key;
     private Category category;
     private boolean toggled;
     private boolean autoDisabled;
+
+    public Module() {
+        super();
+    }
 
     public Module(String name, int key, Category category) {
         this.name = name;
@@ -94,4 +100,15 @@ public class Module {
         this.autoDisabled = autoDisabled;
     }
     public void setup() {}
+
+    @Override
+    public String toString() {
+        return name+"{" +
+                "displayName='" + displayName + '\'' +
+                ", key=" + key +
+                ", category=" + category +
+                ", toggled=" + toggled +
+                ", autoDisabled=" + autoDisabled +
+                '}';
+    }
 }
