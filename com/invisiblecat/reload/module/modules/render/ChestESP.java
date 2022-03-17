@@ -11,7 +11,7 @@ import net.minecraft.tileentity.TileEntityChest;
 public class ChestESP extends Module {
 
     public ChestESP() {
-        super("ChestEsp", 0, Category.RENDER);
+        super("ChestEsp", 0, Category.RENDER, AutoDisable.NONE);
     }
 
     @EventTarget

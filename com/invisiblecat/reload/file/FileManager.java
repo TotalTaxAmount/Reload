@@ -5,6 +5,7 @@ import com.invisiblecat.reload.file.files.ModuleFile;
 import net.minecraft.client.Minecraft;
 
 import java.io.File;
+import java.io.IOException;
 
 public class FileManager {
     private Minecraft mc = Minecraft.getMinecraft();
@@ -44,10 +45,18 @@ public class FileManager {
 
     public void save() {
         ModuleFile moduleSaver = new ModuleFile();
-        moduleSaver.save();
+        try {
+            moduleSaver.save();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     public void loadOld() {
         ModuleFile moduleSaver = new ModuleFile();
-        moduleSaver.load();
+        try {
+            moduleSaver.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

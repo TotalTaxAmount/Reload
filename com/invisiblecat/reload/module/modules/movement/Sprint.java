@@ -9,7 +9,7 @@ import org.lwjgl.input.Keyboard;
 
 public class Sprint extends Module {
     public Sprint() {
-        super("Sprint", Keyboard.KEY_N, Category.MOVEMENT);
+        super("Sprint", Keyboard.KEY_N, Category.MOVEMENT, AutoDisable.NONE);
     }
     @EventTarget
     public void onUpdate(EventUpdate event) {

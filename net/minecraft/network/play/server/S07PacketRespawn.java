@@ -1,6 +1,8 @@
 package net.minecraft.network.play.server;
 
 import java.io.IOException;
+
+import com.invisiblecat.reload.event.events.EventRespawn;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
@@ -32,6 +34,8 @@ public class S07PacketRespawn implements Packet<INetHandlerPlayClient>
      */
     public void processPacket(INetHandlerPlayClient handler)
     {
+//        EventRespawn event = new EventRespawn();
+//        event.call();
         handler.handleRespawn(this);
     }
 

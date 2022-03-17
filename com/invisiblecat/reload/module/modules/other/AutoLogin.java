@@ -21,7 +21,7 @@ public class AutoLogin extends Module {
     private boolean login = false;
 
     public AutoLogin() {
-        super("AutoLogin", 0, Category.OTHER);
+        super("AutoLogin", 0, Category.OTHER, AutoDisable.NONE);
     }
 
     @Override

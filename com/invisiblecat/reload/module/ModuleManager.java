@@ -31,6 +31,7 @@ public class ModuleManager {
 
         //Other
         modules.add(new AutoLogin());
+        modules.add(new AutoDisable());
 
         //None
         modules.add(new Test());

@@ -8,7 +8,7 @@ import org.lwjgl.input.Keyboard;
 public class Test extends Module {
 
     public Test() {
-        super("test", Keyboard.KEY_NONE, Category.NONE);
+        super("test", Keyboard.KEY_NONE, Category.NONE, AutoDisable.NONE);
     }
     @Override
     public void onEnable() {
