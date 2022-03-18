@@ -26,6 +26,6 @@ public class Interface extends Module {
 
     @Override
     public void setKey(int key) {
-        ChatUtils.sendChatMessageClient("[Bind] Error cannot set key " + Keyboard.getKeyName(key).toUpperCase() + " to this module");
+        ChatUtils.sendChatMessageClient("[Bind] Error cannot set key " + Keyboard.getKeyName(key).toUpperCase() + " to this module", ChatUtils.Type.ERROR);
     }
 }

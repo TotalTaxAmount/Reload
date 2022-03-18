@@ -26,14 +26,14 @@ public class Bind extends Command {
 
             for (Module m : Reload.instance.moduleManager.getModules()) {
                 if(key.length() > 1) {
-                    ChatUtils.sendChatMessageClient("Cleared bind for " + m.getName().substring(0, 1).toUpperCase() + m.getName().substring(1));
+                    ChatUtils.sendChatMessageClient("Cleared bind for " + m.getName().substring(0, 1).toUpperCase() + m.getName().substring(1), ChatUtils.Type.INFO);
                     m.setKey(Keyboard.KEY_NONE);
                     break;
                 }
                 if(m.getName().equalsIgnoreCase(module)) {
                     m.setKey(Keyboard.getKeyIndex(key.toUpperCase()));
 
-                    ChatUtils.sendChatMessageClient("Bound " + m.getName().substring(0, 1).toUpperCase() + m.getName().substring(1) + " to " + key.toUpperCase() + ".");
+                    ChatUtils.sendChatMessageClient("Bound " + m.getName().substring(0, 1).toUpperCase() + m.getName().substring(1) + " to " + key.toUpperCase() + ".", ChatUtils.Type.INFO);
                     break;
                 }
             }
@@ -43,7 +43,7 @@ public class Bind extends Command {
                 for(Module m : Reload.instance.moduleManager.getModules()) {
                     m.setKey(Keyboard.KEY_NONE);
                 }
-                ChatUtils.sendChatMessageClient("Cleared all binds.");
+                ChatUtils.sendChatMessageClient("Cleared all binds.", ChatUtils.Type.INFO);
             }
         }
     }

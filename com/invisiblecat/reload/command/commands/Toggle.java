@@ -29,7 +29,7 @@ public class Toggle extends Command {
                     return;
                 }
             }
-            ChatUtils.sendChatMessageClient("["+ ChatFormatting.RED + "Error" + ChatFormatting.RESET + "] could not find module: " + moduleName.substring(0, 1).toUpperCase() + moduleName.substring(1));
+            ChatUtils.sendChatMessageClient("Could not find module: " + moduleName.substring(0, 1).toUpperCase() + moduleName.substring(1), ChatUtils.Type.ERROR);
         }
 
     }

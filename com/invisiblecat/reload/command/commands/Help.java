@@ -45,6 +45,6 @@ public class Help extends Command {
 //                System.out.println(page1);
 //            }
 //        }
-        ChatUtils.sendChatMessageClient(text.toString());
+        ChatUtils.sendChatMessageClient(text.toString(), ChatUtils.Type.INFO);
     }
 }

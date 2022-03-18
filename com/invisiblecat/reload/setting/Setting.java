@@ -11,10 +11,10 @@ public class Setting {
     @Expose
     @SerializedName("name")
     public String name;
-    public String displayName;
-    public boolean focused;
+    private String displayName;
+    private boolean focused;
     private boolean visible = true;
-    public ArrayList<Setting> children = new ArrayList<>();
+    private ArrayList<Setting> children = new ArrayList<>();
 
     public boolean isVisible() {
         return visible;
@@ -31,5 +31,37 @@ public class Setting {
     public void addChildren(Setting... children) {
         for (Setting child : children)
             addChild(child);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public boolean isFocused() {
+        return focused;
+    }
+
+    public void setFocused(boolean focused) {
+        this.focused = focused;
+    }
+
+    public ArrayList<Setting> getChildren() {
+        return children;
+    }
+
+    public void setChildren(ArrayList<Setting> children) {
+        this.children = children;
     }
 }
