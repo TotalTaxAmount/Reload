@@ -5,7 +5,7 @@ import com.invisiblecat.reload.event.EventManager;
 import com.invisiblecat.reload.setting.Setting;
 import com.invisiblecat.reload.setting.settings.BooleanSetting;
 import com.invisiblecat.reload.ui.sound.PlaySounds;
-import com.invisiblecat.reload.utils.ChatUtils;
+import com.invisiblecat.reload.utils.chat.ChatUtils;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
 

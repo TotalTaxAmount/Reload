@@ -3,12 +3,10 @@ package com.invisiblecat.reload.command.commands;
 import com.invisiblecat.reload.Reload;
 import com.invisiblecat.reload.command.Command;
 import com.invisiblecat.reload.module.Module;
-import com.invisiblecat.reload.utils.ChatUtils;
-import com.mojang.realmsclient.gui.ChatFormatting;
+import com.invisiblecat.reload.utils.chat.ChatUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 public class Toggle extends Command {
     private final ArrayList<String> aliases = new ArrayList<>(Arrays.asList("t", "tog"));

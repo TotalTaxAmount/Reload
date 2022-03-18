@@ -3,8 +3,7 @@ package com.invisiblecat.reload.command.commands;
 import com.invisiblecat.reload.Reload;
 import com.invisiblecat.reload.command.Command;
 import com.invisiblecat.reload.module.Module;
-import com.invisiblecat.reload.utils.ChatUtils;
-import org.lwjgl.Sys;
+import com.invisiblecat.reload.utils.chat.ChatUtils;
 import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;

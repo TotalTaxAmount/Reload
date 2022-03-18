@@ -1,11 +1,7 @@
 package com.invisiblecat.reload.command.commands;
 
-import com.invisiblecat.reload.Reload;
 import com.invisiblecat.reload.command.Command;
-import com.invisiblecat.reload.module.Module;
-import com.invisiblecat.reload.setting.settings.BooleanSetting;
-import com.invisiblecat.reload.setting.settings.NumberSetting;
-import com.invisiblecat.reload.utils.ChatUtils;
+import com.invisiblecat.reload.utils.chat.ChatUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;

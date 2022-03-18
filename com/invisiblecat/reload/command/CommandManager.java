@@ -2,7 +2,7 @@ package com.invisiblecat.reload.command;
 
 import com.invisiblecat.reload.command.commands.*;
 import com.invisiblecat.reload.event.events.EventChat;
-import com.invisiblecat.reload.utils.ChatUtils;
+import com.invisiblecat.reload.utils.chat.ChatUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

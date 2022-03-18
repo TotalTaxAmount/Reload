@@ -3,7 +3,7 @@ package com.invisiblecat.reload.command.commands;
 
 import com.invisiblecat.reload.Reload;
 import com.invisiblecat.reload.command.Command;
-import com.invisiblecat.reload.utils.ChatUtils;
+import com.invisiblecat.reload.utils.chat.ChatUtils;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
 import java.util.ArrayList;

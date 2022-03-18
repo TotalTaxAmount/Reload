@@ -4,8 +4,7 @@ import com.invisiblecat.reload.Reload;
 import com.invisiblecat.reload.command.Command;
 import com.invisiblecat.reload.module.Module;
 import com.invisiblecat.reload.setting.settings.BooleanSetting;
-import com.invisiblecat.reload.utils.ChatUtils;
-import com.mojang.realmsclient.gui.ChatFormatting;
+import com.invisiblecat.reload.utils.chat.ChatUtils;
 
 public class Hide extends Command {
     public Hide() {
