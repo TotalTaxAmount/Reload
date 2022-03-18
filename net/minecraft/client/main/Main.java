@@ -112,7 +112,6 @@ public class Main
         Thread.currentThread().setName("Client thread");
         (new Minecraft(gameconfiguration)).run();
     }
-
     private static boolean isNullOrEmpty(String str)
     {
         return str != null && !str.isEmpty();

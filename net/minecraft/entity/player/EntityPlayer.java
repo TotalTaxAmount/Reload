@@ -1,4 +1,4 @@
-package net.minecraft.entity.player;
+    package net.minecraft.entity.player;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
@@ -588,6 +588,7 @@ public abstract class EntityPlayer extends EntityLivingBase
         super.updateEntityActionState();
         this.updateArmSwingProgress();
         this.rotationYawHead = this.rotationYaw;
+        this.rotationPitchHead = this.rotationPitch;
     }
 
     /**

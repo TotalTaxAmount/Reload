@@ -24,7 +24,7 @@ public class Hide extends Command {
                     return;
                 }
             }
-            ChatUtils.sendChatMessageClient("Could not find module: " + moduleName.substring(0, 1).toUpperCase() + moduleName.substring(1), ChatUtils.Type.WARN);
+            ChatUtils.sendChatMessageClient("Could not find module: " + moduleName.substring(0, 1).toUpperCase() + moduleName.substring(1), ChatUtils.Type.ERROR);
             return;
         }
         ChatUtils.sendChatMessageClient("You need at least one argument", ChatUtils.Type.WARN );
