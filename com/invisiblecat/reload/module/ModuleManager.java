@@ -15,8 +15,10 @@ public class ModuleManager {
         //Combat
 
         //Movement
-
         modules.add(new Sprint());
+        modules.add(new Fly());
+        modules.add(new InvMove());
+
         //Player
 
         //World

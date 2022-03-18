@@ -12,16 +12,12 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S02PacketChat;
 import net.minecraft.network.play.server.S45PacketTitle;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
 public class AutoLogin extends Module {
     private boolean login = false;
 
     private StringSetting regCmd = new StringSetting("Register", "/register {p} {p}");
     private StringSetting loginCmd = new StringSetting("Login", "/login {p}");
-    private StringSetting password = new StringSetting("Password", "password");
+    private StringSetting password = new StringSetting("Password", "yes12345");
     private NumberSetting delay = new NumberSetting("delay", 1000, 10, 2000, 10);
 
 

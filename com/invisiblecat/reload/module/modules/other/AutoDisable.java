@@ -9,6 +9,7 @@ import com.invisiblecat.reload.module.Category;
 import com.invisiblecat.reload.module.Module;
 import com.invisiblecat.reload.setting.settings.BooleanSetting;
 import com.invisiblecat.reload.utils.chat.ChatUtils;
+import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 
 public class AutoDisable extends Module {
@@ -53,8 +54,8 @@ public class AutoDisable extends Module {
         if(packet.getPacket() instanceof S08PacketPlayerPosLook) {
             Reload.instance.moduleManager.getModules().forEach(m -> {
                 if(m.getAutoDisable() == AutoDisable.FLAG && m.isToggled() && flag.isEnabled()) {
-                    m.setToggled(false);
-                    ChatUtils.sendChatMessageServer(m.getName() + " was disabled because of flag");
+                    m.toggle(false);
+                    ChatUtils.sendChatMessageClient(m.getName() + " was disabled because of flag", ChatUtils.Type.WARN  );
                 }
             });
         }
