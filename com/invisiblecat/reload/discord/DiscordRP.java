@@ -50,7 +50,7 @@ public class DiscordRP {
     }
     public void update(String line1, String line2) {
         DiscordRichPresence.Builder b = new DiscordRichPresence.Builder(line2);
-        b.setBigImage("large", "");
+        b.setBigImage("large", "Reload");
         b.setDetails(line1);
         b.setStartTimestamps(created);
         DiscordRPC.discordUpdatePresence(b.build());
