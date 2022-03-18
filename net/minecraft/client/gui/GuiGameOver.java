@@ -1,6 +1,8 @@
 package net.minecraft.client.gui;
 
 import java.io.IOException;
+
+import com.invisiblecat.reload.event.events.EventRespawn;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
@@ -21,6 +23,7 @@ public class GuiGameOver extends GuiScreen implements GuiYesNoCallback
     public void initGui()
     {
         this.buttonList.clear();
+
 
         if (this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled())
         {
@@ -48,6 +51,8 @@ public class GuiGameOver extends GuiScreen implements GuiYesNoCallback
         {
             guibutton.enabled = false;
         }
+        EventRespawn event = new EventRespawn();
+        event.call();
     }
 
     /**

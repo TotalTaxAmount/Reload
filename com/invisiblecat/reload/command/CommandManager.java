@@ -1,17 +1,14 @@
 package com.invisiblecat.reload.command;
 
-import com.invisiblecat.reload.Reload;
 import com.invisiblecat.reload.command.commands.*;
 import com.invisiblecat.reload.event.events.EventChat;
-import com.invisiblecat.reload.utils.ChatUtils;
+import com.invisiblecat.reload.utils.chat.ChatUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
 
 public class CommandManager {
-    private ArrayList<Command> commands = new ArrayList<>();
+    private final ArrayList<Command> commands = new ArrayList<>();
     public String prefix = ".";
 
     public CommandManager() {
@@ -19,6 +16,7 @@ public class CommandManager {
         commands.add(new Bind());
         commands.add(new Help());
         commands.add(new Dev());
+        commands.add(new Hide());
 
     }
 
@@ -36,12 +34,12 @@ public class CommandManager {
 
 
             for (Command c : commands) {
-                if(c.getAliases().contains(commandName) || c.getName().contains(commandName.toLowerCase())) {
+                if((c.getAliases() != null ? c.getAliases().contains(commandName.toLowerCase()): false)|| c.getName().contains(commandName.toLowerCase())) {
                     c.onCommand(Arrays.copyOfRange(message.split(" "), 1, message.split(" ").length), message);
                     return;
                 }
             }
-            ChatUtils.sendChatMessageClient("Unknown command: " + commandName);
+            ChatUtils.sendChatMessageClient("Unknown command: " + commandName, ChatUtils.Type.ERROR);
         }
     }
     public ArrayList<Command> getCommands() {

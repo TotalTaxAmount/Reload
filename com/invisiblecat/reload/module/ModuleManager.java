@@ -15,8 +15,10 @@ public class ModuleManager {
         //Combat
 
         //Movement
-
         modules.add(new Sprint());
+        modules.add(new Fly());
+        modules.add(new InvMove());
+
         //Player
 
         //World
@@ -31,6 +33,7 @@ public class ModuleManager {
 
         //Other
         modules.add(new AutoLogin());
+        modules.add(new AutoDisable());
 
         //None
         modules.add(new Test());

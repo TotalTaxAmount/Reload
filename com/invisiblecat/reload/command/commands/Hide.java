@@ -3,17 +3,12 @@ package com.invisiblecat.reload.command.commands;
 import com.invisiblecat.reload.Reload;
 import com.invisiblecat.reload.command.Command;
 import com.invisiblecat.reload.module.Module;
+import com.invisiblecat.reload.setting.settings.BooleanSetting;
 import com.invisiblecat.reload.utils.chat.ChatUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-public class Toggle extends Command {
-    private final ArrayList<String> aliases = new ArrayList<>(Arrays.asList("t", "tog"));
-
-    public Toggle() {
-        super("toggle", "Toggles a module", ".toggle [name]");
-        this.setAliases(aliases);
+public class Hide extends Command {
+    public Hide() {
+        super("hide", "Toggles whether a module is show on the array list", ".hide [name]");
     }
 
     @Override
@@ -23,13 +18,15 @@ public class Toggle extends Command {
 
             for(Module module : Reload.instance.moduleManager.getModules()) {
                 if(module.getName().equalsIgnoreCase(moduleName)) {
-                    module.toggle(true);
+                    ((BooleanSetting)module.getSetting("hide")).toggle();
+                    ChatUtils.sendChatMessageClient("Now " + (((BooleanSetting)module.getSetting("hide")).isEnabled() ? "hiding " : "showing ") + module.getName(), ChatUtils.Type.INFO);
                     return;
                 }
             }
             ChatUtils.sendChatMessageClient("Could not find module: " + moduleName.substring(0, 1).toUpperCase() + moduleName.substring(1), ChatUtils.Type.ERROR);
+            return;
         }
+        ChatUtils.sendChatMessageClient("You need at least one argument", ChatUtils.Type.WARN );
 
     }
-
 }

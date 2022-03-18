@@ -2,6 +2,7 @@ package com.invisiblecat.reload.ui.hud.elements;
 
 import com.invisiblecat.reload.Reload;
 import com.invisiblecat.reload.module.Module;
+import com.invisiblecat.reload.setting.settings.BooleanSetting;
 import com.invisiblecat.reload.ui.hud.Element;
 
 import java.util.Comparator;
@@ -20,9 +21,9 @@ public class ArrayListModules extends Element {
         Reload.instance.moduleManager.getModules().sort(Comparator.comparingInt(m -> mc.fontRendererObj.getStringWidth(((Module)m).getName())).reversed());
 
         for (Module m : Reload.instance.moduleManager.getModules()) {
-            if(m.isToggled()) {
+            if(m.isToggled() && !((BooleanSetting) m.getSetting("Hide")).isEnabled()) {
                 double offset = moduleCount*(mc.fontRendererObj.FONT_HEIGHT+4);
-                mc.fontRendererObj.drawString(m.getDisplayName(), sr.getScaledWidth() - mc.fontRendererObj.getStringWidth(m.getName()) - 4, 4 + offset, -1);
+                mc.fontRendererObj.drawString(m.getDisplayName(), this.getX() + sr.getScaledWidth() - mc.fontRendererObj.getStringWidth(m.getName()) - 4, this.getY() + 4 + offset, -1);
                 moduleCount++;
             }
         }

@@ -1,21 +1,23 @@
 package com.invisiblecat.reload.file.files;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.invisiblecat.reload.Reload;
 import com.invisiblecat.reload.file.FileManager;
 import com.invisiblecat.reload.module.Module;
+import optifine.Json;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.lang.reflect.Type;
+import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,36 +26,29 @@ public class ModuleFile {
     private final FileManager fileManager = new FileManager();
 
 
-    public void save() {
+    public void save() throws IOException {
+        JsonObject finalJson = new JsonObject();
 
-        File file = new File(fileManager.getMainDir() + "/current.json");
-        ObjectWriter mapper = new ObjectMapper().writerWithDefaultPrettyPrinter();
-        try {
-            JsonGenerator g = mapper.getFactory().createGenerator(new FileOutputStream(file));
-            for (Module m : Reload.instance.moduleManager.getModules()) {
-                mapper.writeValue(g, m);
-            }
-            g.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        Reload.instance.moduleManager.getModules().forEach(m -> {
+            JsonObject moduleJson = new JsonObject();
+            moduleJson.addProperty("toggled", m.isToggled());
+            moduleJson.addProperty("key", m.getKey());
+            moduleJson.addProperty("autodisable", m.getAutoDisable().toString());
+
+            finalJson.add(m.getName(), moduleJson);
+
+        });
+        Gson idk = new Gson();
+        JsonElement element = idk.fromJson(finalJson.toString(), JsonElement.class);
+        try (Writer writer = new FileWriter(fileManager.getMainDir() + "/current.json")) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            gson.toJson(element, writer);
         }
     }
 
-    public void load() {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
-
-        try {
-            //List<Module> mods = mapper.readValue(Paths.get(fileManager.getMainDir() + "/current.json").toFile(), new TypeReference<List<Module>>(){});
-            List<Module> mods = Arrays.asList(mapper.readValue(Paths.get(fileManager.getMainDir() + "/current.json").toFile(), Module[].class));
-
-            System.out.println(mods);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void load() throws IOException {
+        Gson gson = new Gson();
+        Reader reader = Files.newBufferedReader(Paths.get(fileManager.getMainDir() + "/current.json"));
 
     }
-
-
 }

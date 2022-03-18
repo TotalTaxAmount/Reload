@@ -1,18 +1,20 @@
 package com.invisiblecat.reload.module;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.invisiblecat.reload.Reload;
 import com.invisiblecat.reload.event.EventManager;
+import com.invisiblecat.reload.setting.Setting;
+import com.invisiblecat.reload.setting.settings.BooleanSetting;
 import com.invisiblecat.reload.ui.sound.PlaySounds;
-import com.invisiblecat.reload.utils.ChatUtils;
+import com.invisiblecat.reload.utils.chat.ChatUtils;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Module {
     protected Minecraft mc = Minecraft.getMinecraft();
@@ -21,21 +23,42 @@ public class Module {
     private String displayName;
     private int key;
     private Category category;
+    private AutoDisable autoDisable;
     private boolean toggled;
-    private boolean autoDisabled;
+
+    private final List<Setting> settings = new ArrayList<>();
+    private final BooleanSetting hide = new BooleanSetting("Hide", false);
 
     public Module() {
         super();
     }
 
-    public Module(String name, int key, Category category) {
+    public Module(String name, int key, Category category, AutoDisable autoDisable) {
         this.name = name;
         this.key = key;
         this.category = category;
         this.displayName = this.name.substring(0, 1).toUpperCase() + this.name.substring(1);
+        this.autoDisable = autoDisable;
+
+        this.addSettings(hide);
         toggled = false;
-        autoDisabled = false;
-        setup();
+
+
+    }
+
+    public void addSettings(Setting... settings) {
+        this.settings.addAll(Arrays.asList(settings));
+    }
+    public List<Setting> getSettings() {
+        return settings;
+    }
+    public Setting getSetting(String name) {
+        for (Setting setting : this.settings) {
+            if(setting.getName().equalsIgnoreCase(name)) {
+                return setting;
+            }
+        }
+        return null;
     }
     public void onEnable() {
         Reload.instance.eventManager.register(this);
@@ -53,7 +76,10 @@ public class Module {
     }
     public void onToggle() {
         //ChatUtils.sendChatMessageClient("Toggled: " + this.getDisplayName() + " [" +  (this.isToggled() ? ChatFormatting.GREEN + "On" : ChatFormatting.RED + "Off") + ChatFormatting.RESET + "]");
-        ChatUtils.sendChatMessageClient("[" + (this.isToggled() ? ChatFormatting.GREEN + "Enabled" : ChatFormatting.RED + "Disabled") + ChatFormatting.RESET + "]: " + this.getDisplayName());
+        ChatUtils.sendChatMessageClient("[" + (this.isToggled() ? ChatFormatting.GREEN + "Enabled" : ChatFormatting.RED + "Disabled") + ChatFormatting.RESET + "]: " + this.getDisplayName(), ChatUtils.Type.INFO);
+    }
+    public AutoDisable getAutoDisable() {
+        return autoDisable;
     }
     public void setToggled(boolean t) {
         this.toggled = t;
@@ -94,12 +120,6 @@ public class Module {
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
-    public boolean isAutoDisabled() {
-        return autoDisabled;}
-    public void setAutoDisabled(boolean autoDisabled) {
-        this.autoDisabled = autoDisabled;
-    }
-    public void setup() {}
 
     @Override
     public String toString() {
@@ -108,7 +128,9 @@ public class Module {
                 ", key=" + key +
                 ", category=" + category +
                 ", toggled=" + toggled +
-                ", autoDisabled=" + autoDisabled +
                 '}';
+    }
+    public enum AutoDisable {
+        RESPAWN, FLAG, WORLD, NONE;
     }
 }

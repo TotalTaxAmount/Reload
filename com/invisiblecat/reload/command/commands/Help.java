@@ -3,7 +3,7 @@ package com.invisiblecat.reload.command.commands;
 
 import com.invisiblecat.reload.Reload;
 import com.invisiblecat.reload.command.Command;
-import com.invisiblecat.reload.utils.ChatUtils;
+import com.invisiblecat.reload.utils.chat.ChatUtils;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
 import java.util.ArrayList;
@@ -45,6 +45,6 @@ public class Help extends Command {
 //                System.out.println(page1);
 //            }
 //        }
-        ChatUtils.sendChatMessageClient(text.toString());
+        ChatUtils.sendChatMessageClient(text.toString(), ChatUtils.Type.INFO);
     }
 }

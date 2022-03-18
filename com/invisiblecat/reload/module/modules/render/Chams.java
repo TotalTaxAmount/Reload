@@ -5,6 +5,6 @@ import com.invisiblecat.reload.module.Module;
 
 public class Chams extends Module {
     public Chams() {
-        super("Chams", 0, Category.RENDER);
+        super("Chams", 0, Category.RENDER, AutoDisable.NONE);
     }
 }
