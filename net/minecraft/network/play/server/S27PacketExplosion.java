@@ -135,6 +135,18 @@ public class S27PacketExplosion implements Packet<INetHandlerPlayClient>
         return this.posZ;
     }
 
+    public void setPosX(double posX) {
+        this.posX = posX;
+    }
+
+    public void setPosY(double posY) {
+        this.posY = posY;
+    }
+
+    public void setPosZ(double posZ) {
+        this.posZ = posZ;
+    }
+
     public float getStrength()
     {
         return this.strength;

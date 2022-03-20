@@ -8,10 +8,10 @@ import com.invisiblecat.reload.file.FileManager;
 import com.invisiblecat.reload.module.ModuleManager;
 import com.invisiblecat.reload.event.events.EventKey;
 import com.invisiblecat.reload.ui.hud.HUD;
-import net.minecraft.client.Minecraft;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 
 
@@ -19,7 +19,7 @@ public class Reload {
     public String clientName = "Reload", version = "0.1", creates = "InvisibleCat#0001 and Cosmics#0001";
 
     public static Reload instance = new Reload();
-    public Logger reloadLogger = LogManager.getLogger();
+    public Logger reloadLogger = LoggerFactory.getLogger("[" + clientName + "]");
     public EventManager eventManager;
     public ModuleManager moduleManager;
     public HUD hud;
@@ -38,12 +38,12 @@ public class Reload {
         discordRP.init();
 
         Display.setTitle(clientName + " b" + version);
-        reloadLogger.info("[Reload] Boot up complete");
+        reloadLogger.info("Boot up complete");
 
         eventManager.register(this);
     }
     public void stop() {
-        reloadLogger.info("[Reload] Shutting down...");
+        reloadLogger.info("Shutting down...");
         fileManager.save();
 
         EventManager.unregister(this);

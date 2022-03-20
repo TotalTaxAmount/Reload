@@ -1,8 +1,10 @@
 package com.invisiblecat.reload.module;
 
+import com.invisiblecat.reload.module.modules.combat.Velocity;
 import com.invisiblecat.reload.module.modules.movement.*;
 import com.invisiblecat.reload.module.modules.exploit.*;
 import com.invisiblecat.reload.module.modules.other.*;
+import com.invisiblecat.reload.module.modules.player.FastPlace;
 import com.invisiblecat.reload.module.modules.render.*;
 import com.invisiblecat.reload.module.modules.test.*;
 
@@ -13,6 +15,7 @@ public class ModuleManager {
 
     public ModuleManager() {
         //Combat
+        modules.add(new Velocity());
 
         //Movement
         modules.add(new Sprint());
@@ -20,6 +23,7 @@ public class ModuleManager {
         modules.add(new InvMove());
 
         //Player
+        modules.add(new FastPlace());
 
         //World
 

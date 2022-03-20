@@ -36,7 +36,7 @@ public abstract class Event {
 
         POST("POST", 1);
 
-        private State(final String string, final int number) {
+        State(final String string, final int number) {
 
         }
     }
@@ -67,9 +67,7 @@ public abstract class Event {
 
                 try {
                     data.target.invoke(data.source, event);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
+                } catch (IllegalAccessException | InvocationTargetException e) {
                     e.printStackTrace();
                 }
 

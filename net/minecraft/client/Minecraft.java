@@ -285,7 +285,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     /**
      * When you place a block, it's set to 6, decremented once per tick, when it's 0, you can place another block.
      */
-    private int rightClickDelayTimer;
+    public double rightClickDelayTimer;
     private String serverName;
     private int serverPort;
 
@@ -1921,6 +1921,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
                     if (this.currentScreen != null)
                     {
+
                         this.currentScreen.handleKeyboardInput();
                     }
                     else

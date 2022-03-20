@@ -2,8 +2,9 @@ package net.minecraft.util;
 
 import org.apache.commons.lang3.Validate;
 
-public class ResourceLocation
-{
+import java.io.File;
+
+public class ResourceLocation {
     protected final String resourceDomain;
     protected final String resourcePath;
 

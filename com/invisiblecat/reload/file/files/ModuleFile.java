@@ -1,24 +1,16 @@
 package com.invisiblecat.reload.file.files;
 
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import com.invisiblecat.reload.Reload;
 import com.invisiblecat.reload.file.FileManager;
-import com.invisiblecat.reload.module.Module;
-import optifine.Json;
 
 import java.io.*;
-import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class ModuleFile {

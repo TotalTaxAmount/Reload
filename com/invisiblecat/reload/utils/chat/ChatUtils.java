@@ -2,7 +2,6 @@ package com.invisiblecat.reload.utils.chat;
 
 import com.invisiblecat.reload.Reload;
 import com.mojang.realmsclient.gui.ChatFormatting;
-import com.sun.istack.internal.Nullable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.C01PacketChatMessage;
 import net.minecraft.util.ChatComponentText;
