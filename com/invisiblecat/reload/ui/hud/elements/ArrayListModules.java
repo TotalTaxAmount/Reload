@@ -18,12 +18,12 @@ public class ArrayListModules extends Element {
 
         int moduleCount = 0;
 
-        Reload.instance.moduleManager.getModules().sort(Comparator.comparingInt(m -> mc.fontRendererObj.getStringWidth(((Module)m).getName())).reversed());
+        Reload.instance.moduleManager.getModules().sort(Comparator.comparingInt(m -> mc.fontRendererObj.getStringWidth(((Module)m).getDisplayName())).reversed());
 
         for (Module m : Reload.instance.moduleManager.getModules()) {
             if(m.isToggled() && !((BooleanSetting) m.getSetting("Hide")).isEnabled()) {
                 double offset = moduleCount*(mc.fontRendererObj.FONT_HEIGHT+4);
-                mc.fontRendererObj.drawString(m.getDisplayName(), this.getX() + sr.getScaledWidth() - mc.fontRendererObj.getStringWidth(m.getName()) - 4, this.getY() + 4 + offset, -1);
+                mc.fontRendererObj.drawString(m.getDisplayName(), this.getX() + sr.getScaledWidth() - mc.fontRendererObj.getStringWidth(m.getDisplayName()) - 4, this.getY() + 4 + offset, -1);
                 moduleCount++;
             }
         }
