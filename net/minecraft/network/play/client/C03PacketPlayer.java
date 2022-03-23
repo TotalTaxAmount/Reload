@@ -59,6 +59,18 @@ public class C03PacketPlayer implements Packet<INetHandlerPlayServer>
         return this.y;
     }
 
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public void setZ(double z) {
+        this.z = z;
+    }
+
     public double getPositionZ()
     {
         return this.z;
@@ -77,6 +89,10 @@ public class C03PacketPlayer implements Packet<INetHandlerPlayServer>
     public boolean isOnGround()
     {
         return this.onGround;
+    }
+
+    public void setOnGround(boolean onGround) {
+        this.onGround = onGround;
     }
 
     public boolean isMoving()

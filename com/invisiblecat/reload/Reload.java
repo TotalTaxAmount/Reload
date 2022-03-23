@@ -23,18 +23,18 @@ public class Reload {
     public Logger reloadLogger = LogManager.getLogger("Reload");
     public EventManager eventManager;
     public ModuleManager moduleManager;
-    public HUD hud;
     public CommandManager commandManager;
     public DiscordRP discordRP;
     public FileManager fileManager;
+    public HUD hud;
 
     public void Start() {
         commandManager = new CommandManager();
         eventManager = new EventManager();
         moduleManager = new ModuleManager();
+        fileManager = new FileManager();
         hud = new HUD();
         discordRP = new DiscordRP();
-        fileManager = new FileManager();
 
         discordRP.init();
 

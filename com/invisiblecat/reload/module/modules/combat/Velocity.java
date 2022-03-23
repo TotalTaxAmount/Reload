@@ -50,8 +50,11 @@ public class Velocity extends Module {
             case "simple":
                 if(event.getPacket() instanceof S12PacketEntityVelocity) {
                     S12PacketEntityVelocity p = (S12PacketEntityVelocity) event.getPacket();
-                    if(horizontal.getValueInt() == 0 && vertical.getValueInt() == 0)
-                        event.setCancelled(true);
+                    if(horizontal.getValueInt() == 0 && vertical.getValueInt() == 0) {
+                        p.setMotionX(0);
+                        p.setMotionY(0);
+                        p.setMotionZ(0);
+                    }
 
                     p.setMotionX(p.getMotionX() * horizontal.getValueInt() / 100);
                     p.setMotionY(p.getMotionY() * vertical.getValueInt() / 100);

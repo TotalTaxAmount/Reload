@@ -158,7 +158,6 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
                 eventReceivePacket.call();
 
                 if(eventReceivePacket.isCancelled()) {
-                    System.out.println("Packet cancelled");
                     return;
                 }
                 p_channelRead0_2_.processPacket(this.packetListener);

@@ -2,6 +2,8 @@ package com.invisiblecat.reload.command.commands;
 
 import com.invisiblecat.reload.command.Command;
 import com.invisiblecat.reload.utils.chat.ChatUtils;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.play.client.C03PacketPlayer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,6 +19,7 @@ public class Dev extends Command {
     @Override
     public void onCommand(String[] args, String command) {
        // Reload.instance.fileManager.loadOld();
-       ChatUtils.sendChatMessageClient("Info", ChatUtils.Type.INFO);
+       //ChatUtils.sendChatMessageClient("Info", ChatUtils.Type.INFO);
+
     }
 }

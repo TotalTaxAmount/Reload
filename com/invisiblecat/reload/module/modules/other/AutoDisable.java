@@ -31,8 +31,8 @@ public class AutoDisable extends Module {
     @EventTarget
     public void onJoinWorld(EventJoinWorld event) {
         Reload.instance.moduleManager.getModules().forEach(m -> {
-            if(m.getAutoDisable() == AutoDisable.WORLD && m.isToggled() && world.isEnabled()) {
-                m.setToggled(false);
+            if(m.getAutoDisable() == AutoDisable.WORLD && m.isEnabled() && world.isEnabled()) {
+                m.setEnabled(false);
                 ChatUtils.sendChatMessageClientWithDelay(m.getName() + " was disabled because of world change", ChatUtils.Type.INFO, 1000);
             }
         });
@@ -41,8 +41,8 @@ public class AutoDisable extends Module {
     @EventTarget
     public void onRespawn(EventRespawn event) {
         Reload.instance.moduleManager.getModules().forEach(m -> {
-            if(m.getAutoDisable() == AutoDisable.RESPAWN && m.isToggled() && respawn.isEnabled()) {
-                m.setToggled(false);
+            if(m.getAutoDisable() == AutoDisable.RESPAWN && m.isEnabled() && respawn.isEnabled()) {
+                m.setEnabled(false);
                 ChatUtils.sendChatMessageClient(m.getName() + " was disabled because of respawn", ChatUtils.Type.INFO);
             }
         });
@@ -52,7 +52,7 @@ public class AutoDisable extends Module {
     public void onRecivePacket(EventRecivePacket packet) {
         if(packet.getPacket() instanceof S08PacketPlayerPosLook) {
             Reload.instance.moduleManager.getModules().forEach(m -> {
-                if(m.getAutoDisable() == AutoDisable.FLAG && m.isToggled() && flag.isEnabled()) {
+                if(m.getAutoDisable() == AutoDisable.FLAG && m.isEnabled() && flag.isEnabled()) {
                     m.toggle(false);
                     ChatUtils.sendChatMessageClient(m.getName() + " was disabled because of flag", ChatUtils.Type.WARN  );
                 }

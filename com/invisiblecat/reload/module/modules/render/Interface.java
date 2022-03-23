@@ -8,7 +8,7 @@ import org.lwjgl.input.Keyboard;
 public class Interface extends Module {
     public Interface() {
         super("Interface", 0, Category.OTHER, AutoDisable.NONE);
-        this.setToggled(true);
+        this.setEnabled(true);
     }
 
     @Override
@@ -16,7 +16,7 @@ public class Interface extends Module {
     }
 
     @Override
-    public void setToggled(boolean t) {
+    public void setEnabled(boolean t) {
 
     }
 

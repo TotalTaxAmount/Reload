@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.Callable;
+
+import com.sun.javafx.geom.Vec3d;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockFenceGate;
@@ -2078,6 +2080,10 @@ public abstract class Entity implements ICommandSender
         this.motionZ = z;
     }
 
+    public Vec3d getVelocityPlayer() {
+        return new Vec3d(motionX, motionY, motionZ);
+    }
+
     public void handleStatusUpdate(byte id)
     {
     }
@@ -2217,7 +2223,7 @@ public abstract class Entity implements ICommandSender
 
     public void setAir(int air)
     {
-        this.dataWatcher.updateObject(1, Short.valueOf((short)air));
+        this.dataWatcher.updateObject(1, (short) air);
     }
 
     /**

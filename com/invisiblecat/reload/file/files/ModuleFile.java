@@ -23,7 +23,7 @@ public class ModuleFile {
 
         Reload.instance.moduleManager.getModules().forEach(m -> {
             JsonObject moduleJson = new JsonObject();
-            moduleJson.addProperty("toggled", m.isToggled());
+            moduleJson.addProperty("toggled", m.isEnabled());
             moduleJson.addProperty("key", m.getKey());
             moduleJson.addProperty("autodisable", m.getAutoDisable().toString());
 

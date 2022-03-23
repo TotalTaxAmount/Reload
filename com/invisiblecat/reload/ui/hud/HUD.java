@@ -1,5 +1,6 @@
 package com.invisiblecat.reload.ui.hud;
 
+import com.invisiblecat.reload.Reload;
 import com.invisiblecat.reload.ui.hud.elements.*;
 import net.minecraft.client.Minecraft;
 
@@ -18,7 +19,7 @@ public class HUD {
     }
 
     public void render() {
-        if(!Minecraft.getMinecraft().gameSettings.showDebugInfo) {
+        if(!Minecraft.getMinecraft().gameSettings.showDebugInfo && Reload.instance.moduleManager.getModuleByName("HUD").isEnabled()) {
             for (Element e : elements) {
                 if(e.isToggled()) {
                     e.render();

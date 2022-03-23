@@ -25,6 +25,9 @@ public class EventPreMotionUpdate extends Event {
     public float getPitch() {
         return pitch;
     }
+    public void setPitch(float pitch) {
+     this.pitch = pitch;
+    }
     public boolean isGround() {
         return ground;
     }

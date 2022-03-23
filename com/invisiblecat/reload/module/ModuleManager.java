@@ -21,6 +21,7 @@ public class ModuleManager {
         modules.add(new Sprint());
         modules.add(new Fly());
         modules.add(new InvMove());
+        modules.add(new Speed());
 
         //Player
         modules.add(new FastPlace());
@@ -31,8 +32,11 @@ public class ModuleManager {
         modules.add(new ChestESP());
         modules.add(new Fullbright());
         modules.add(new Chams());
+        modules.add(new HUDmodule());
+        modules.add(new Capes());
 
         //Exploit
+        modules.add(new Disabler());
         modules.add(new Kick());
 
         //Other

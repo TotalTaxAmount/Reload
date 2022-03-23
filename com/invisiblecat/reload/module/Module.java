@@ -8,11 +8,9 @@ import com.invisiblecat.reload.ui.sound.PlaySounds;
 import com.invisiblecat.reload.utils.chat.ChatUtils;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.ResourceLocation;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,12 +76,12 @@ public class Module {
     }
     public void onToggle() {
         //ChatUtils.sendChatMessageClient("Toggled: " + this.getDisplayName() + " [" +  (this.isToggled() ? ChatFormatting.GREEN + "On" : ChatFormatting.RED + "Off") + ChatFormatting.RESET + "]");
-        ChatUtils.sendChatMessageClient("[" + (this.isToggled() ? ChatFormatting.GREEN + "Enabled" : ChatFormatting.RED + "Disabled") + ChatFormatting.RESET + "]: " + this.getDisplayName(), ChatUtils.Type.INFO);
+        ChatUtils.sendChatMessageClient("[" + (this.isEnabled() ? ChatFormatting.GREEN + "Enabled" : ChatFormatting.RED + "Disabled") + ChatFormatting.RESET + "]: " + this.getName(), ChatUtils.Type.INFO);
     }
     public AutoDisable getAutoDisable() {
         return autoDisable;
     }
-    public void setToggled(boolean t) {
+    public void setEnabled(boolean t) {
         this.toggled = t;
     }
     public void toggle(boolean onToggle) {
@@ -113,7 +111,7 @@ public class Module {
     public void setCategory(Category category) {
         this.category = category;
     }
-    public boolean isToggled() {
+    public boolean isEnabled() {
         return toggled;
     }
     public String getDisplayName() {

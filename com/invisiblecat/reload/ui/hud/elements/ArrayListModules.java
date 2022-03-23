@@ -18,12 +18,13 @@ public class ArrayListModules extends Element {
 
         int moduleCount = 0;
 
-        Reload.instance.moduleManager.getModules().sort(Comparator.comparingInt(m -> mc.fontRendererObj.getStringWidth(((Module)m).getDisplayName())).reversed());
+        Reload.instance.moduleManager.getModules().sort(Comparator.comparingInt(m -> mc.fontRendererObj.getStringWidth(((BooleanSetting)Reload.instance.moduleManager.getModuleByName("HUD").getSetting("Mod Stats")).isEnabled() ? ((Module)m).getDisplayName() : ((Module)m).getName())).reversed());
 
         for (Module m : Reload.instance.moduleManager.getModules()) {
-            if(m.isToggled() && !((BooleanSetting) m.getSetting("Hide")).isEnabled()) {
+            if(m.isEnabled() && !((BooleanSetting) m.getSetting("Hide")).isEnabled()) {
+                String modString = ((BooleanSetting)Reload.instance.moduleManager.getModuleByName("HUD").getSetting("Mod Stats")).isEnabled() ? m.getDisplayName() : m.getName();
                 double offset = moduleCount*(mc.fontRendererObj.FONT_HEIGHT+4);
-                mc.fontRendererObj.drawString(m.getDisplayName(), this.getX() + sr.getScaledWidth() - mc.fontRendererObj.getStringWidth(m.getDisplayName()) - 4, this.getY() + 4 + offset, -1);
+                mc.fontRendererObj.drawString(modString, this.getX() + sr.getScaledWidth() - mc.fontRendererObj.getStringWidth(modString) - 4, this.getY() + 4 + offset, -1);
                 moduleCount++;
             }
         }
