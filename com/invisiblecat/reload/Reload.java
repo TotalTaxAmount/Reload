@@ -39,6 +39,7 @@ public class Reload {
         discordRP.init();
 
         Display.setTitle(clientName + " b" + version);
+        fileManager.loadOld();
         reloadLogger.info("Boot up complete");
 
         eventManager.register(this);

@@ -199,6 +199,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
         EventPreMotionUpdate eventPreMotionUpdate = new EventPreMotionUpdate(this.rotationYaw, this.rotationPitch, this.onGround, this.posX, this.getEntityBoundingBox().minY, this.posZ);
         eventPreMotionUpdate.call();
 
+
         boolean flag = this.isSprinting();
 
         if (flag != this.serverSprintState)

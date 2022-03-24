@@ -58,7 +58,7 @@ public abstract class Event {
         this.cancelled = cancelled;
     }
 
-    private static final void call(final Event event) {
+    private static void call(final Event event) {
 
         final ArrayHelper<Data> dataList = EventManager.get(event.getClass());
 

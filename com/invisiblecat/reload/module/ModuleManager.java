@@ -7,6 +7,7 @@ import com.invisiblecat.reload.module.modules.other.*;
 import com.invisiblecat.reload.module.modules.player.FastPlace;
 import com.invisiblecat.reload.module.modules.render.*;
 import com.invisiblecat.reload.module.modules.test.*;
+import com.invisiblecat.reload.module.modules.world.Timer;
 
 import java.util.ArrayList;
 
@@ -27,6 +28,7 @@ public class ModuleManager {
         modules.add(new FastPlace());
 
         //World
+        modules.add(new Timer());
 
         //Render
         modules.add(new ChestESP());
@@ -40,6 +42,7 @@ public class ModuleManager {
         modules.add(new Kick());
 
         //Other
+        modules.add(new AutoCommand());
         modules.add(new AutoLogin());
         modules.add(new AutoDisable());
 

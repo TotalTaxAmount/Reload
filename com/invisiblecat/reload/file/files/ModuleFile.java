@@ -1,12 +1,10 @@
 package com.invisiblecat.reload.file.files;
 
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import com.invisiblecat.reload.Reload;
 import com.invisiblecat.reload.file.FileManager;
+import com.invisiblecat.reload.module.Module;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -39,8 +37,16 @@ public class ModuleFile {
     }
 
     public void load() throws IOException {
-        Gson gson = new Gson();
         Reader reader = Files.newBufferedReader(Paths.get(fileManager.getMainDir() + "/current.json"));
+        JsonParser parser = new JsonParser();
+        JsonObject jsonData = parser.parse(reader).getAsJsonObject();
+        for(Module m : Reload.instance.moduleManager.getModules()) {
+            JsonObject module = jsonData.get("AutoDisable").getAsJsonObject();
+            if(module.get("toggled").getAsBoolean())
+                m.toggle(false);
+        }
+        String sprint = jsonData.get("Sprint").getAsJsonObject().get("toggled").toString();
+        System.out.println(sprint);
 
     }
 }

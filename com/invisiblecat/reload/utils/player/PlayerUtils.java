@@ -6,6 +6,32 @@ import net.minecraft.client.Minecraft;
 public class PlayerUtils {
     private final Minecraft mc = Minecraft.getMinecraft();
 
+    public static void setMoveSpeed(EventPreMotionUpdate event, final double speed) {
+        double forward = Minecraft.getMinecraft().thePlayer.moveForward;
+        double strafe = Minecraft.getMinecraft().thePlayer.moveStrafing;
+        float yaw = Minecraft.getMinecraft().thePlayer.rotationYaw;
+        if (forward == 0.0 && strafe == 0.0) {
+            event.setX(0.0);
+            event.setZ(0.0);
+        } else {
+            if (forward != 0.0) {
+                if (strafe > 0.0) {
+                    yaw += ((forward > 0.0) ? -45 : 45);
+                } else if (strafe < 0.0) {
+                    yaw += ((forward > 0.0) ? 45 : -45);
+                }
+                strafe = 0.0;
+                if (forward > 0.0) {
+                    forward = 1.0;
+                } else if (forward < 0.0) {
+                    forward = -1.0;
+                }
+            }
+            event.setX(forward * speed * Math.cos(Math.toRadians(yaw + 90.0f)) + strafe * speed * Math.sin(Math.toRadians(yaw + 90.0f)));
+            event.setZ(forward * speed * Math.sin(Math.toRadians(yaw + 90.0f)) - strafe * speed * Math.cos(Math.toRadians(yaw + 90.0f)));
+        }
+    }
+
     public static void setSpeed(final double moveSpeed, double yVelocity, final float pseudoYaw, final double pseudoStrafe, final double pseudoForward) {
         double forward = pseudoForward;
         double strafe = pseudoStrafe;
@@ -38,7 +64,7 @@ public class PlayerUtils {
         Minecraft.getMinecraft().thePlayer.setVelocity(x, yVelocity, z);
     }
 
-    public static void setMotion(double speed) {
+    public static void strafe(double speed) {
         double forward = Minecraft.getMinecraft().thePlayer.moveForward;
         double strafe = Minecraft.getMinecraft().thePlayer.moveStrafing;
         float yaw = Minecraft.getMinecraft().thePlayer.rotationYaw;
@@ -59,13 +85,13 @@ public class PlayerUtils {
                 }
             }
             final double cos = Math.cos(Math.toRadians(yaw + 90.0F));
-            double x = forward * speed * cos + strafe * speed * Math.sin(Math.toRadians(yaw + 90.0F));
-            double z = forward * speed * Math.sin(Math.toRadians(yaw + 90.0F)) - strafe * speed * cos;
+            double x = forward * speed * Math.cos(Math.toRadians(yaw + 90.0F)) + strafe * speed * Math.sin(Math.toRadians(yaw + 90.0F));
+            double z = forward * speed * Math.sin(Math.toRadians(yaw + 90.0F)) - strafe * speed * Math.cos(Math.toRadians(yaw + 90.0F));
             Minecraft.getMinecraft().thePlayer.setVelocity(x, Minecraft.getMinecraft().thePlayer.getVelocityPlayer().y, z);
         }
 
     }
-    public static void airStrafe() {
+    public static void strafe() {
         double forward = Minecraft.getMinecraft().thePlayer.moveForward;
         double strafe = Minecraft.getMinecraft().thePlayer.moveStrafing;
         float yaw = Minecraft.getMinecraft().thePlayer.rotationYaw;
