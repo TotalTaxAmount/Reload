@@ -40,11 +40,11 @@ public class ModuleFile {
         Reader reader = Files.newBufferedReader(Paths.get(fileManager.getMainDir() + "/current.json"));
         JsonParser parser = new JsonParser();
         JsonObject jsonData = parser.parse(reader).getAsJsonObject();
-        for(Module m : Reload.instance.moduleManager.getModules()) {
-            JsonObject module = jsonData.get("AutoDisable").getAsJsonObject();
-            if(module.get("toggled").getAsBoolean())
-                m.toggle(false);
-        }
+//        for(Module m : Reload.instance.moduleManager.getModules()) {
+//            JsonObject module = jsonData.get("AutoDisable").getAsJsonObject();
+//            if(module.get("toggled").getAsBoolean())
+//                m.toggle(false);
+//        }
         String sprint = jsonData.get("Sprint").getAsJsonObject().get("toggled").toString();
         System.out.println(sprint);
 

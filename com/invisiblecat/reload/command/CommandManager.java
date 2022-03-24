@@ -17,6 +17,7 @@ public class CommandManager {
         commands.add(new Help());
         commands.add(new Dev());
         commands.add(new Hide());
+        commands.add(new Vclip());
 
     }
 
