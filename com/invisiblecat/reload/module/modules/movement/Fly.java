@@ -2,10 +2,13 @@ package com.invisiblecat.reload.module.modules.movement;
 
 import com.invisiblecat.reload.event.EventTarget;
 import com.invisiblecat.reload.event.events.EventPreMotionUpdate;
+import com.invisiblecat.reload.event.events.EventUpdate;
 import com.invisiblecat.reload.module.Category;
 import com.invisiblecat.reload.module.Module;
+import com.invisiblecat.reload.setting.settings.BooleanSetting;
 import com.invisiblecat.reload.setting.settings.ModeSetting;
 import com.invisiblecat.reload.setting.settings.NumberSetting;
+import com.invisiblecat.reload.utils.PacketUtils;
 import com.invisiblecat.reload.utils.player.PlayerUtils;
 import com.invisiblecat.reload.utils.TimerUtils;
 import com.mojang.realmsclient.gui.ChatFormatting;
@@ -13,12 +16,12 @@ import net.minecraft.network.play.client.C00PacketKeepAlive;
 import net.minecraft.network.play.client.C03PacketPlayer;
 
 public class Fly extends Module {
-    private final ModeSetting mode = new ModeSetting("Mode", "Damage", "Velocity", "Vanilla", "Verus", "Damage");
-    private final NumberSetting speed = new NumberSetting("Speed", 1, 0, 10, 0.1);
+    private final ModeSetting mode = new ModeSetting("Mode", "Verus", "Velocity", "Vanilla", "Verus", "Damage");
+    private final NumberSetting speed = new NumberSetting("Speed", 4, 0, 10, 0.1);
+    private final BooleanSetting bypassVanillaKick = new BooleanSetting("BypassVanillaKick", true);
     boolean hasBeenDamaged = false;
-    int wallTicks = 0;
-    boolean direction = false;
     private static final TimerUtils timer = new TimerUtils();
+    private int count = 0;
 
 
     public Fly() {
@@ -60,23 +63,49 @@ public class Fly extends Module {
 
         switch (mode.getSelected().toLowerCase().replaceAll("\\s", "")) {
             case "verus":
-                mc.thePlayer.setVelocity(mc.thePlayer.getVelocityPlayer().x, 0, mc.thePlayer.getVelocityPlayer().z);
-                mc.thePlayer.onGround = true;
-                mc.thePlayer.capabilities.isFlying = false;
-                event.setGround(true);
+                mc.timer.timerSpeed = 0.6f;
                 PlayerUtils.strafe(speed.getValueInt());
+                if(count == 2) {
+                    mc.thePlayer.motionY = 0.732;
+                    PlayerUtils.strafe(speed.getValueInt());
+                    count++;
+                } else if(count == 4) {
+                    mc.thePlayer.motionY = -0.732;
+                    PlayerUtils.strafe(speed.getValueInt());
+                    count = 0;
+                } else {
+                    count++;
+                    mc.thePlayer.motionY =  0;
+                    PlayerUtils.strafe(speed.getValueInt());
+                }
+                if(mc.gameSettings.keyBindJump.isKeyDown()) {
+                    mc.thePlayer.motionY = 0.9;
+                } else if(mc.gameSettings.keyBindSneak.isKeyDown()) {
+                    mc.thePlayer.motionY = -0.9;
+                }
+
+
+                break;
+
+
             case "damage":
                 mc.timer.timerSpeed = 0.8f;
                 mc.thePlayer.setSneaking(false);
                 mc.thePlayer.setJumping(false);
-                PlayerUtils.strafe(speed.getValueInt() * 2);
+                PlayerUtils.strafe(speed.getValueInt() * 3);
                 if(mc.gameSettings.keyBindJump.isKeyDown()) {
-                    mc.thePlayer.motionY += speed.getValueInt()/1.5;
-                } else if(mc.gameSettings.keyBindSneak.isKeyDown()) {
-                    mc.thePlayer.motionY -= speed.getValueInt()/1.5;
-                } else
-                    mc.thePlayer.motionY = 0;
+                mc.thePlayer.motionY += (float)speed.getValueInt()/2;
+            } else if(mc.gameSettings.keyBindSneak.isKeyDown()) {
+                mc.thePlayer.motionY -= (float)speed.getValueInt()/2;
+            } else
+                mc.thePlayer.motionY = 0;
+                break;
         }
+    }
+    @EventTarget
+    public void onUpdate(EventUpdate event) {
+        if(bypassVanillaKick.isEnabled())
+            PlayerUtils.bypassVanillaKick();
     }
 }
 

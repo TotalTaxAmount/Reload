@@ -1,75 +1,23 @@
 package com.invisiblecat.reload.utils.player;
 
 import com.invisiblecat.reload.event.events.EventPreMotionUpdate;
+import javafx.geometry.BoundingBox;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.util.AxisAlignedBB;
 
 public class PlayerUtils {
     private final Minecraft mc = Minecraft.getMinecraft();
 
-    public static void setMoveSpeed(EventPreMotionUpdate event, final double speed) {
-        double forward = Minecraft.getMinecraft().thePlayer.moveForward;
-        double strafe = Minecraft.getMinecraft().thePlayer.moveStrafing;
-        float yaw = Minecraft.getMinecraft().thePlayer.rotationYaw;
-        if (forward == 0.0 && strafe == 0.0) {
-            event.setX(0.0);
-            event.setZ(0.0);
-        } else {
-            if (forward != 0.0) {
-                if (strafe > 0.0) {
-                    yaw += ((forward > 0.0) ? -45 : 45);
-                } else if (strafe < 0.0) {
-                    yaw += ((forward > 0.0) ? 45 : -45);
-                }
-                strafe = 0.0;
-                if (forward > 0.0) {
-                    forward = 1.0;
-                } else if (forward < 0.0) {
-                    forward = -1.0;
-                }
-            }
-            event.setX(forward * speed * Math.cos(Math.toRadians(yaw + 90.0f)) + strafe * speed * Math.sin(Math.toRadians(yaw + 90.0f)));
-            event.setZ(forward * speed * Math.sin(Math.toRadians(yaw + 90.0f)) - strafe * speed * Math.cos(Math.toRadians(yaw + 90.0f)));
-        }
-    }
 
-    public static void setSpeed(final double moveSpeed, double yVelocity, final float pseudoYaw, final double pseudoStrafe, final double pseudoForward) {
-        double forward = pseudoForward;
-        double strafe = pseudoStrafe;
-        float yaw = pseudoYaw;
-        if (pseudoForward != 0.0D) {
-            if (pseudoStrafe > 0.0D) {
-                yaw = pseudoYaw + (float)(pseudoForward > 0.0D ? -45 : 45);
-            } else if (pseudoStrafe < 0.0D) {
-                yaw = pseudoYaw + (float)(pseudoForward > 0.0D ? 45 : -45);
-            }
-
-            strafe = 0.0D;
-            if (pseudoForward > 0.0D) {
-                forward = 1.0D;
-            } else if (pseudoForward < 0.0D) {
-                forward = -1.0D;
-            }
-        }
-
-        if (strafe > 0.0D) {
-            strafe = 1.0D;
-        } else if (strafe < 0.0D) {
-            strafe = -1.0D;
-        }
-
-        double mx = Math.cos(Math.toRadians((double)(yaw + 90.0F)));
-        double mz = Math.sin(Math.toRadians((double)(yaw + 90.0F)));
-        double x = forward * moveSpeed * mx + strafe * moveSpeed * mz;
-        double z = forward * moveSpeed * mz - strafe * moveSpeed * mx;
-        Minecraft.getMinecraft().thePlayer.setVelocity(x, yVelocity, z);
-    }
 
     public static void strafe(double speed) {
         double forward = Minecraft.getMinecraft().thePlayer.moveForward;
         double strafe = Minecraft.getMinecraft().thePlayer.moveStrafing;
         float yaw = Minecraft.getMinecraft().thePlayer.rotationYaw;
         if ((forward == 0.0D) && (strafe == 0.0D)) {
-            Minecraft.getMinecraft().thePlayer.setVelocity(0, Minecraft.getMinecraft().thePlayer.getVelocityPlayer().y, 0);
+            Minecraft.getMinecraft().thePlayer.motionX = 0.0;
+            Minecraft.getMinecraft().thePlayer.motionZ = 0.0;
         } else {
             if (forward != 0.0D) {
                 if (strafe > 0.0D) {
@@ -84,10 +32,12 @@ public class PlayerUtils {
                     forward = -1;
                 }
             }
-            final double cos = Math.cos(Math.toRadians(yaw + 90.0F));
-            double x = forward * speed * Math.cos(Math.toRadians(yaw + 90.0F)) + strafe * speed * Math.sin(Math.toRadians(yaw + 90.0F));
-            double z = forward * speed * Math.sin(Math.toRadians(yaw + 90.0F)) - strafe * speed * Math.cos(Math.toRadians(yaw + 90.0F));
-            Minecraft.getMinecraft().thePlayer.setVelocity(x, Minecraft.getMinecraft().thePlayer.getVelocityPlayer().y, z);
+            double sin = Math.sin(Math.toRadians(yaw + 90.0F));
+            double cos = Math.cos(Math.toRadians(yaw + 90.0F));
+            double x = forward * speed * cos + strafe * speed * sin;
+            double z = forward * speed * sin - strafe * speed * cos;
+            Minecraft.getMinecraft().thePlayer.motionX = (x);
+            Minecraft.getMinecraft().thePlayer.motionZ = (z);
         }
 
     }
@@ -116,6 +66,52 @@ public class PlayerUtils {
             double z = forward  * Math.sin(Math.toRadians(yaw + 90.0F)) - strafe  * cos;
             Minecraft.getMinecraft().thePlayer.setVelocity(x, Minecraft.getMinecraft().thePlayer.getVelocityPlayer().y, z);
         }
+
+    }
+
+    public static double getGroundInfo() {
+        Minecraft mc = Minecraft.getMinecraft();
+        AxisAlignedBB BoundingBox = mc.thePlayer.getEntityBoundingBox();
+        double blockHeight = 0;
+        double y = mc.thePlayer.posY;
+        while (y > 0.0) {
+            AxisAlignedBB customBoundingBox = new AxisAlignedBB(BoundingBox.maxX, y + blockHeight, BoundingBox.maxZ, BoundingBox.minX, y, BoundingBox.minZ);
+            if(mc.theWorld.checkBlockCollision(customBoundingBox)) {
+                if (blockHeight <= 0.05) return y + blockHeight;
+                y += blockHeight;
+                blockHeight = 0.05;
+            }
+            y -= blockHeight;
+        }
+        return 0.0;
+    }
+
+    public static void bypassVanillaKick() {
+        Minecraft mc = Minecraft.getMinecraft();
+        double ground = getGroundInfo();
+        new Thread("Vanilla kick") {
+            @Override
+            public void run() {
+                double posY = mc.thePlayer.posY;
+                while (posY > ground) {
+                    mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, posY, mc.thePlayer.posZ, true));
+                    if (posY - 8.0 < ground) break; // Prevent next step
+                    posY -= 8.0;
+                }
+            }
+        }.start();
+        mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, ground, mc.thePlayer.posZ, true));
+        double posY = ground;
+        while (posY < mc.thePlayer.posY) {
+            mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, posY, mc.thePlayer.posZ, true));
+            if (posY + 8.0 > mc.thePlayer.posY) break; // Prevent next step
+            posY += 8.0;
+        }
+        mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, true));
+
+    }
+
+    public static void selfHurt() {
 
     }
 }

@@ -62,19 +62,21 @@ public class Module {
     }
     public void onEnable() {
         Reload.instance.eventManager.register(this);
-        if(Files.exists(Paths.get("../src/minecraft/assets/minecraft/reload/sound/enable.wav"))) {
-            PlaySounds sound = new PlaySounds(new File("../src/minecraft/assets/minecraft/reload/sound/enable.wav"));
-            sound.playSound();
-        }
+
     }
     public void onDisable() {
         EventManager.unregister(this);
-        if(Files.exists(Paths.get("../src/minecraft/assets/minecraft/reload/sound/disable.wav"))) {
+
+    }
+    public void onToggle() {
+        if(Files.exists(Paths.get("../src/minecraft/assets/minecraft/reload/sound/enable.wav")) && this.isEnabled())  {
+            PlaySounds sound = new PlaySounds(new File("../src/minecraft/assets/minecraft/reload/sound/enable.wav"));
+            sound.playSound();
+        }
+        if(Files.exists(Paths.get("../src/minecraft/assets/minecraft/reload/sound/disable.wav"))&& !this.isEnabled()) {
             PlaySounds sound = new PlaySounds(new File("../src/minecraft/assets/minecraft/reload/sound/disable.wav"));
             sound.playSound();
         }
-    }
-    public void onToggle() {
         //ChatUtils.sendChatMessageClient("Toggled: " + this.getDisplayName() + " [" +  (this.isToggled() ? ChatFormatting.GREEN + "On" : ChatFormatting.RED + "Off") + ChatFormatting.RESET + "]");
         ChatUtils.sendChatMessageClient("[" + (this.isEnabled() ? ChatFormatting.GREEN + "Enabled" : ChatFormatting.RED + "Disabled") + ChatFormatting.RESET + "]: " + this.getName(), ChatUtils.Type.INFO);
     }
@@ -82,7 +84,7 @@ public class Module {
         return autoDisable;
     }
     public void setEnabled(boolean t) {
-        this.toggled = t;
+        toggled = t;
     }
     public void toggle(boolean onToggle) {
         toggled = !toggled;

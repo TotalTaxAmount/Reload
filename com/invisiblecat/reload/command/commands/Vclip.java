@@ -12,7 +12,6 @@ public class Vclip extends Command {
 
     @Override
     public void onCommand(String[] args, String command) {
-        System.out.println(args[0]);
         try {
             Minecraft.getMinecraft().thePlayer.setPosition(Minecraft.getMinecraft().thePlayer.posX, Minecraft.getMinecraft().thePlayer.posY + Double.parseDouble(args[0]), Minecraft.getMinecraft().thePlayer.posZ);
             ChatUtils.sendChatMessageClient("Successfully clipped you " + args[0] + " blocks.", ChatUtils.Type.INFO);

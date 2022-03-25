@@ -31,7 +31,7 @@ public class Speed extends Module {
     @EventTarget
     public void onPreMotionUpdate(EventPreMotionUpdate event) {
         this.setDisplayName("Speed " + ChatFormatting.GRAY + mode.getSelected());
-        if(isTimer) {
+        if (isTimer) {
             Reload.instance.moduleManager.getModuleByName("Timer").setEnabled(false);
         }
 
@@ -51,6 +51,7 @@ public class Speed extends Module {
                     PlayerUtils.strafe();
                     if (mc.thePlayer.onGround)
                         mc.thePlayer.jump();
+                    break;
                 case "ncp":
 //                    mc.gameSettings.keyBindJump.setState(false);
 //                    if (mc.thePlayer.onGround) {
@@ -62,11 +63,11 @@ public class Speed extends Module {
 //                        PlayerUtils.airStrafe();
 //                    }
                 case "verus":
-                    mc.timer.timerSpeed = 1f;
+                    mc.timer.timerSpeed = 0.8f;
                     mc.thePlayer.setSprinting(false);
                     mc.gameSettings.keyBindJump.setState(false);
                     mc.gameSettings.keyBindSneak.setState(false);
-                    if(verusTicks >= 2 && mc.thePlayer.onGround) {
+                    if (verusTicks >= 2 && mc.thePlayer.onGround) {
                         PlayerUtils.strafe(speed.getValueFloat() / 4);
                         mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(event.getX(), event.getY(), event.getZ(), true));
                         mc.thePlayer.motionY = 0.43474172222F;
@@ -75,14 +76,16 @@ public class Speed extends Module {
                         PlayerUtils.strafe();
                         verusTicks++;
                     }
-                    if (verusTicks >= 6){
+                    if (verusTicks >= 6) {
                         mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(event.getX(), event.getY(), event.getZ(), false));
                         mc.thePlayer.motionY = -0.43474172222F;
                         verusTicks = 0;
                     }
+                    break;
             }
         }
     }
+
 
     @Override
     public void onEnable() {
@@ -97,6 +100,7 @@ public class Speed extends Module {
 
     @Override
     public void onDisable() {
+        mc.timer.timerSpeed = 1f;
         if(isTimer)
             Reload.instance.moduleManager.getModuleByName("Timer").setEnabled(true);
         mc.thePlayer.stepHeight =.5f;

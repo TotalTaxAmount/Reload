@@ -5,6 +5,7 @@ import com.invisiblecat.reload.discord.DiscordRP;
 import com.invisiblecat.reload.event.EventManager;
 import com.invisiblecat.reload.event.EventTarget;
 import com.invisiblecat.reload.file.FileManager;
+import com.invisiblecat.reload.file.files.ModuleFile;
 import com.invisiblecat.reload.module.ModuleManager;
 import com.invisiblecat.reload.event.events.EventKey;
 import com.invisiblecat.reload.ui.hud.HUD;

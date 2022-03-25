@@ -2,13 +2,18 @@ package com.invisiblecat.reload.file;
 
 import com.invisiblecat.reload.Reload;
 import com.invisiblecat.reload.file.files.ModuleFile;
+import com.invisiblecat.reload.module.Module;
 import net.minecraft.client.Minecraft;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class FileManager {
     private Minecraft mc = Minecraft.getMinecraft();
+
+    private ModuleFile moduleFile = new ModuleFile();
+
 
     private final File mainDir = new File(mc.mcDataDir, Reload.instance.clientName);
     private final File fontDir = new File(mainDir, "fonts");
@@ -44,17 +49,15 @@ public class FileManager {
     }
 
     public void save() {
-        ModuleFile moduleSaver = new ModuleFile();
         try {
-            moduleSaver.save();
+            moduleFile.save();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     public void loadOld() {
-        ModuleFile moduleSaver = new ModuleFile();
         try {
-            moduleSaver.load();
+            moduleFile.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
