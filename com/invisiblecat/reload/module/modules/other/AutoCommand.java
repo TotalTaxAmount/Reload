@@ -1,13 +1,11 @@
 package com.invisiblecat.reload.module.modules.other;
 
 import com.invisiblecat.reload.event.EventTarget;
-import com.invisiblecat.reload.event.events.EventUpdate;
+import com.invisiblecat.reload.event.events.EventKey;
 import com.invisiblecat.reload.module.Category;
 import com.invisiblecat.reload.module.Module;
-import com.invisiblecat.reload.utils.KeyboardUtils;
 import net.minecraft.client.gui.GuiChat;
 
-import java.awt.event.KeyEvent;
 
 public class AutoCommand extends Module {
     public AutoCommand() {
@@ -15,8 +13,9 @@ public class AutoCommand extends Module {
     }
 
     @EventTarget
-    public void onUpdate(EventUpdate event) {
-        if(KeyboardUtils.isKeyPressed(KeyEvent.VK_PERIOD))
-            mc.displayGuiScreen(new GuiChat());
+    public void onKey(EventKey event) {
+        if(event.getKey() == 52 && !(mc.currentScreen == null)) {
+            mc.displayGuiScreen(new GuiChat("."));
+        }
     }
 }

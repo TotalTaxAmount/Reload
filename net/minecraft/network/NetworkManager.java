@@ -191,7 +191,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
         if (this.isChannelOpen())
         {
             this.flushOutboundQueue();
-            this.dispatchPacket(eventSendPacket.getPacket() , (GenericFutureListener <? extends Future <? super Void >> [])null);
+            this.dispatchPacket(eventSendPacket.getPacket() , null);
         }
         else
         {

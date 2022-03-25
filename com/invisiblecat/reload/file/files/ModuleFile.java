@@ -58,7 +58,7 @@ public class ModuleFile {
 
         Reload.instance.moduleManager.getModules().forEach(m -> {
             JsonObject mod = jsonData.get(m.getName()).getAsJsonObject();
-            if(mod.get("toggled").getAsBoolean() && !(jsonData.get("HUD").getAsJsonObject() == mod)) {
+            if(mod.get("toggled").getAsBoolean() && !(jsonData.get("HUD").getAsJsonObject() == mod) && mod.get("autodisable").getAsString().equalsIgnoreCase("NONE")) {
                 m.toggle(false);
             }
             m.setKey(mod.get("key").getAsInt());

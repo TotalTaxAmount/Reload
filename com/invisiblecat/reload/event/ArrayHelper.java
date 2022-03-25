@@ -7,7 +7,6 @@ import java.util.Iterator;
  */
 public class ArrayHelper<T> implements Iterable<T> {
 
-    //TODO: Comment out the code.
 
     private T[] elements;
 
