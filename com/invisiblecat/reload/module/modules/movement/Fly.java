@@ -71,11 +71,12 @@ public class Fly extends Module {
                 mc.timer.timerSpeed = 0.6f;
                 PlayerUtils.strafe(speed.getValueInt());
                 if (count == 2) {
-                    mc.thePlayer.motionY = 0.732;
+                    mc.thePlayer.motionY = 0.9832;
                     PlayerUtils.strafe(speed.getValueInt());
                     count++;
                 } else if (count == 4) {
-                    mc.thePlayer.motionY = -0.732;
+                    event.setGround(true);
+                    mc.thePlayer.motionY = -0.9832;
                     PlayerUtils.strafe(speed.getValueInt());
                     count = 0;
                 } else {
