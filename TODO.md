@@ -9,5 +9,5 @@ ________________________________________________________
 - HUD things
 - Get setup on comics pc
 - Make a client backend?
-- connect dc webhook to server??
+- ~~connect dc webhook to server??~~
 
