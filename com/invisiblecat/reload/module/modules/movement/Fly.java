@@ -15,6 +15,7 @@ import com.invisiblecat.reload.utils.TimerUtils;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.network.play.client.C00PacketKeepAlive;
 import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.network.play.client.C18PacketSpectate;
 
 public class Fly extends Module {
     private final ModeSetting mode = new ModeSetting("Mode", "Verus", "Velocity", "Vanilla", "Verus", "VerusSilent","Damage");
@@ -71,15 +72,18 @@ public class Fly extends Module {
                 mc.timer.timerSpeed = 0.6f;
                 PlayerUtils.strafe(speed.getValueInt());
                 if (count == 2) {
-                    mc.thePlayer.motionY = 0.9832;
+                    mc.thePlayer.motionY = -0.36969420;
                     PlayerUtils.strafe(speed.getValueInt());
                     count++;
                 } else if (count == 4) {
-                    event.setGround(true);
-                    mc.thePlayer.motionY = -0.9832;
+                    mc.thePlayer.motionY = 0.36969420;
                     PlayerUtils.strafe(speed.getValueInt());
+                    count++;
+                } else if(count == 6) {
+                    event.setGround(false);
                     count = 0;
-                } else {
+                }
+                else {
                     count++;
                     mc.thePlayer.motionY = 0;
                     PlayerUtils.strafe(speed.getValueInt());
