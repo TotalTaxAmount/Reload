@@ -51,7 +51,7 @@ public class Fly extends Module {
                     hasBeenDamaged = true;
                 }
             case "verus":
-                if(!mc.thePlayer.onGround) ChatUtils.sendChatMessageClient("Cannot enable fly in air", ChatUtils.Type.ERROR);
+                if(!mc.thePlayer.onGround) {ChatUtils.sendChatMessageClient("Cannot enable fly in air", ChatUtils.Type.ERROR); return;}
                 if (!hasBeenDamaged) {
                     PlayerUtils.selfHurt();
                     hasBeenDamaged = true;
@@ -68,15 +68,15 @@ public class Fly extends Module {
 
         switch (mode.getSelected().toLowerCase().replaceAll("\\s", "")) {
             case "verus":
-                mc.timer.timerSpeed = 0.6f;
+                mc.timer.timerSpeed = 0.4f;
                 PlayerUtils.strafe(speed.getValueInt());
                 if (count == 2) {
-                    mc.thePlayer.motionY = 0.9832;
+                    mc.thePlayer.motionY = 0.2832;
                     PlayerUtils.strafe(speed.getValueInt());
                     count++;
                 } else if (count == 4) {
                     event.setGround(true);
-                    mc.thePlayer.motionY = -0.9832;
+                    mc.thePlayer.motionY = -0.2832;
                     PlayerUtils.strafe(speed.getValueInt());
                     count = 0;
                 } else {

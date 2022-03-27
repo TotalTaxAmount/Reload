@@ -1,7 +1,7 @@
 package com.invisiblecat.reload.utils;
 
 public class TimerUtils {
-    private long lastMs = -1;
+    private long lastMs = System.currentTimeMillis();
 
     public boolean hasTimePassed(long ms, boolean b) {
         ms = lastMs + ms;

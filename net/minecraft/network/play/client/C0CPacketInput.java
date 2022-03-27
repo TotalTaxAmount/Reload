@@ -88,4 +88,20 @@ public class C0CPacketInput implements Packet<INetHandlerPlayServer>
     {
         return this.sneaking;
     }
+
+    public void setStrafeSpeed(float strafeSpeed) {
+        this.strafeSpeed = strafeSpeed;
+    }
+
+    public void setForwardSpeed(float forwardSpeed) {
+        this.forwardSpeed = forwardSpeed;
+    }
+
+    public void setJumping(boolean jumping) {
+        this.jumping = jumping;
+    }
+
+    public void setSneaking(boolean sneaking) {
+        this.sneaking = sneaking;
+    }
 }
