@@ -6,6 +6,6 @@ import net.minecraft.network.Packet;
 public class PacketUtils {
 
     public static void sendPacket(Packet packet) {
-        Minecraft.getMinecraft().getNetHandler().addToSendQueue(packet);
+        Minecraft.getMinecraft().getNetHandler().addToSendQueueNoEvent(packet);
     }
 }

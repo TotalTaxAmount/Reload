@@ -16,7 +16,7 @@ import net.minecraft.network.play.client.C03PacketPlayer;
 public class Speed extends Module {
     private final ModeSetting mode = new ModeSetting("Mode", "Verus", "Vanilla",
             "NCP", "Verus", "NCP");
-    private final NumberSetting speed = new NumberSetting("Speed", 1, 1, 10, 0.1);
+    private final NumberSetting speed = new NumberSetting("Speed", 10, 1, 10, 0.1);
 
     private int wallTicks = 0, verusTicks = 0;
 
@@ -77,6 +77,7 @@ public class Speed extends Module {
                         verusTicks++;
                     }
                     if (verusTicks >= 6) {
+                        PlayerUtils.strafe();
                         mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(event.getX(), event.getY(), event.getZ(), false));
                         mc.thePlayer.motionY = -0.43474172222F;
                         verusTicks = 0;

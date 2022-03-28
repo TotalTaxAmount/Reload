@@ -207,6 +207,27 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
             }
         }
     }
+    public void sendPacketNoEvent(Packet packetIn)
+    {
+        if (this.isChannelOpen())
+        {
+            this.flushOutboundQueue();
+            this.dispatchPacket(packetIn, null);
+        }
+        else
+        {
+            this.field_181680_j.writeLock().lock();
+
+            try
+            {
+                this.outboundPacketsQueue.add(new NetworkManager.InboundHandlerTuplePacketListener(packetIn, (GenericFutureListener[])null));
+            }
+            finally
+            {
+                this.field_181680_j.writeLock().unlock();
+            }
+        }
+    }
 
     public void sendPacket(Packet packetIn, GenericFutureListener <? extends Future <? super Void >> listener, GenericFutureListener <? extends Future <? super Void >> ... listeners)
     {

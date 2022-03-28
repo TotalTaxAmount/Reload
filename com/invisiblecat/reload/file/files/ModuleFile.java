@@ -52,11 +52,13 @@ public class ModuleFile {
         JsonObject jsonData = parser.parse(reader).getAsJsonObject();
 
         Reload.instance.moduleManager.getModules().forEach(m -> {
-            JsonObject mod = jsonData.get(m.getName()).getAsJsonObject();
-            if(mod.get("toggled").getAsBoolean() && !(jsonData.get("HUD").getAsJsonObject() == mod) && mod.get("autodisable").getAsString().equalsIgnoreCase("NONE")) {
-                m.toggle(false);
+            JsonObject mod = jsonData.get(m.getName()) != null ? jsonData.get(m.getName()).getAsJsonObject() : null;
+            if (mod != null) {
+                if (mod.get("toggled").getAsBoolean() && !(jsonData.get("HUD").getAsJsonObject() == mod) && mod.get("autodisable").getAsString().equalsIgnoreCase("NONE")) {
+                    m.toggle(false);
+                }
+                m.setKey(mod.get("key").getAsInt());
             }
-            m.setKey(mod.get("key").getAsInt());
         });
 
     }
