@@ -1,5 +1,6 @@
 package com.invisiblecat.reload.module;
 
+import com.invisiblecat.reload.module.modules.combat.KillAura;
 import com.invisiblecat.reload.module.modules.combat.Velocity;
 import com.invisiblecat.reload.module.modules.movement.*;
 import com.invisiblecat.reload.module.modules.exploit.*;
@@ -17,6 +18,7 @@ public class ModuleManager {
     public ModuleManager() {
         //Combat
         modules.add(new Velocity());
+        modules.add(new KillAura());
 
         //Movement
         modules.add(new Sprint());

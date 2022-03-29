@@ -46,22 +46,19 @@ public class ModuleFile {
 
     public void load() throws IOException {
         FileManager fileManager = new FileManager();
-        if(!Files.exists(Paths.get(fileManager.getMainDir() + "/current.json"))) return;
+        if(!Files.exists(Paths.get(fileManager.getMainDir() + "/current.json"))) {System.out.println("idkk"); return;}
         Reader reader = Files.newBufferedReader(Paths.get(fileManager.getMainDir() + "/current.json"));
         JsonParser parser = new JsonParser();
         JsonObject jsonData = parser.parse(reader).getAsJsonObject();
-//        for(Module m : Reload.instance.moduleManager.getModules()) {
-//            JsonObject module = jsonData.get("AutoDisable").getAsJsonObject();
-//            if(module.get("toggled").getAsBoolean())
-//                m.toggle(false);
-//        }
 
         Reload.instance.moduleManager.getModules().forEach(m -> {
-            JsonObject mod = jsonData.get(m.getName()).getAsJsonObject();
-            if(mod.get("toggled").getAsBoolean() && !(jsonData.get("HUD").getAsJsonObject() == mod) && mod.get("autodisable").getAsString().equalsIgnoreCase("NONE")) {
-                m.toggle(false);
+            JsonObject mod = jsonData.get(m.getName()) != null ? jsonData.get(m.getName()).getAsJsonObject() : null;
+            if (mod != null) {
+                if (mod.get("toggled").getAsBoolean() && !(jsonData.get("HUD").getAsJsonObject() == mod) && mod.get("autodisable").getAsString().equalsIgnoreCase("NONE")) {
+                    m.toggle(false);
+                }
+                m.setKey(mod.get("key").getAsInt());
             }
-            m.setKey(mod.get("key").getAsInt());
         });
 
     }
