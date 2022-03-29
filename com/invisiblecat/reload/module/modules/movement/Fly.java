@@ -18,7 +18,7 @@ import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C18PacketSpectate;
 
 public class Fly extends Module {
-    private final ModeSetting mode = new ModeSetting("Mode", "Verus", "Velocity", "Vanilla", "Verus", "VerusSilent","Damage");
+    private final ModeSetting mode = new ModeSetting("Mode", "Velocity", "Velocity", "Vanilla", "Verus", "VerusSilent","Damage");
     private final NumberSetting speed = new NumberSetting("Speed", 2, 0, 10, 0.1);
     private final BooleanSetting bypassVanillaKick = new BooleanSetting("BypassVanillaKick", true);
     boolean hasBeenDamaged = false;
@@ -106,6 +106,16 @@ public class Fly extends Module {
                 } else
                     mc.thePlayer.motionY = 0;
                    break;
+               case "velocity":
+                   PlayerUtils.setSpeed(speed.getValueInt(), 0, 90, speed.getValueInt(), speed.getValueInt());
+                   PlayerUtils.strafe();
+                   if(count > 10) {
+                       event.setGround(true);
+                       count = 0;
+                   } else {
+                       count++;
+                   }
+
         }
     }
 //    @EventTarget

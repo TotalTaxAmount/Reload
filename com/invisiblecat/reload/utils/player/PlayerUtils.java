@@ -7,7 +7,7 @@ import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.util.AxisAlignedBB;
 
 public class PlayerUtils {
-    private final Minecraft mc = Minecraft.getMinecraft();
+    private static final Minecraft mc = Minecraft.getMinecraft();
 
 
 
@@ -116,5 +116,36 @@ public class PlayerUtils {
         mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 3.3, mc.thePlayer.posZ, true));
         mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, false));
         mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, true));
+    }
+    public static void setSpeed(final double moveSpeed, double yVelocity, final float pseudoYaw, final double pseudoStrafe, final double pseudoForward) {
+        double forward = pseudoForward;
+        double strafe = pseudoStrafe;
+        float yaw = pseudoYaw;
+        if (pseudoForward != 0.0D) {
+            if (pseudoStrafe > 0.0D) {
+                yaw = pseudoYaw + (float)(pseudoForward > 0.0D ? -45 : 45);
+            } else if (pseudoStrafe < 0.0D) {
+                yaw = pseudoYaw + (float)(pseudoForward > 0.0D ? 45 : -45);
+            }
+
+            strafe = 0.0D;
+            if (pseudoForward > 0.0D) {
+                forward = 1.0D;
+            } else if (pseudoForward < 0.0D) {
+                forward = -1.0D;
+            }
+        }
+
+        if (strafe > 0.0D) {
+            strafe = 1.0D;
+        } else if (strafe < 0.0D) {
+            strafe = -1.0D;
+        }
+
+        double mx = Math.cos(Math.toRadians((double)(yaw + 90.0F)));
+        double mz = Math.sin(Math.toRadians((double)(yaw + 90.0F)));
+        double x = forward * moveSpeed * mx + strafe * moveSpeed * mz;
+        double z = forward * moveSpeed * mz - strafe * moveSpeed * mx;
+        mc.thePlayer.setVelocity(x, yVelocity, z);
     }
 }
