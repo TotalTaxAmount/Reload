@@ -5,7 +5,7 @@ import net.minecraft.network.Packet;
 
 public class PacketUtils {
 
-    public static void sendPacket(Packet packet) {
+    public static void sendPacketNoEvent(Packet packet) {
         Minecraft.getMinecraft().getNetHandler().addToSendQueueNoEvent(packet);
     }
 }

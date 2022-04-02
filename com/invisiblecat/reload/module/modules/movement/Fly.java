@@ -112,6 +112,8 @@ public class Fly extends Module {
                     mc.thePlayer.motionY = 0;
                    break;
                case "velocity":
+                   mc.thePlayer.setSneaking(false);
+                   mc.thePlayer.setJumping(false);
                    PlayerUtils.setSpeed(speed.getValueInt(), 0, 90, speed.getValueInt(), speed.getValueInt());
                    PlayerUtils.strafe();
                    if(count > 10) {
@@ -120,6 +122,12 @@ public class Fly extends Module {
                    } else {
                        count++;
                    }
+                   if (mc.gameSettings.keyBindJump.isKeyDown()) {
+                       mc.thePlayer.motionY += (float) speed.getValueInt() / 2;
+                   } else if (mc.gameSettings.keyBindSneak.isKeyDown()) {
+                       mc.thePlayer.motionY -= (float) speed.getValueInt() / 2;
+                   }
+                   break;
 
         }
     }
