@@ -1,9 +1,9 @@
-package com.invisiblecat.reload.ui.hud.elements;
+package com.invisiblecat.reload.client.ui.hud.elements;
 
-import com.invisiblecat.reload.Reload;
+import com.invisiblecat.reload.client.Reload;
 import com.invisiblecat.reload.module.Module;
 import com.invisiblecat.reload.setting.settings.BooleanSetting;
-import com.invisiblecat.reload.ui.hud.Element;
+import com.invisiblecat.reload.client.ui.hud.Element;
 
 import java.util.Comparator;
 

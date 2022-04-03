@@ -1,7 +1,7 @@
-package com.invisiblecat.reload.ui.hud.elements;
+package com.invisiblecat.reload.client.ui.hud.elements;
 
-import com.invisiblecat.reload.Reload;
-import com.invisiblecat.reload.ui.hud.Element;
+import com.invisiblecat.reload.client.Reload;
+import com.invisiblecat.reload.client.ui.hud.Element;
 import com.invisiblecat.reload.utils.render.ColorUtils;
 
 public class Watermark extends Element {

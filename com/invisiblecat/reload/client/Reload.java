@@ -1,14 +1,13 @@
-package com.invisiblecat.reload;
+package com.invisiblecat.reload.client;
 
 import com.invisiblecat.reload.command.CommandManager;
 import com.invisiblecat.reload.discord.DiscordRP;
 import com.invisiblecat.reload.event.EventManager;
 import com.invisiblecat.reload.event.EventTarget;
 import com.invisiblecat.reload.file.FileManager;
-import com.invisiblecat.reload.file.files.ModuleFile;
 import com.invisiblecat.reload.module.ModuleManager;
 import com.invisiblecat.reload.event.events.EventKey;
-import com.invisiblecat.reload.ui.hud.HUD;
+import com.invisiblecat.reload.client.ui.hud.HUD;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;

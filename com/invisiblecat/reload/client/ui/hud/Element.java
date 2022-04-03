@@ -1,4 +1,4 @@
-package com.invisiblecat.reload.ui.hud;
+package com.invisiblecat.reload.client.ui.hud;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;

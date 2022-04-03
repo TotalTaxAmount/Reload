@@ -1,13 +1,11 @@
 package com.invisiblecat.reload.file;
 
-import com.invisiblecat.reload.Reload;
+import com.invisiblecat.reload.client.Reload;
 import com.invisiblecat.reload.file.files.ModuleFile;
-import com.invisiblecat.reload.module.Module;
 import net.minecraft.client.Minecraft;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class FileManager {
     private Minecraft mc = Minecraft.getMinecraft();

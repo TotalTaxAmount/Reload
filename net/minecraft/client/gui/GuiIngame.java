@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
-import com.invisiblecat.reload.Reload;
+import com.invisiblecat.reload.client.Reload;
 import com.invisiblecat.reload.event.events.Event2D;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;

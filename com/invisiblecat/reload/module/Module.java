@@ -1,10 +1,13 @@
 package com.invisiblecat.reload.module;
 
-import com.invisiblecat.reload.Reload;
+import com.invisiblecat.reload.client.Reload;
+import com.invisiblecat.reload.client.ui.hud.notification.Notification;
+import com.invisiblecat.reload.client.ui.hud.notification.NotificationManager;
+import com.invisiblecat.reload.client.ui.hud.notification.NotificationType;
 import com.invisiblecat.reload.event.EventManager;
 import com.invisiblecat.reload.setting.Setting;
 import com.invisiblecat.reload.setting.settings.BooleanSetting;
-import com.invisiblecat.reload.ui.sound.PlaySounds;
+import com.invisiblecat.reload.client.ui.sound.PlaySounds;
 import com.invisiblecat.reload.utils.chat.ChatUtils;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -66,6 +69,7 @@ public class Module {
     }
     public void onDisable() {
         EventManager.unregister(this);
+        NotificationManager.show(new Notification( NotificationType.INFO, this.getDisplayName() + " has been disabled", "success", 1));
 
     }
     public void onToggle() {

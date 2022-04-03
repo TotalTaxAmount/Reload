@@ -1,4 +1,4 @@
-package com.invisiblecat.reload.ui.sound;
+package com.invisiblecat.reload.client.ui.sound;
 
 import javax.sound.sampled.*;
 import java.io.File;

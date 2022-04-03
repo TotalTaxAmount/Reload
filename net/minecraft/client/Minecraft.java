@@ -8,7 +8,7 @@ import com.google.common.collect.Sets;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListenableFutureTask;
-import com.invisiblecat.reload.Reload;
+import com.invisiblecat.reload.client.Reload;
 import com.invisiblecat.reload.event.events.EventKey;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftSessionService;

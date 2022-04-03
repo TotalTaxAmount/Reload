@@ -154,6 +154,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
         {
             try
             {
+                assert this.packetListener != null;
                 EventRecivePacket eventReceivePacket = new EventRecivePacket(p_channelRead0_2_);
                 eventReceivePacket.call();
 
@@ -182,9 +183,10 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
 
     public void sendPacket(Packet packetIn)
     {
+
         EventSendPacket eventSendPacket = new EventSendPacket(packetIn);
 
-        if(eventSendPacket.isCancelled())
+        if (eventSendPacket.isCancelled())
             return;
         eventSendPacket.call();
 
@@ -255,7 +257,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
      * Will commit the packet to the channel. If the current thread 'owns' the channel it will write and flush the
      * packet, otherwise it will add a task for the channel eventloop thread to do that.
      */
-    private void dispatchPacket(final Packet inPacket, final GenericFutureListener <? extends Future <? super Void >> [] futureListeners)
+    private void dispatchPacket(final Packet<?> inPacket, final GenericFutureListener <? extends Future <? super Void >> [] futureListeners)
     {
         final EnumConnectionState enumconnectionstate = EnumConnectionState.getFromPacket(inPacket);
         final EnumConnectionState enumconnectionstate1 = (EnumConnectionState)this.channel.attr(attrKeyConnectionState).get();

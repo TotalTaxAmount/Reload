@@ -2,19 +2,12 @@ package com.invisiblecat.reload.file.files;
 
 
 import com.google.gson.*;
-import com.invisiblecat.reload.Reload;
+import com.invisiblecat.reload.client.Reload;
 import com.invisiblecat.reload.file.FileManager;
-import com.invisiblecat.reload.module.Module;
-import com.invisiblecat.reload.utils.chat.ChatUtils;
-import optifine.Json;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 
 public class ModuleFile {

@@ -1,7 +1,8 @@
-package com.invisiblecat.reload.ui.hud;
+package com.invisiblecat.reload.client.ui.hud;
 
-import com.invisiblecat.reload.Reload;
-import com.invisiblecat.reload.ui.hud.elements.*;
+import com.invisiblecat.reload.client.Reload;
+import com.invisiblecat.reload.client.ui.hud.elements.*;
+import com.invisiblecat.reload.client.ui.hud.notification.NotificationManager;
 import net.minecraft.client.Minecraft;
 
 import java.awt.*;
@@ -19,6 +20,7 @@ public class HUD {
     }
 
     public void render() {
+        NotificationManager.render();
         if(!Minecraft.getMinecraft().gameSettings.showDebugInfo && Reload.instance.moduleManager.getModuleByName("HUD").isEnabled()) {
             for (Element e : elements) {
                 if(e.isToggled()) {

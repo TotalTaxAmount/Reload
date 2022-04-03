@@ -1,6 +1,6 @@
 package com.invisiblecat.reload.module.modules.other;
 
-import com.invisiblecat.reload.Reload;
+import com.invisiblecat.reload.client.Reload;
 import com.invisiblecat.reload.event.EventTarget;
 import com.invisiblecat.reload.event.events.EventJoinWorld;
 import com.invisiblecat.reload.event.events.EventRecivePacket;

@@ -1,13 +1,10 @@
-package com.invisiblecat.reload.ui.hud.elements;
+package com.invisiblecat.reload.client.ui.hud.elements;
 
-import com.invisiblecat.reload.ui.hud.Element;
-import com.invisiblecat.reload.ui.hud.HUD;
+import com.invisiblecat.reload.client.ui.hud.Element;
+import com.invisiblecat.reload.client.ui.hud.HUD;
 import com.invisiblecat.reload.utils.NetworkUtils;
-import com.invisiblecat.reload.utils.UUIDUtils;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import java.util.UUID;
 
 
 public class Info extends Element {

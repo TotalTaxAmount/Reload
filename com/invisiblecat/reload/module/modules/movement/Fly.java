@@ -2,6 +2,7 @@ package com.invisiblecat.reload.module.modules.movement;
 
 import com.invisiblecat.reload.event.EventTarget;
 import com.invisiblecat.reload.event.events.EventPreMotionUpdate;
+import com.invisiblecat.reload.event.events.EventSendPacket;
 import com.invisiblecat.reload.event.events.EventUpdate;
 import com.invisiblecat.reload.module.Category;
 import com.invisiblecat.reload.module.Module;
@@ -13,17 +14,20 @@ import com.invisiblecat.reload.utils.chat.ChatUtils;
 import com.invisiblecat.reload.utils.player.PlayerUtils;
 import com.invisiblecat.reload.utils.TimerUtils;
 import com.mojang.realmsclient.gui.ChatFormatting;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C00PacketKeepAlive;
 import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.minecraft.network.play.client.C18PacketSpectate;
 
 public class Fly extends Module {
-    private final ModeSetting mode = new ModeSetting("Mode", "Velocity", "Velocity", "Vanilla", "Verus", "VerusSilent","Damage");
+    private final ModeSetting mode = new ModeSetting("Mode", "Verus", "Velocity", "Vanilla", "Verus", "VerusSilent","Damage");
     private final NumberSetting speed = new NumberSetting("Speed", 2, 0, 10, 0.1);
     private final BooleanSetting bypassVanillaKick = new BooleanSetting("BypassVanillaKick", true);
     boolean hasBeenDamaged = false;
     private static final TimerUtils timer = new TimerUtils();
-    private int count = 0;
+    private int count, offGroundTicks, onGroundTicks, ticks = 0;
 
 
     public Fly() {
@@ -32,18 +36,8 @@ public class Fly extends Module {
     }
 
     @Override
-    public void onDisable() {
-        mc.thePlayer.motionX = 0;
-        mc.thePlayer.motionY = 0;
-        mc.thePlayer.motionZ = 0;
-
-
-        mc.timer.timerSpeed = 1f;
-        super.onDisable();
-    }
-
-    @Override
     public void onEnable() {
+        ticks = 0;
         hasBeenDamaged = false;
         switch (mode.getSelected().toLowerCase().replaceAll("\\s", "")) {
             case "damage":
@@ -51,52 +45,86 @@ public class Fly extends Module {
                     PlayerUtils.selfHurt();
                     hasBeenDamaged = true;
                 }
+                break;
             case "verus":
                 if(!mc.thePlayer.onGround) {ChatUtils.sendChatMessageClient("Cannot enable fly in air", ChatUtils.Type.ERROR); return;}
-                if (!hasBeenDamaged) {
-                    PlayerUtils.selfHurt();
-                    hasBeenDamaged = true;
-                }
+                PacketUtils.sendPacketNoEvent(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SPRINTING));
+                break;
+
         }
         super.onEnable();
     }
 
     @EventTarget
+    public void onSendPacket(EventSendPacket event) {
+        Packet<?> packet = event.getPacket();
+        switch (mode.getSelected().toLowerCase().replaceAll("\\s", "")) {
+            case "verus":
+                if (ticks < 30) {
+                    if (packet instanceof C0BPacketEntityAction) {
+                        C0BPacketEntityAction action = (C0BPacketEntityAction) packet;
+                        if (action.getAction().equals(C0BPacketEntityAction.Action.START_SPRINTING)) {
+                            if(EntityPlayerSP.serverSprintState) {
+                                PacketUtils.sendPacketNoEvent(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.STOP_SPRINTING));
+                                EntityPlayerSP.serverSprintState = false;
+                            }
+                            event.setCancelled(true);
+                        }
+                        if (action.getAction().equals(C0BPacketEntityAction.Action.STOP_SPRINTING)) {
+                            event.setCancelled(true);
+                        }
+                    }
+                }
+                break;
+        }
+    }
+
+    @EventTarget
     public void onPreMotionUpdate(EventPreMotionUpdate event) {
         this.setDisplayName("Fly " + ChatFormatting.GRAY + mode.getSelected());
+        ticks++;
         if (mc.thePlayer == null)
             return;
 
+        if (mc.thePlayer.onGround) {
+            offGroundTicks = 0;
+            ++onGroundTicks;
+        } else {
+            onGroundTicks = 0;
+            ++offGroundTicks;
+        }
+
         switch (mode.getSelected().toLowerCase().replaceAll("\\s", "")) {
             case "verus":
-                mc.timer.timerSpeed = 0.4f;
-                PlayerUtils.strafe(speed.getValueInt());
-                if (count == 2) {
-                    mc.thePlayer.motionY = 0.4832;
-                    PlayerUtils.strafe(speed.getValueInt());
-                    count++;
-                } else if (count == 4) {
-                    event.setGround(true);
-                    mc.thePlayer.motionY = -0.4832;
-                    PlayerUtils.strafe(speed.getValueInt());
-                    count++;
-                } else if (count == 6) {
-                    event.setGround(true);
-                    PlayerUtils.strafe(speed.getValueInt());
-                    count++;
-                } else if(count == 10) {
-                    event.setGround(false);
-                    count = 0;
-                }
-                else {
-                    count++;
-                    mc.thePlayer.motionY = 0;
-                    PlayerUtils.strafe(speed.getValueInt());
-                }
-                if (mc.gameSettings.keyBindJump.isKeyDown()) {
-                    mc.thePlayer.motionY = 0.9;
-                } else if (mc.gameSettings.keyBindSneak.isKeyDown()) {
-                    mc.thePlayer.motionY = -0.9;
+                if (offGroundTicks > 2 && !mc.gameSettings.keyBindSneak.isKeyDown()) {
+                    if (mc.gameSettings.keyBindJump.isKeyDown()) {
+                        if (mc.thePlayer.ticksExisted % 2 == 0)
+                            mc.thePlayer.motionY = 0.42F;
+                    } else {
+                        if (mc.thePlayer.onGround) {
+                            mc.thePlayer.jump();
+                        }
+
+                        if (mc.thePlayer.fallDistance > 1) {
+                            mc.thePlayer.motionY = -((mc.thePlayer.posY) - Math.floor(mc.thePlayer.posY));
+                        }
+
+                        if (mc.thePlayer.motionY == 0) {
+                            mc.thePlayer.jump();
+
+                            mc.thePlayer.onGround = true;
+                            mc.thePlayer.fallDistance = 0;
+                            event.setGround(true);
+                        }
+                    }
+                    PlayerUtils.strafe(speed.getValue());
+                    if (ticks == 1) {
+                        mc.timer.timerSpeed = 0.15F;
+                        PlayerUtils.selfHurt();
+                        mc.thePlayer.jump();
+                        event.setGround(true);
+                    } else
+                        mc.timer.timerSpeed = 1;
                 }
                 break;
             case "damage":
@@ -130,6 +158,12 @@ public class Fly extends Module {
                    break;
 
         }
+    }
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        mc.timer.timerSpeed = 1;
+        PlayerUtils.strafe(0);
     }
 //    @EventTarget
 //    public void onUpdate(EventUpdate event) {

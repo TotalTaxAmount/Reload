@@ -1,9 +1,8 @@
 package com.invisiblecat.reload.module.modules.movement;
 
-import com.invisiblecat.reload.Reload;
+import com.invisiblecat.reload.client.Reload;
 import com.invisiblecat.reload.event.EventTarget;
 import com.invisiblecat.reload.event.events.EventPreMotionUpdate;
-import com.invisiblecat.reload.event.events.EventUpdate;
 import com.invisiblecat.reload.module.Category;
 import com.invisiblecat.reload.module.Module;
 import com.invisiblecat.reload.setting.settings.ModeSetting;
@@ -11,12 +10,11 @@ import com.invisiblecat.reload.setting.settings.NumberSetting;
 import com.invisiblecat.reload.utils.chat.ChatUtils;
 import com.invisiblecat.reload.utils.player.PlayerUtils;
 import com.mojang.realmsclient.gui.ChatFormatting;
-import net.minecraft.network.play.client.C03PacketPlayer;
 
 public class Speed extends Module {
     private final ModeSetting mode = new ModeSetting("Mode", "Verus", "Vanilla",
             "NCP", "Verus", "NCP");
-    private final NumberSetting speed = new NumberSetting("Speed", 10, 1, 10, 0.1);
+    private final NumberSetting speed = new NumberSetting("Speed", 2, 1, 10, 0.1);
 
     private int wallTicks = 0, verusTicks = 0;
 
@@ -53,34 +51,21 @@ public class Speed extends Module {
                         mc.thePlayer.jump();
                     break;
                 case "ncp":
-//                    mc.gameSettings.keyBindJump.setState(false);
-//                    if (mc.thePlayer.onGround) {
-//                        mc.thePlayer.jump();
-//                        mc.thePlayer.motionY = 0.0;
-//                        PlayerUtils.setMotion(speed.getValue());
-//                        mc.thePlayer.motionY = 0.41999998688698;
-//                    } else {
-//                        PlayerUtils.airStrafe();
-//                    }
-                case "verus":
-                    mc.timer.timerSpeed = 0.8f;
-                    mc.thePlayer.setSprinting(false);
                     mc.gameSettings.keyBindJump.setState(false);
-                    mc.gameSettings.keyBindSneak.setState(false);
-                    if (verusTicks >= 2 && mc.thePlayer.onGround) {
-                        PlayerUtils.strafe(speed.getValueFloat() / 4);
-                        mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(event.getX(), event.getY(), event.getZ(), true));
-                        mc.thePlayer.motionY = 0.43474172222F;
-                        verusTicks++;
+                    if (mc.thePlayer.onGround) {
+                        mc.thePlayer.jump();
+                        mc.thePlayer.motionY = 0.0;
+                        PlayerUtils.strafe(speed.getValue());
+                        mc.thePlayer.motionY = 0.41999998688698;
                     } else {
                         PlayerUtils.strafe();
-                        verusTicks++;
                     }
-                    if (verusTicks >= 6) {
-                        PlayerUtils.strafe();
-                        mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(event.getX(), event.getY(), event.getZ(), false));
-                        mc.thePlayer.motionY = -0.43474172222F;
-                        verusTicks = 0;
+                case "verus":
+                    if (mc.thePlayer.onGround) {
+                        mc.thePlayer.jump();
+                        PlayerUtils.strafe(speed.getValueFloat());
+                    } else {
+                        PlayerUtils.strafe(speed.getValueFloat()/5);
                     }
                     break;
             }
