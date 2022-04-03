@@ -42,15 +42,31 @@ public class Notification {
         return  (System.currentTimeMillis() - start);
     }
     public void render() {
-        int offset = 0;
+        double offset = 0;
         int width = 120;
         int height = 30;
+        long time = getTime();
+
+        if (time < fadeIn) {
+            offset = Math.tanh(time / (double) (fadeIn) * 3) * width;
+        } else if (time > fadeOut) {
+            offset = (Math.tanh(3.0 - (time - fadeOut) / (double) (end - fadeOut) * 3) * width);
+        } else {
+            offset = width;
+        }
 
         Color color = new Color(0, 0, 0, 220);
 
         FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
 
-        drawRect(7, GuiScreen.width - width, GuiScreen.height - 5 - height, GuiScreen.width, GuiScreen.height - 5, color.getRGB());
+        drawRect(GuiScreen.width - offset , GuiScreen.height - 5 - height, GuiScreen.width, GuiScreen.height - 5, color.getRGB());
+        GL11.glLineWidth(4.0F);
+        drawRect(GL11.GL_LINE_LOOP,GuiScreen.width - offset , GuiScreen.height - 5 - height, GuiScreen.width, GuiScreen.height - 5, type.color.getRGB());
+
+
+        fr.drawString(title, (int) (GuiScreen.width - offset), GuiScreen.height - 2 - height, -1);
+        fr.drawString(message, (int) (GuiScreen.width - offset), GuiScreen.height - 15, -1);
+
     }
     public static void drawRect(int mode, double left, double top, double right, double bottom, int color) {
         if (left < right)
@@ -78,6 +94,40 @@ public class Notification {
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GlStateManager.color(f, f1, f2, f3);
         worldrenderer.begin(mode, DefaultVertexFormats.POSITION);
+        worldrenderer.pos(left, bottom, 0.0D).endVertex();
+        worldrenderer.pos(right, bottom, 0.0D).endVertex();
+        worldrenderer.pos(right, top, 0.0D).endVertex();
+        worldrenderer.pos(left, top, 0.0D).endVertex();
+        tessellator.draw();
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+    }
+    public static void drawRect(double left, double top, double right, double bottom, int color) {
+        if (left < right)
+        {
+            double i = left;
+            left = right;
+            right = i;
+        }
+
+        if (top < bottom)
+        {
+            double j = top;
+            top = bottom;
+            bottom = j;
+        }
+
+        float f3 = (float)(color >> 24 & 255) / 255.0F;
+        float f = (float)(color >> 16 & 255) / 255.0F;
+        float f1 = (float)(color >> 8 & 255) / 255.0F;
+        float f2 = (float)(color & 255) / 255.0F;
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.color(f, f1, f2, f3);
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION);
         worldrenderer.pos(left, bottom, 0.0D).endVertex();
         worldrenderer.pos(right, bottom, 0.0D).endVertex();
         worldrenderer.pos(right, top, 0.0D).endVertex();

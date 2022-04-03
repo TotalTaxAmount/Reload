@@ -1,6 +1,9 @@
 package com.invisiblecat.reload.module.modules.other;
 
 import com.invisiblecat.reload.client.Reload;
+import com.invisiblecat.reload.client.ui.hud.notification.Notification;
+import com.invisiblecat.reload.client.ui.hud.notification.NotificationManager;
+import com.invisiblecat.reload.client.ui.hud.notification.NotificationType;
 import com.invisiblecat.reload.event.EventTarget;
 import com.invisiblecat.reload.event.events.EventJoinWorld;
 import com.invisiblecat.reload.event.events.EventRecivePacket;
@@ -16,6 +19,11 @@ public class AutoDisable extends Module {
     private final BooleanSetting world = new BooleanSetting("World", true);
     private final BooleanSetting respawn = new BooleanSetting("Respawn", true);
     private final BooleanSetting flag = new BooleanSetting("Flag", true);
+    private final BooleanSetting chat = new BooleanSetting("Chat", true);
+    private final BooleanSetting notification = new BooleanSetting("Notification", true);
+
+    boolean doChat = chat.isEnabled();
+    boolean doNotification = notification.isEnabled();
 
 
 
@@ -30,10 +38,12 @@ public class AutoDisable extends Module {
 
     @EventTarget
     public void onJoinWorld(EventJoinWorld event) {
+
         Reload.instance.moduleManager.getModules().forEach(m -> {
             if(m.getAutoDisable() == AutoDisable.WORLD && m.isEnabled() && world.isEnabled()) {
                 m.setEnabled(false);
-                ChatUtils.sendChatMessageClientWithDelay(m.getName() + " was disabled because of world change", ChatUtils.Type.INFO, 1000);
+                if(doChat)ChatUtils.sendChatMessageClientWithDelay(m.getName() + " was disabled because of world change", ChatUtils.Type.INFO, 1000);
+                if(doNotification) NotificationManager.show(new Notification(NotificationType.INFO, this.getName(), m.getName() + " was disabled because of world change", 1));
             }
         });
     }
@@ -43,7 +53,7 @@ public class AutoDisable extends Module {
         Reload.instance.moduleManager.getModules().forEach(m -> {
             if(m.getAutoDisable() == AutoDisable.RESPAWN && m.isEnabled() && respawn.isEnabled()) {
                 m.setEnabled(false);
-                ChatUtils.sendChatMessageClient(m.getName() + " was disabled because of respawn", ChatUtils.Type.INFO);
+                if(doChat)ChatUtils.sendChatMessageClient(m.getName() + " was disabled because of respawn", ChatUtils.Type.INFO);
             }
         });
     }
@@ -54,7 +64,7 @@ public class AutoDisable extends Module {
             Reload.instance.moduleManager.getModules().forEach(m -> {
                 if(m.getAutoDisable() == AutoDisable.FLAG && m.isEnabled() && flag.isEnabled()) {
                     m.toggle(false);
-                    ChatUtils.sendChatMessageClient(m.getName() + " was disabled because of flag", ChatUtils.Type.WARN  );
+                    if(doChat)ChatUtils.sendChatMessageClient(m.getName() + " was disabled because of flag", ChatUtils.Type.WARN  );
                 }
             });
         }

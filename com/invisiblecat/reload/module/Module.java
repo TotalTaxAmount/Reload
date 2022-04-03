@@ -65,11 +65,12 @@ public class Module {
     }
     public void onEnable() {
         Reload.instance.eventManager.register(this);
+        NotificationManager.show(new Notification( NotificationType.INFO, "Module", this.getDisplayName() + " has been enabled", 1));
 
     }
     public void onDisable() {
         EventManager.unregister(this);
-        NotificationManager.show(new Notification( NotificationType.INFO, this.getDisplayName() + " has been disabled", "success", 1));
+        NotificationManager.show(new Notification( NotificationType.INFO, "Module", this.getDisplayName() + " has been disabled", 1));
 
     }
     public void onToggle() {
