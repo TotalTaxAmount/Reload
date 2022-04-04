@@ -42,30 +42,31 @@ public class Notification {
         return  (System.currentTimeMillis() - start);
     }
     public void render() {
+        FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
+
         double offset = 0;
-        int width = 120;
+        double width = fr.getStringWidth(message.length() > title.length() ? message : title) * 1.2;
         int height = 30;
         long time = getTime();
 
         if (time < fadeIn) {
-            offset = Math.tanh(time / (double) (fadeIn) * 3) * width;
+            offset = Math.tanh(time / (double) (fadeIn) * 2.5) * width ;
         } else if (time > fadeOut) {
-            offset = (Math.tanh(3.0 - (time - fadeOut) / (double) (end - fadeOut) * 3) * width);
+            offset = (Math.tanh(3.0 - (time - fadeOut) / (double) (end - fadeOut) * 2.5) * width);
         } else {
             offset = width;
         }
 
         Color color = new Color(0, 0, 0, 220);
 
-        FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
 
-        drawRect(GuiScreen.width - offset , GuiScreen.height - 5 - height, GuiScreen.width, GuiScreen.height - 5, color.getRGB());
+        drawRect((GuiScreen.width - 4) - offset, GuiScreen.height - 5 - height, GuiScreen.width, GuiScreen.height - 5, color.getRGB());
         GL11.glLineWidth(4.0F);
-        drawRect(GL11.GL_LINE_LOOP,GuiScreen.width - offset , GuiScreen.height - 5 - height, GuiScreen.width, GuiScreen.height - 5, type.color.getRGB());
+        drawRect(GL11.GL_LINE_LOOP,(GuiScreen.width - 4) - offset , GuiScreen.height - 5 - height, GuiScreen.width, GuiScreen.height - 5, type.color.getRGB());
 
 
-        fr.drawString(title, (int) (GuiScreen.width - offset), GuiScreen.height - 2 - height, -1);
-        fr.drawString(message, (int) (GuiScreen.width - offset), GuiScreen.height - 15, -1);
+        fr.drawString(title, (int) (GuiScreen.width - offset - 2), GuiScreen.height - 2 - height, -1);
+        fr.drawString(message, (int) (GuiScreen.width - offset - 2), GuiScreen.height - 15, -1);
 
     }
     public static void drawRect(int mode, double left, double top, double right, double bottom, int color) {

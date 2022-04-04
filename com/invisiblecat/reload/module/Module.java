@@ -65,22 +65,26 @@ public class Module {
     }
     public void onEnable() {
         Reload.instance.eventManager.register(this);
-        NotificationManager.show(new Notification( NotificationType.INFO, "Module", this.getDisplayName() + " has been enabled", 1));
 
     }
     public void onDisable() {
         EventManager.unregister(this);
-        NotificationManager.show(new Notification( NotificationType.INFO, "Module", this.getDisplayName() + " has been disabled", 1));
 
     }
     public void onToggle() {
-        if(Files.exists(Paths.get("../src/minecraft/assets/minecraft/reload/sound/enable.wav")) && this.isEnabled())  {
-            PlaySounds sound = new PlaySounds(new File("../src/minecraft/assets/minecraft/reload/sound/enable.wav"));
-            sound.playSound();
+        if (this.isEnabled()) {
+            NotificationManager.show(new Notification( NotificationType.INFO, "Info", this.getName() + " has been enabled", 1));
+            if (Files.exists(Paths.get("../src/minecraft/assets/minecraft/reload/sound/enable.wav"))) {
+                PlaySounds sound = new PlaySounds(new File("../src/minecraft/assets/minecraft/reload/sound/enable.wav"));
+                sound.playSound();
+            }
         }
-        if(Files.exists(Paths.get("../src/minecraft/assets/minecraft/reload/sound/disable.wav"))&& !this.isEnabled()) {
-            PlaySounds sound = new PlaySounds(new File("../src/minecraft/assets/minecraft/reload/sound/disable.wav"));
-            sound.playSound();
+        if (!this.isEnabled()) {
+            NotificationManager.show(new Notification( NotificationType.INFO, "Info", this.getName() + " has been disabled", 1));
+            if (Files.exists(Paths.get("../src/minecraft/assets/minecraft/reload/sound/disable.wav"))) {
+                PlaySounds sound = new PlaySounds(new File("../src/minecraft/assets/minecraft/reload/sound/disable.wav"));
+                sound.playSound();
+            }
         }
         //ChatUtils.sendChatMessageClient("Toggled: " + this.getDisplayName() + " [" +  (this.isToggled() ? ChatFormatting.GREEN + "On" : ChatFormatting.RED + "Off") + ChatFormatting.RESET + "]");
         ChatUtils.sendChatMessageClient("[" + (this.isEnabled() ? ChatFormatting.GREEN + "Enabled" : ChatFormatting.RED + "Disabled") + ChatFormatting.RESET + "]: " + this.getName(), ChatUtils.Type.INFO);

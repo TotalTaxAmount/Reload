@@ -5,7 +5,7 @@ import java.awt.*;
 public enum NotificationType {
     INFO(new Color(77, 178, 232, 144)),
     SUCCESS(new Color(62, 232, 11, 220)),
-    WARNING(new Color(213, 239, 34, 220)),
+    WARNING(new Color(173, 196, 25, 220)),
     ERROR(new Color(239, 5, 5, 220));
 
     public Color color;

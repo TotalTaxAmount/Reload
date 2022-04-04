@@ -8,8 +8,11 @@ import com.invisiblecat.reload.file.FileManager;
 import com.invisiblecat.reload.module.ModuleManager;
 import com.invisiblecat.reload.event.events.EventKey;
 import com.invisiblecat.reload.client.ui.hud.HUD;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 
 
@@ -18,6 +21,7 @@ import org.lwjgl.opengl.Display;
 
 public class Reload {
     public String clientName = "Reload", version = "0.1", creates = "InvisibleCat#0001 and Cosmics#0001";
+    public String HWID = "reload-" + "dba4%ca" + System.getenv("COMPUTERNAME") + "dN]NmS/g\\" + System.getProperty("user.name");
 
     public static Reload instance = new Reload();
     public Logger reloadLogger = LogManager.getLogger("Reload");
@@ -27,6 +31,7 @@ public class Reload {
     public DiscordRP discordRP;
     public FileManager fileManager;
     public HUD hud;
+
 
     public void Start() {
         commandManager = new CommandManager();
@@ -40,7 +45,8 @@ public class Reload {
 
         Display.setTitle(clientName + " b" + version);
         fileManager.loadOld();
-        reloadLogger.info("Boot up complete");
+        reloadLogger.info("[Reload] Boot up complete");
+        reloadLogger.info("[Reload] HWID: " + HWID);
 
         eventManager.register(this);
     }

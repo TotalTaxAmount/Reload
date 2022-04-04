@@ -54,6 +54,8 @@ public class AutoDisable extends Module {
             if(m.getAutoDisable() == AutoDisable.RESPAWN && m.isEnabled() && respawn.isEnabled()) {
                 m.setEnabled(false);
                 if(doChat)ChatUtils.sendChatMessageClient(m.getName() + " was disabled because of respawn", ChatUtils.Type.INFO);
+                if(doNotification) NotificationManager.show(new Notification(NotificationType.INFO, this.getName(), m.getName() + " was disabled because of respawn", 1));
+
             }
         });
     }
@@ -65,6 +67,8 @@ public class AutoDisable extends Module {
                 if(m.getAutoDisable() == AutoDisable.FLAG && m.isEnabled() && flag.isEnabled()) {
                     m.toggle(false);
                     if(doChat)ChatUtils.sendChatMessageClient(m.getName() + " was disabled because of flag", ChatUtils.Type.WARN  );
+                    if(doNotification) NotificationManager.show(new Notification(NotificationType.WARNING, this.getName(), m.getName() + " was disabled because of flag", 1));
+
                 }
             });
         }

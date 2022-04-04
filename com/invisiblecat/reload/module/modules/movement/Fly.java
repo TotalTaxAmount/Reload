@@ -1,5 +1,8 @@
 package com.invisiblecat.reload.module.modules.movement;
 
+import com.invisiblecat.reload.client.ui.hud.notification.Notification;
+import com.invisiblecat.reload.client.ui.hud.notification.NotificationManager;
+import com.invisiblecat.reload.client.ui.hud.notification.NotificationType;
 import com.invisiblecat.reload.event.EventTarget;
 import com.invisiblecat.reload.event.events.EventPreMotionUpdate;
 import com.invisiblecat.reload.event.events.EventSendPacket;
@@ -47,7 +50,8 @@ public class Fly extends Module {
                 }
                 break;
             case "verus":
-                if(!mc.thePlayer.onGround) {ChatUtils.sendChatMessageClient("Cannot enable fly in air", ChatUtils.Type.ERROR); return;}
+                if(!mc.thePlayer.onGround) {
+                    NotificationManager.show(new Notification(NotificationType.ERROR, "Fly", "Cannot enable fly in air", 1)); return;}
                 PacketUtils.sendPacketNoEvent(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SPRINTING));
                 break;
 
