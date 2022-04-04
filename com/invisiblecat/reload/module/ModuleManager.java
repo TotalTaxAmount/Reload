@@ -5,6 +5,8 @@ import com.invisiblecat.reload.module.modules.combat.Velocity;
 import com.invisiblecat.reload.module.modules.movement.*;
 import com.invisiblecat.reload.module.modules.exploit.*;
 import com.invisiblecat.reload.module.modules.other.*;
+import com.invisiblecat.reload.module.modules.player.InvManager;
+import com.invisiblecat.reload.module.modules.player.Stealer;
 import com.invisiblecat.reload.module.modules.player.FastPlace;
 import com.invisiblecat.reload.module.modules.render.*;
 import com.invisiblecat.reload.module.modules.test.*;
@@ -28,6 +30,8 @@ public class ModuleManager {
 
         //Player
         modules.add(new FastPlace());
+        modules.add(new Stealer());
+        modules.add(new InvManager());
 
         //World
         modules.add(new Timer());

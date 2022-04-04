@@ -51,7 +51,7 @@ public class Fly extends Module {
                 break;
             case "verus":
                 if(!mc.thePlayer.onGround) {
-                    NotificationManager.show(new Notification(NotificationType.ERROR, "Fly", "Cannot enable fly in air", 1)); return;}
+                    NotificationManager.show(new Notification(NotificationType.ERROR, "Fly", "Cannot enable fly in air", 1)); this.toggle(false); return;}
                 PacketUtils.sendPacketNoEvent(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SPRINTING));
                 break;
 
