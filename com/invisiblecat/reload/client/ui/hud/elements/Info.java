@@ -3,11 +3,15 @@ package com.invisiblecat.reload.client.ui.hud.elements;
 import com.invisiblecat.reload.client.ui.hud.Element;
 import com.invisiblecat.reload.client.ui.hud.HUD;
 import com.invisiblecat.reload.utils.NetworkUtils;
+import com.invisiblecat.reload.utils.font.CustomFontUtil;
+import com.invisiblecat.reload.utils.font.render.TTFFontRenderer;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
 
 
 public class Info extends Element {
+    private static final TTFFontRenderer font = CustomFontUtil.FONT_MANAGER.getFont("Light 22");
+
     public Info() {
         super("Info", 0, 0, 10, 10);
     }

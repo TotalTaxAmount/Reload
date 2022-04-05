@@ -88,7 +88,7 @@ public class Fly extends Module {
 
     @EventTarget
     public void onPreMotionUpdate(EventPreMotionUpdate event) {
-        this.setDisplayName("Fly " + ChatFormatting.GRAY + mode.getSelected());
+        this.setDisplayName(mode.getSelected());
         ticks++;
         if (mc.thePlayer == null)
             return;

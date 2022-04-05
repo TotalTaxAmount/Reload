@@ -40,7 +40,6 @@ public class Module {
         this.name = name;
         this.key = key;
         this.category = category;
-        this.displayName = this.name.substring(0, 1).toUpperCase() + this.name.substring(1);
         this.autoDisable = autoDisable;
 
         this.addSettings(hide);
@@ -126,7 +125,7 @@ public class Module {
         return toggled;
     }
     public String getDisplayName() {
-        return displayName == null ? name : displayName;
+        return displayName == null ? "" : displayName;
     }
     public void setDisplayName(String displayName) {
         this.displayName = displayName;

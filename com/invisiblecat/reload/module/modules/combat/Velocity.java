@@ -25,7 +25,7 @@ public class Velocity extends Module {
 
     @EventTarget
     public void onUpdate(EventUpdate event) {
-        this.setDisplayName(this.getName() + ChatFormatting.GRAY + " H: " + horizontal.getValueInt() + "% V: " + vertical.getValueInt() + "%");
+        this.setDisplayName(" H: " + horizontal.getValueInt() + "% V: " + vertical.getValueInt() + "%");
     }
 
     @EventTarget

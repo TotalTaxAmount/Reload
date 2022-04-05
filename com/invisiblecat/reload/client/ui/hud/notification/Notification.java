@@ -1,5 +1,7 @@
 package com.invisiblecat.reload.client.ui.hud.notification;
 
+import com.invisiblecat.reload.utils.font.CustomFontUtil;
+import com.invisiblecat.reload.utils.font.render.TTFFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -16,6 +18,9 @@ public class Notification {
     private NotificationType type;
     private String title;
     private String message;
+
+    private final static TTFFontRenderer light18 = CustomFontUtil.FONT_MANAGER.getFont("Light 18");
+    private final static TTFFontRenderer light22 = CustomFontUtil.FONT_MANAGER.getFont("Light 24");
 
     private long start, fadeIn, fadeOut, end;
 
@@ -57,16 +62,13 @@ public class Notification {
             offset = width;
         }
 
-        Color color = new Color(0, 0, 0, 220);
+        Color color = new Color(0, 0, 0, 166);
 
 
         drawRect((GuiScreen.width - 6) - offset, GuiScreen.height - 5 - height, GuiScreen.width, GuiScreen.height - 5, color.getRGB());
-        GL11.glLineWidth(4.0F);
-        drawRect(GL11.GL_LINE_LOOP,(GuiScreen.width - 6) - offset , GuiScreen.height - 5 - height, GuiScreen.width, GuiScreen.height - 5, type.color.getRGB());
 
-
-        fr.drawString(title, (int) (GuiScreen.width - offset - 2), GuiScreen.height - 2 - height, -1);
-        fr.drawString(message, (int) (GuiScreen.width - offset - 2), GuiScreen.height - 15, -1);
+        light22.drawString(title, (int) (GuiScreen.width - offset - 2), GuiScreen.height - 2 - height, -1);
+        light18.drawString(message, (int) (GuiScreen.width - offset - 2), GuiScreen.height - 18, -1);
 
     }
     public static void drawRect(int mode, double left, double top, double right, double bottom, int color) {

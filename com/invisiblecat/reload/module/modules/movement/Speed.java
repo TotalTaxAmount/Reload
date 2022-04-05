@@ -28,7 +28,7 @@ public class Speed extends Module {
 
     @EventTarget
     public void onPreMotionUpdate(EventPreMotionUpdate event) {
-        this.setDisplayName("Speed " + ChatFormatting.GRAY + mode.getSelected());
+        this.setDisplayName(mode.getSelected());
         if (isTimer) {
             Reload.instance.moduleManager.getModuleByName("Timer").setEnabled(false);
         }

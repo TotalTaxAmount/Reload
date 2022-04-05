@@ -9,8 +9,8 @@ public class GuiHUDConfig extends GuiScreen {
         this.drawDefaultBackground();
 
         for (Element e : Reload.instance.hud.getElements()) {
-            // TODO: draw draggable
-            e.draggable.draw(mouseX, mouseY);
+            e.render();
+
         }
 
         super.drawScreen(mouseX, mouseY, partialTicks);

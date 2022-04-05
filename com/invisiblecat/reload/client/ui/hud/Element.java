@@ -53,13 +53,13 @@ public class Element {
         this.toggled = toggled;
     }
     public int getX() {
-        return x;
+        return draggable.getxPosition();
     }
     public void setX(int x) {
         this.x = x;
     }
     public int getY() {
-        return y;
+        return draggable.getyPosition();
     }
     public void setY(int y) {
         this.y = y;

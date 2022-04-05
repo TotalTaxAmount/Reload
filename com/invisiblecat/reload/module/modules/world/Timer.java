@@ -25,10 +25,10 @@ public class Timer extends Module {
     public void onUpdate(EventUpdate event) {
         switch (mode.getSelected().toLowerCase().replaceAll("\\s", "")) {
             case "vanilla":
-                this.setDisplayName("Timer " + ChatFormatting.GRAY + tps.getValue());
+                this.setDisplayName(String.valueOf(tps.getValue()));
                 mc.timer.timerSpeed = tps.getValueFloat() / 10;
             case "pulse":
-                this.setDisplayName("Timer " + ChatFormatting.GRAY + ticks);
+                this.setDisplayName(String.valueOf(ticks));
                 if(ticks > tpsMax.getValueFloat()) {
                     ticks = tpsMin.getValueFloat();
                 } else {
