@@ -3,22 +3,30 @@ package com.invisiblecat.reload.client.ui.hud;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 
+import java.awt.*;
+
 public class Element {
     private int x, y, width, height;
     private boolean toggled;
     private String name;
     protected Minecraft mc = Minecraft.getMinecraft();
     protected ScaledResolution sr = new ScaledResolution(mc);
+    public Draggable draggable;
 
 
-    public Element(String name, int x, int y) {
+    public Element(String name, int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
+        this.width = width;
+        this.height = height;
+        this.name = name;
+
+        draggable = new Draggable(x, y, x + width, y + height, new Color(0,0,0,0).getRGB());
+
         toggled = true;
     }
 
     public void render() {
-
     }
 
     public String getName() {

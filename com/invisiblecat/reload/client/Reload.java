@@ -1,5 +1,6 @@
 package com.invisiblecat.reload.client;
 
+import com.invisiblecat.reload.client.ui.hud.GuiHUDConfig;
 import com.invisiblecat.reload.command.CommandManager;
 import com.invisiblecat.reload.discord.DiscordRP;
 import com.invisiblecat.reload.event.EventManager;
@@ -30,6 +31,7 @@ public class Reload {
     public CommandManager commandManager;
     public DiscordRP discordRP;
     public FileManager fileManager;
+
     public HUD hud;
 
 
@@ -61,6 +63,9 @@ public class Reload {
     @EventTarget
     public void onKey(EventKey event) {
         moduleManager.getModules().stream().filter(module -> module.getKey() == event.getKey()).forEach(m -> m.toggle(true));
+        if (event.getKey() == Minecraft.getMinecraft().gameSettings.HUD_CONFIG.getKeyCode()) {
+            Minecraft.getMinecraft().displayGuiScreen(new GuiHUDConfig());
+        }
     }
 
 }

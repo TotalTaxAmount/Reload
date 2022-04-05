@@ -3,10 +3,11 @@ package com.invisiblecat.reload.client.ui.hud.elements;
 import com.invisiblecat.reload.client.Reload;
 import com.invisiblecat.reload.client.ui.hud.Element;
 import com.invisiblecat.reload.utils.render.ColorUtils;
+import net.minecraft.client.Minecraft;
 
 public class Watermark extends Element {
     public Watermark() {
-        super("watermark", 4, 4);
+        super("watermark", 4, 4, Minecraft.getMinecraft().fontRendererObj.getStringWidth("watermark"), 9);
     }
 
     @Override

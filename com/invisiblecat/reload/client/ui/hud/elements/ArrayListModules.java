@@ -9,7 +9,7 @@ import java.util.Comparator;
 
 public class ArrayListModules extends Element {
     public ArrayListModules() {
-        super("ArrayList", 0, 0);
+        super("ArrayList", 0, 0, 10, 10);
     }
 
 

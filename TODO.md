@@ -12,8 +12,8 @@ ________________________________________________________
 - ~~connect dc webhook to server??~~
 - ~~Make notifiction system~~
 - Finish notifications
-- Add chest stealer and inventory manager
-- Add killaura
+- ~~Add chest stealer and inventory manager~~ lol
+- Add killaura (I really need to do this)
 - Add an alt manager
 - Make hud draggables (cosmics get ur pc to work so u can figure out how to do this)
 

@@ -12,6 +12,7 @@ import com.invisiblecat.reload.setting.settings.BooleanSetting;
 import com.invisiblecat.reload.setting.settings.ModeSetting;
 import com.invisiblecat.reload.setting.settings.NumberSetting;
 import com.invisiblecat.reload.utils.TimerUtils;
+import com.invisiblecat.reload.utils.player.PlayerUtils;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.BlockSlime;
 import net.minecraft.block.BlockTNT;
@@ -38,9 +39,11 @@ public final class InvManager extends Module {
     private final NumberSetting minDelay = new NumberSetting("Min Delay",  100, 0, 1000, 25);
     private final NumberSetting maxDelay = new NumberSetting("Max Delay", 150, 0, 1000, 25);
 
-    private final BooleanSetting throwUselessItems = new BooleanSetting("Throw Useless Items", true);
+    private final BooleanSetting throwUselessItems = new BooleanSetting("Throw Thrash", true);
     private final BooleanSetting throwCustomItems = new BooleanSetting("Throw Custom Items",  true);
     private final BooleanSetting throwHeads = new BooleanSetting("Throw Heads",  true);
+    private final BooleanSetting noMovement = new BooleanSetting("No Move",  true);
+    private final BooleanSetting openInventory = new BooleanSetting("Open Inventory",  true);
 
     private final BooleanSetting equipBestGear = new BooleanSetting("Equip Best Gear",  true);
     private final NumberSetting swordSlot = new NumberSetting("Sword Slot",  1, 1, 10, 1);
@@ -111,6 +114,8 @@ public final class InvManager extends Module {
 
     @EventTarget
     public void onPreMotion(final EventPreMotionUpdate event) {
+        if (!(mc.currentScreen instanceof GuiInventory) && openInventory.isEnabled()) return;
+        if (PlayerUtils.isMoving() && noMovement.isEnabled()) return;
         if (mc.currentScreen instanceof GuiChest) {
             ticksSinceChest = 0;
         } else {

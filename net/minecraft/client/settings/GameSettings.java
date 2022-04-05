@@ -271,6 +271,8 @@ public class GameSettings
     public KeyBinding ofKeyBindZoom;
     private File optionsFileOF;
 
+    public KeyBinding HUD_CONFIG = new KeyBinding("Open hud config", Keyboard.KEY_H, "Reload");
+
     public GameSettings(Minecraft mcIn, File p_i46326_2_)
     {
         this.keyBindings = (KeyBinding[])((KeyBinding[])ArrayUtils.addAll(new KeyBinding[] {this.keyBindAttack, this.keyBindUseItem, this.keyBindForward, this.keyBindLeft, this.keyBindBack, this.keyBindRight, this.keyBindJump, this.keyBindSneak, this.keyBindSprint, this.keyBindDrop, this.keyBindInventory, this.keyBindChat, this.keyBindPlayerList, this.keyBindPickBlock, this.keyBindCommand, this.keyBindScreenshot, this.keyBindTogglePerspective, this.keyBindSmoothCamera, this.keyBindStreamStartStop, this.keyBindStreamPauseUnpause, this.keyBindStreamCommercials, this.keyBindStreamToggleMic, this.keyBindFullscreen, this.keyBindSpectatorOutlines}, this.keyBindsHotbar));
@@ -287,8 +289,13 @@ public class GameSettings
         this.keyBindings = (KeyBinding[])((KeyBinding[])ArrayUtils.add(this.keyBindings, this.ofKeyBindZoom));
         GameSettings.Options.RENDER_DISTANCE.setValueMax(32.0F);
         this.renderDistanceChunks = 8;
+        addClientKeybindings();
         this.loadOptions();
         Config.initGameSettings(this);
+    }
+
+    public void addClientKeybindings() {
+        this.keyBindings = ((KeyBinding[])ArrayUtils.addAll(this.keyBindings, this.HUD_CONFIG));
     }
 
     public GameSettings()
@@ -299,6 +306,7 @@ public class GameSettings
         this.fovSetting = 70.0F;
         this.language = "en_US";
         this.forceUnicodeFont = false;
+        addClientKeybindings();
     }
 
     /**

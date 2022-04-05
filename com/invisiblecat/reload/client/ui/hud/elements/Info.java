@@ -9,7 +9,7 @@ import net.minecraft.client.Minecraft;
 
 public class Info extends Element {
     public Info() {
-        super("Info", 0, 0);
+        super("Info", 0, 0, 10, 10);
     }
 
     @Override
