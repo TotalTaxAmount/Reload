@@ -13,6 +13,7 @@ import com.invisiblecat.reload.module.Module;
 import com.invisiblecat.reload.setting.settings.BooleanSetting;
 import com.invisiblecat.reload.setting.settings.NumberSetting;
 import com.invisiblecat.reload.utils.TimerUtils;
+import com.sun.istack.internal.Nullable;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.BlockSlime;
 import net.minecraft.block.BlockTNT;
@@ -63,7 +64,7 @@ public class Stealer extends Module {
         done = false;
     }
     @EventTarget
-    public void onRecivePacket(EventRecivePacket event) {
+    public void onRecivePacket(@Nullable EventRecivePacket event) {
         if (mc.thePlayer.ticksExisted <= 60) return;
 
         if (event.getPacket() instanceof S30PacketWindowItems) {

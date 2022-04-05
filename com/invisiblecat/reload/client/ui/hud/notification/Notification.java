@@ -60,9 +60,9 @@ public class Notification {
         Color color = new Color(0, 0, 0, 220);
 
 
-        drawRect((GuiScreen.width - 4) - offset, GuiScreen.height - 5 - height, GuiScreen.width, GuiScreen.height - 5, color.getRGB());
+        drawRect((GuiScreen.width - 6) - offset, GuiScreen.height - 5 - height, GuiScreen.width, GuiScreen.height - 5, color.getRGB());
         GL11.glLineWidth(4.0F);
-        drawRect(GL11.GL_LINE_LOOP,(GuiScreen.width - 4) - offset , GuiScreen.height - 5 - height, GuiScreen.width, GuiScreen.height - 5, type.color.getRGB());
+        drawRect(GL11.GL_LINE_LOOP,(GuiScreen.width - 6) - offset , GuiScreen.height - 5 - height, GuiScreen.width, GuiScreen.height - 5, type.color.getRGB());
 
 
         fr.drawString(title, (int) (GuiScreen.width - offset - 2), GuiScreen.height - 2 - height, -1);

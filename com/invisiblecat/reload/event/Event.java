@@ -67,8 +67,8 @@ public abstract class Event {
 
                 try {
                     data.target.invoke(data.source, event);
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
+                } catch (IllegalAccessException | InvocationTargetException ignored) {
+
                 }
 
             }

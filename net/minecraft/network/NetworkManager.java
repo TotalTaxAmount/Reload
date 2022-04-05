@@ -154,12 +154,13 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
         {
             try
             {
-                assert this.packetListener != null;
-                EventRecivePacket eventReceivePacket = new EventRecivePacket(p_channelRead0_2_);
-                eventReceivePacket.call();
+                if (p_channelRead0_2_ != null) {
+                    EventRecivePacket eventReceivePacket = new EventRecivePacket(p_channelRead0_2_);
+                    eventReceivePacket.call();
 
-                if(eventReceivePacket.isCancelled()) {
-                    return;
+                    if (eventReceivePacket.isCancelled()) {
+                        return;
+                    }
                 }
                 p_channelRead0_2_.processPacket(this.packetListener);
             }

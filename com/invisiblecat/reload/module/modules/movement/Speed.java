@@ -63,9 +63,9 @@ public class Speed extends Module {
                 case "verus":
                     if (mc.thePlayer.onGround) {
                         mc.thePlayer.jump();
-                        PlayerUtils.strafe(speed.getValueFloat());
+                        PlayerUtils.strafe(0.55);
                     } else {
-                        PlayerUtils.strafe(speed.getValueFloat()/5);
+                        PlayerUtils.strafe(0.349        );
                     }
                     break;
             }

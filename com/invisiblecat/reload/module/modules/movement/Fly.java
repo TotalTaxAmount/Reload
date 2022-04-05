@@ -53,6 +53,9 @@ public class Fly extends Module {
                 if(!mc.thePlayer.onGround) {
                     NotificationManager.show(new Notification(NotificationType.ERROR, "Fly", "Cannot enable fly in air", 1)); this.toggle(false); return;}
                 PacketUtils.sendPacketNoEvent(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SPRINTING));
+                mc.timer.timerSpeed = 0.15F;
+                PlayerUtils.selfHurt();
+                mc.thePlayer.jump();
                 break;
 
         }
@@ -122,13 +125,7 @@ public class Fly extends Module {
                         }
                     }
                     PlayerUtils.strafe(speed.getValue());
-                    if (ticks == 1) {
-                        mc.timer.timerSpeed = 0.15F;
-                        PlayerUtils.selfHurt();
-                        mc.thePlayer.jump();
-                        event.setGround(true);
-                    } else
-                        mc.timer.timerSpeed = 1;
+                    mc.timer.timerSpeed = 1;
                 }
                 break;
             case "damage":
