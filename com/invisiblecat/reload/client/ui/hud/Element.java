@@ -21,7 +21,7 @@ public class Element {
         this.height = height;
         this.name = name;
 
-        draggable = new Draggable(x, y, x + width, y + height, new Color(0, 0, 0, 181).getRGB());
+        draggable = new Draggable(x, y, x + width, y + height, new Color(0, 0, 0, 0).getRGB());
 
         toggled = true;
     }

@@ -6,8 +6,8 @@ import com.invisiblecat.reload.module.Module;
 import com.invisiblecat.reload.setting.settings.BooleanSetting;
 import com.invisiblecat.reload.utils.font.CustomFontUtil;
 import com.invisiblecat.reload.utils.font.render.TTFFontRenderer;
+import com.invisiblecat.reload.utils.render.ColorUtils;
 
-import java.awt.*;
 import java.util.Comparator;
 
 public class ArrayListModules extends Element {
@@ -27,7 +27,7 @@ public class ArrayListModules extends Element {
         boolean showModStats = ((BooleanSetting) Reload.instance.moduleManager.getModuleByName("HUD").getSetting("Mod Stats")).isEnabled();
 
 
-        Reload.instance.moduleManager.getModules().sort(Comparator.comparingInt(m -> mc.fontRendererObj.getStringWidth(showModStats ? ((Module)m).getName() + " " + ((Module)m).getDisplayName() : ((Module)m).getName())).reversed());
+        Reload.instance.moduleManager.getModules().sort(Comparator.comparingInt(m -> mc.fontRendererObj.getStringWidth(showModStats ? (((Module)m).getName() + " " + ((Module)m).getDisplayName()) : ((Module)m).getName())).reversed());
 
         for (Module m : Reload.instance.moduleManager.getModules()) {
             if(m.isEnabled() && !((BooleanSetting) m.getSetting("Hide")).isEnabled()) {
@@ -37,7 +37,7 @@ public class ArrayListModules extends Element {
                 font.drawString(m.getName(), this.getX() - font.getWidth(text) - 4, (float) (this.getY() + 4 + offset), -1);
                 if (showModStats) {
                     String idk = m.getDisplayName();
-                    font.drawString(idk, this.getX() - font.getWidth(m.getDisplayName()) - 4, (float) (this.getY() + 4 + offset), new Color(0, 0, 0, 132).getRGB());
+                    font.drawString(idk, this.getX() - font.getWidth(m.getDisplayName()) - 4, (float) (this.getY() + 4 + offset), ColorUtils.Rainbow());
                 }
                 moduleCount++;
             }

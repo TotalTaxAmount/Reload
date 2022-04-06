@@ -34,6 +34,14 @@ public class Draggable {
         this.x = x;
     }
 
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
     public void setyPosition(int y) {
         this.y = y;
     }

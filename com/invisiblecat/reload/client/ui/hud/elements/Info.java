@@ -20,7 +20,7 @@ public class Info extends Element {
     @Override
     public void render() {
         NetworkUtils util = new NetworkUtils();
-        this.setWidth(mc.fontRendererObj.getStringWidth("FPS> " + Minecraft.getDebugFPS()));
+        draggable.setWidth(mc.fontRendererObj.getStringWidth("FPS> " + Minecraft.getDebugFPS()));
 
         mc.fontRendererObj.drawString(ChatFormatting.WHITE + "FPS" + ChatFormatting.GRAY + "> " + ChatFormatting.RESET + Minecraft.getDebugFPS(), this.getX(), this.getY(), HUD.getClientColor().hashCode());
        // mc.fontRendererObj.drawString(ChatFormatting.WHITE + "PING" + ChatFormatting.GRAY + "> " + ChatFormatting.RESET + util.getPing(mc.thePlayer), 4, sr.getScaledHeight() - 8 - mc.fontRendererObj.FONT_HEIGHT *2, HUD.getClientColor().hashCode());
