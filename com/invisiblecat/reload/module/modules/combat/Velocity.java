@@ -1,15 +1,12 @@
 package com.invisiblecat.reload.module.modules.combat;
 
 import com.invisiblecat.reload.event.EventTarget;
-import com.invisiblecat.reload.event.events.EventPreMotionUpdate;
 import com.invisiblecat.reload.event.events.EventRecivePacket;
 import com.invisiblecat.reload.event.events.EventUpdate;
 import com.invisiblecat.reload.module.Category;
 import com.invisiblecat.reload.module.Module;
 import com.invisiblecat.reload.setting.settings.ModeSetting;
 import com.invisiblecat.reload.setting.settings.NumberSetting;
-import com.mojang.realmsclient.gui.ChatFormatting;
-import net.minecraft.entity.Entity;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.network.play.server.S27PacketExplosion;
 
@@ -25,7 +22,7 @@ public class Velocity extends Module {
 
     @EventTarget
     public void onUpdate(EventUpdate event) {
-        this.setDisplayName(" H: " + horizontal.getValueInt() + "% V: " + vertical.getValueInt() + "%");
+        this.setDisplayName("H: " + horizontal.getValueInt() + "% V: " + vertical.getValueInt() + "%");
     }
 
     @EventTarget
