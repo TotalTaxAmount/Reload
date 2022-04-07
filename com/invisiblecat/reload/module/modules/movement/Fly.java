@@ -17,15 +17,16 @@ import com.invisiblecat.reload.utils.chat.ChatUtils;
 import com.invisiblecat.reload.utils.player.PlayerUtils;
 import com.invisiblecat.reload.utils.TimerUtils;
 import com.mojang.realmsclient.gui.ChatFormatting;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.C00PacketKeepAlive;
-import net.minecraft.network.play.client.C03PacketPlayer;
-import net.minecraft.network.play.client.C0BPacketEntityAction;
-import net.minecraft.network.play.client.C18PacketSpectate;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.play.client.*;
+
+import java.util.UUID;
 
 public class Fly extends Module {
-    private final ModeSetting mode = new ModeSetting("Mode", "Verus", "Velocity", "Vanilla", "Verus", "VerusSilent","Damage");
+    private final ModeSetting mode = new ModeSetting("Mode", "Verus2", "Velocity", "Vanilla", "Verus", "Verus2", "VerusSilent","Damage");
     private final NumberSetting speed = new NumberSetting("Speed", 2, 0, 10, 0.1);
     private final BooleanSetting bypassVanillaKick = new BooleanSetting("BypassVanillaKick", true);
     boolean hasBeenDamaged = false;
@@ -157,6 +158,27 @@ public class Fly extends Module {
                        mc.thePlayer.motionY -= (float) speed.getValueInt() / 2;
                    }
                    break;
+           case "verus2":
+               mc.thePlayer.motionY = 0;
+               if (mc.thePlayer.onGround && ticks < 2) {
+                   mc.timer.timerSpeed = 0.3F;
+                   PlayerUtils.selfHurt();
+               }
+               if (ticks % 2 == 0) {
+                   mc.timer.timerSpeed = 2.5F;
+                   PlayerUtils.strafe(speed.getValueInt());
+               } else {
+                   mc.timer.timerSpeed = 1.5F;
+                   PlayerUtils.strafe(0.56F);
+               }
+               if (count == 20) {
+                   mc.thePlayer.motionY = 0.4F;
+                   count++;
+               } else if (count == 22) {
+                   mc.thePlayer.motionY = -0.4F;
+                   count = 0;
+               } else
+                   count++;
 
         }
     }

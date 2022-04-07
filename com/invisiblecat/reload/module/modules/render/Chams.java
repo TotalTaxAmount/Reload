@@ -10,7 +10,9 @@ import com.invisiblecat.reload.setting.settings.NumberSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.monster.EntityCreeper;
+import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -27,27 +29,7 @@ public class Chams extends Module {
 
     @EventTarget
     public void onEvent3D(Event3D event) {
-
     }
 
-    public static void createChamsPre() {
-        Minecraft.getMinecraft().getRenderManager().setRenderShadow(false);
-        Minecraft.getMinecraft().getRenderManager().setRenderOutlines(false);
-        GlStateManager.pushMatrix();
-        GlStateManager.depthMask(true);
-        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240.0F, 240.0F);
-        glEnable(GL_POLYGON_OFFSET_FILL);
-        glDepthRange(0.0, 0.01);
-        GlStateManager.popMatrix();
-    }
 
-    public static void createChamsPost() {
-        boolean shadow = Minecraft.getMinecraft().getRenderManager().isRenderShadow();
-        Minecraft.getMinecraft().getRenderManager().setRenderShadow(shadow);
-        GlStateManager.pushMatrix();
-        GlStateManager.depthMask(false);
-        glDisable(GL_POLYGON_OFFSET_FILL);
-        glDepthRange(0.0, 1.0);
-        GlStateManager.popMatrix();
-    }
 }
