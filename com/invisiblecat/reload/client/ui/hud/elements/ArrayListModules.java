@@ -6,7 +6,6 @@ import com.invisiblecat.reload.module.Module;
 import com.invisiblecat.reload.setting.settings.BooleanSetting;
 import com.invisiblecat.reload.utils.font.CustomFontUtil;
 import com.invisiblecat.reload.utils.font.render.TTFFontRenderer;
-import com.invisiblecat.reload.utils.render.ColorUtils;
 
 import java.util.Comparator;
 
@@ -26,19 +25,15 @@ public class ArrayListModules extends Element {
         int moduleCount = 0;
         boolean showModStats = ((BooleanSetting) Reload.instance.moduleManager.getModuleByName("HUD").getSetting("Mod Stats")).isEnabled();
 
-
-        Reload.instance.moduleManager.getModules().sort(Comparator.comparingInt(m -> mc.fontRendererObj.getStringWidth(showModStats ? (((Module)m).getName() + " " + ((Module)m).getDisplayName()) : ((Module)m).getName())).reversed());
+        Reload.instance.moduleManager.getModules().sort(Comparator.comparingInt((Module m) -> mc.fontRendererObj.getStringWidth(showModStats ? m.getName() + " " + m.getDisplayName() : m.getName())).reversed());
 
         for (Module m : Reload.instance.moduleManager.getModules()) {
             if(m.isEnabled() && !((BooleanSetting) m.getSetting("Hide")).isEnabled()) {
-                //String modString = ((BooleanSetting)Reload.instance.moduleManager.getModuleByName("HUD").getSetting("Mod Stats")).isEnabled() ? m.getDisplayName() : m.getName();
+                String modString = ((BooleanSetting)Reload.instance.moduleManager.getModuleByName("HUD").getSetting("Mod Stats")).isEnabled() ? m.getDisplayName() : m.getName();
                 double offset = moduleCount*(mc.fontRendererObj.FONT_HEIGHT+4);
                 String text = showModStats ? m.getName() + " "+ m.getDisplayName() : m.getName();
-                font.drawString(m.getName(), this.getX() - font.getWidth(text) - 4, (float) (this.getY() + 4 + offset), -1);
-                if (showModStats) {
-                    String idk = m.getDisplayName();
-                    font.drawString(idk, this.getX() - font.getWidth(m.getDisplayName()) - 4, (float) (this.getY() + 4 + offset), ColorUtils.Rainbow());
-                }
+
+                mc.fontRendererObj.drawString(text, (int) (this.getX() - font.getWidth(text) - 4), (float) (this.getY() + 4 + offset), -1);
                 moduleCount++;
             }
         }
