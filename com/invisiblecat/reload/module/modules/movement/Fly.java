@@ -1,29 +1,19 @@
 package com.invisiblecat.reload.module.modules.movement;
 
-import com.invisiblecat.reload.client.ui.hud.notification.Notification;
-import com.invisiblecat.reload.client.ui.hud.notification.NotificationManager;
-import com.invisiblecat.reload.client.ui.hud.notification.NotificationType;
 import com.invisiblecat.reload.event.EventTarget;
 import com.invisiblecat.reload.event.events.EventPreMotionUpdate;
 import com.invisiblecat.reload.event.events.EventSendPacket;
-import com.invisiblecat.reload.event.events.EventUpdate;
 import com.invisiblecat.reload.module.Category;
 import com.invisiblecat.reload.module.Module;
 import com.invisiblecat.reload.setting.settings.BooleanSetting;
 import com.invisiblecat.reload.setting.settings.ModeSetting;
 import com.invisiblecat.reload.setting.settings.NumberSetting;
 import com.invisiblecat.reload.utils.PacketUtils;
-import com.invisiblecat.reload.utils.chat.ChatUtils;
-import com.invisiblecat.reload.utils.player.PlayerUtils;
 import com.invisiblecat.reload.utils.TimerUtils;
-import com.mojang.realmsclient.gui.ChatFormatting;
-import io.netty.buffer.ByteBuf;
+import com.invisiblecat.reload.utils.player.PlayerUtils;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.network.Packet;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.play.client.*;
-
-import java.util.UUID;
+import net.minecraft.network.play.client.C0BPacketEntityAction;
 
 public class Fly extends Module {
     private final ModeSetting mode = new ModeSetting("Mode", "Verus2", "Velocity", "Vanilla", "Verus", "Verus2", "VerusSilent","Damage");
@@ -41,7 +31,10 @@ public class Fly extends Module {
 
     @Override
     public void onEnable() {
+        count = 0;
         ticks = 0;
+        offGroundTicks = 0;
+        onGroundTicks = 0;
         hasBeenDamaged = false;
         switch (mode.getSelected().toLowerCase().replaceAll("\\s", "")) {
             case "damage":
@@ -50,9 +43,8 @@ public class Fly extends Module {
                     hasBeenDamaged = true;
                 }
                 break;
+            case "verus2":
             case "verus":
-                if(!mc.thePlayer.onGround) {
-                    NotificationManager.show(new Notification(NotificationType.ERROR, "Fly", "Cannot enable fly in air", 1)); this.toggle(false); return;}
                 PacketUtils.sendPacketNoEvent(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SPRINTING));
                 mc.timer.timerSpeed = 0.15F;
                 PlayerUtils.selfHurt();
@@ -67,8 +59,9 @@ public class Fly extends Module {
     public void onSendPacket(EventSendPacket event) {
         Packet<?> packet = event.getPacket();
         switch (mode.getSelected().toLowerCase().replaceAll("\\s", "")) {
+            case "verus2":
             case "verus":
-                if (ticks < 30) {
+                if (ticks < 20) {
                     if (packet instanceof C0BPacketEntityAction) {
                         C0BPacketEntityAction action = (C0BPacketEntityAction) packet;
                         if (action.getAction().equals(C0BPacketEntityAction.Action.START_SPRINTING)) {
@@ -160,25 +153,22 @@ public class Fly extends Module {
                    break;
            case "verus2":
                mc.thePlayer.motionY = 0;
-               if (mc.thePlayer.onGround && ticks < 2) {
-                   mc.timer.timerSpeed = 0.3F;
-                   PlayerUtils.selfHurt();
-               }
-               if (ticks % 2 == 0) {
-                   mc.timer.timerSpeed = 2.5F;
-                   PlayerUtils.strafe(speed.getValueInt());
-               } else {
-                   mc.timer.timerSpeed = 1.5F;
-                   PlayerUtils.strafe(0.56F);
-               }
-               if (count == 20) {
-                   mc.thePlayer.motionY = 0.4F;
-                   count++;
-               } else if (count == 22) {
-                   mc.thePlayer.motionY = -0.4F;
-                   count = 0;
+               PlayerUtils.strafe(speed.getValueInt()/2F);
+               if (offGroundTicks > 50) {
+                   mc.thePlayer.setSprinting(false);
+                   mc.timer.timerSpeed = 0.8f;
                } else
-                   count++;
+                   mc.timer.timerSpeed = 1.5F;
+
+
+               if (mc.gameSettings.keyBindJump.isKeyDown()) {
+                   if (mc.thePlayer.ticksExisted % 2 == 0)
+                       mc.thePlayer.motionY = 0.4F;
+               } else if (mc.gameSettings.keyBindSneak.isKeyDown()) {
+                   if (mc.thePlayer.ticksExisted % 2 == 0)
+                       mc.thePlayer.motionY = -0.4F;
+               }
+               break;
 
         }
     }

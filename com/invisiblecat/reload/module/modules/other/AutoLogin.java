@@ -18,7 +18,7 @@ public class AutoLogin extends Module {
     private StringSetting regCmd = new StringSetting("Register", "/register {p} {p}");
     private StringSetting loginCmd = new StringSetting("Login", "/login {p}");
     private StringSetting password = new StringSetting("Password", "yes12345");
-    private NumberSetting delay = new NumberSetting("delay", 1000, 10, 2000, 10);
+    private NumberSetting delay = new NumberSetting("delay", 1500, 10, 2000, 10);
 
 
 
