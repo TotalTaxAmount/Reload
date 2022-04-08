@@ -12,8 +12,13 @@ import com.invisiblecat.reload.utils.PacketUtils;
 import com.invisiblecat.reload.utils.TimerUtils;
 import com.invisiblecat.reload.utils.player.PlayerUtils;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.network.EnumPacketDirection;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
+import net.minecraft.network.play.client.C0FPacketConfirmTransaction;
+import net.minecraft.network.play.client.C16PacketClientStatus;
+import net.minecraft.network.play.client.C18PacketSpectate;
+import net.minecraft.util.EnumFacing;
 
 public class Fly extends Module {
     private final ModeSetting mode = new ModeSetting("Mode", "Verus2", "Velocity", "Vanilla", "Verus", "Verus2", "VerusSilent","Damage");
@@ -153,20 +158,21 @@ public class Fly extends Module {
                    break;
            case "verus2":
                mc.thePlayer.motionY = 0;
-               PlayerUtils.strafe(speed.getValueInt()/2F);
-               if (offGroundTicks > 50) {
+               if (offGroundTicks > 25) {
                    mc.thePlayer.setSprinting(false);
-                   mc.timer.timerSpeed = 0.8f;
-               } else
-                   mc.timer.timerSpeed = 1.5F;
+                   mc.timer.timerSpeed = 1f;
+                   PlayerUtils.strafe(0.45);
+               } else {
+                   mc.timer.timerSpeed = 1F;
+                   mc.thePlayer.setSprinting(true);
+                   PlayerUtils.strafe(speed.getValueInt()/2F);
+               }
 
 
                if (mc.gameSettings.keyBindJump.isKeyDown()) {
-                   if (mc.thePlayer.ticksExisted % 2 == 0)
-                       mc.thePlayer.motionY = 0.4F;
+                   mc.thePlayer.motionY = 0.7F;
                } else if (mc.gameSettings.keyBindSneak.isKeyDown()) {
-                   if (mc.thePlayer.ticksExisted % 2 == 0)
-                       mc.thePlayer.motionY = -0.4F;
+                   mc.thePlayer.motionY = -0.7F;
                }
                break;
 
