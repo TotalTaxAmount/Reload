@@ -10,6 +10,5 @@ public class HUDmodule extends Module {
     public HUDmodule() {
         super("HUD", 0, Category.RENDER, AutoDisable.NONE);
         this.addSettings(extra);
-        this.setEnabled(true);
     }
 }

@@ -2,6 +2,7 @@ package com.invisiblecat.reload.client.ui.hud;
 
 import net.minecraft.client.gui.Gui;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 
 public class Draggable {
     private int x;
@@ -14,7 +15,7 @@ public class Draggable {
 
     private boolean dragging;
 
-    public Draggable(int x, int y, int width, int height, int color){
+    public Draggable(int x, int y, int width, int height, int color) {
         this.width = width;
         this.height = height;
         this.x = x;
@@ -62,13 +63,13 @@ public class Draggable {
         this.color = color;
     }
 
-    public void draw(int mouseX, int mouseY){
+    public void draw(int mouseX, int mouseY) {
         draggingFix(mouseX, mouseY);
-        Gui.drawRect(this.getxPosition(), this.getyPosition(), this.getxPosition()+this.getWidth(), this.getyPosition()+this.getHeight(), this.getColor());
-        boolean mouseOverX = (mouseX >= this.getxPosition() && mouseX <= this.getxPosition()+this.getWidth());
-        boolean mouseOverY = (mouseY >= this.getyPosition() && mouseY <= this.getyPosition()+this.getHeight());
-        if(mouseOverX && mouseOverY){
-            if(Mouse.isButtonDown(0)){
+        Gui.drawRect(this.getxPosition(), this.getyPosition(), this.getxPosition() + this.getWidth(), this.getyPosition() + this.getHeight(), this.getColor());
+        boolean mouseOverX = (mouseX >= this.getxPosition() && mouseX <= this.getxPosition() + this.getWidth());
+        boolean mouseOverY = (mouseY >= this.getyPosition() && mouseY <= this.getyPosition() + this.getHeight());
+        if (mouseOverX && mouseOverY) {
+            if (Mouse.isButtonDown(0)) {
                 if (!this.dragging) {
                     this.lastX = x - mouseX;
                     this.lastY = y - mouseY;
@@ -82,7 +83,43 @@ public class Draggable {
         if (this.dragging) {
             this.x = mouseX + this.lastX;
             this.y = mouseY + this.lastY;
-            if(!Mouse.isButtonDown(0)) this.dragging = false;
+            if (!Mouse.isButtonDown(0)) this.dragging = false;
         }
     }
+
+    public boolean isDragging() {
+        return dragging;
+    }
+
+    public void setDragging(boolean b) {
+        this.dragging = b;
+    }
+
+    public boolean isHoverd(int mouseX, int mouseY) {
+        return (mouseX >= this.getxPosition() && mouseX <= this.getxPosition() + this.getWidth()) && (mouseY >= this.getyPosition() && mouseY <= this.getyPosition() + this.getHeight());
+    }
+
+    public void drawOutline() {
+        // outline the module with a white outline
+        // use GL11
+        // dont fill in the outline
+        // use GL11.GL_LINE_LOOP
+        // set the color to white
+        // set the width to 1
+        // give the outline a padding of 2 pixels
+        GL11.glPushMatrix();
+        GL11.glEnable(GL11.GL_LINE_SMOOTH);
+        GL11.glLineWidth(1.0f);
+        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        GL11.glBegin(GL11.GL_LINE_LOOP);
+        GL11.glVertex2f(x - 2, y - 2);
+        GL11.glVertex2f(x + width + 2, y - 2);
+        GL11.glVertex2f(x + width + 2, y + height + 2);
+        GL11.glVertex2f(x - 2, y + height + 2);
+        GL11.glEnd();
+        GL11.glDisable(GL11.GL_LINE_SMOOTH);
+        GL11.glPopMatrix();
+    }
+
 }
+

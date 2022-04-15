@@ -1,5 +1,8 @@
 package com.invisiblecat.reload.module.modules.other;
 
+import com.invisiblecat.reload.client.ui.hud.notification.Notification;
+import com.invisiblecat.reload.client.ui.hud.notification.NotificationManager;
+import com.invisiblecat.reload.client.ui.hud.notification.NotificationType;
 import com.invisiblecat.reload.event.EventTarget;
 import com.invisiblecat.reload.event.events.EventJoinWorld;
 import com.invisiblecat.reload.event.events.EventRecivePacket;
@@ -58,12 +61,14 @@ public class AutoLogin extends Module {
             String cmd = regCmd.getValue().split(" ")[0];
             if(!cmd.isEmpty() && msg.toLowerCase().contains(cmd.toLowerCase())) {
                 ChatUtils.sendChatMessageServerWithDelay(regCmd.getValue().toLowerCase().replace("{p}", password.getValue()), delay.getValueInt());
+                NotificationManager.show(new Notification(NotificationType.SUCCESS, "AutoLogin", "Registered, PSWD: " + password.getValue(), 1));
             }
         }
         if(!loginCmd.getValue().isEmpty()) {
             String cmd = loginCmd.getValue().split(" ")[0];
             if(!cmd.isEmpty() && msg.toLowerCase().contains(cmd.toLowerCase())) {
                 ChatUtils.sendChatMessageServerWithDelay(loginCmd.getValue().toLowerCase().replace("{p}", password.getValue()), delay.getValueInt());
+                NotificationManager.show(new Notification(NotificationType.SUCCESS, "AutoLogin", "Logged in, PSWD: " + password.getValue(), 1));
             }
         }
 //        if(msg.contains("/register")) {

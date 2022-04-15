@@ -28,9 +28,9 @@ public class Reload {
     public Logger reloadLogger = LogManager.getLogger("Reload");
     public EventManager eventManager;
     public ModuleManager moduleManager;
+    public FileManager fileManager;
     public CommandManager commandManager;
     public DiscordRP discordRP;
-    public FileManager fileManager;
 
     public HUD hud;
 

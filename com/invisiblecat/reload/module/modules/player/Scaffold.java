@@ -24,13 +24,13 @@ public class Scaffold extends Module {
 
     @EventTarget
     public void onPreMotionUpdate(EventPreMotionUpdate event) {
+        if (keepY.isEnabled() && mc.thePlayer.isCollidedVertically) {
+            mc.thePlayer.motionY = 0.0D;
+        }
 
     }
 
-    @EventTarget
-    public void onPostMotionUpdate(EventPostMotionUpdate event) {
 
-    }
 
 
 }

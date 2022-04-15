@@ -1,6 +1,8 @@
 package com.invisiblecat.reload.file;
 
 import com.invisiblecat.reload.client.Reload;
+import com.invisiblecat.reload.command.commands.Hide;
+import com.invisiblecat.reload.file.files.HUDFile;
 import com.invisiblecat.reload.file.files.ModuleFile;
 import net.minecraft.client.Minecraft;
 
@@ -10,7 +12,8 @@ import java.io.IOException;
 public class FileManager {
     private Minecraft mc = Minecraft.getMinecraft();
 
-    private ModuleFile moduleFile = new ModuleFile();
+    private final ModuleFile moduleFile = new ModuleFile();
+    private final HUDFile hudFile = new HUDFile();
 
 
     private final File mainDir = new File(mc.mcDataDir, Reload.instance.clientName);
@@ -49,6 +52,7 @@ public class FileManager {
     public void save() {
         try {
             moduleFile.save();
+            hudFile.save();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,6 +60,7 @@ public class FileManager {
     public void loadOld() {
         try {
             moduleFile.load();
+            hudFile.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
