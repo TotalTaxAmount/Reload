@@ -6,6 +6,7 @@ import com.invisiblecat.reload.module.Module;
 import com.invisiblecat.reload.setting.settings.BooleanSetting;
 import com.invisiblecat.reload.utils.font.CustomFontUtil;
 import com.invisiblecat.reload.utils.font.render.TTFFontRenderer;
+import net.minecraft.client.gui.Gui;
 
 import java.util.Comparator;
 
@@ -13,9 +14,7 @@ public class ArrayListModules extends Element {
     private static final TTFFontRenderer font = CustomFontUtil.FONT_MANAGER.getFont("idk 18");
 
     public ArrayListModules() {
-        super("ArrayList", 0, 0, 10, 10);
-        this.setY(0);
-        this.setX(sr.getScaledWidth());
+        super("ArrayList", 10, 10, 10, 10);
     }
 
 
@@ -27,15 +26,19 @@ public class ArrayListModules extends Element {
 
         Reload.instance.moduleManager.getModules().sort(Comparator.comparingInt((Module m) -> mc.fontRendererObj.getStringWidth(showModStats ? m.getName() + " " + m.getDisplayName() : m.getName())).reversed());
 
-        for (Module m : Reload.instance.moduleManager.getModules()) {
-            if(m.isEnabled() && !((BooleanSetting) m.getSetting("Hide")).isEnabled()) {
-                String modString = ((BooleanSetting)Reload.instance.moduleManager.getModuleByName("HUD").getSetting("Mod Stats")).isEnabled() ? m.getDisplayName() : m.getName();
-                double offset = moduleCount*(mc.fontRendererObj.FONT_HEIGHT+4);
-                String text = showModStats ? m.getName() + " "+ m.getDisplayName() : m.getName();
-
-                mc.fontRendererObj.drawString(text, (int) (this.getX() - font.getWidth(text) - 4), (float) (this.getY() + 4 + offset), -1);
-                moduleCount++;
-            }
-        }
+//        for (Module m : Reload.instance.moduleManager.getModules()) {
+//            if(m.isEnabled() && !((BooleanSetting) m.getSetting("Hide")).isEnabled()) {
+//                double offset = moduleCount*(mc.fontRendererObj.FONT_HEIGHT+4);
+//                System.out.println("Render: " + m.getName());
+//                if(showModStats) {
+//                    font.drawString(m.getName() + " " + m.getDisplayName(), (int) (getX() + getWidth() / 2 - font.getWidth(m.getName() + " " + m.getDisplayName()) / 2), (int) (getY() + offset), 0xFFFFFF);
+//                }
+//                else {
+//                    font.drawString(m.getName(), (int) (getX() + getWidth() / 2 - font.getWidth(m.getName()) / 2), (int) (getY() + offset), 0xFFFFFF);
+//                }
+//                moduleCount++;
+//
+//            }
+//        }
     }
 }

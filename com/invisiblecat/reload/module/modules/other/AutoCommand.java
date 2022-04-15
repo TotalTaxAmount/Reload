@@ -14,7 +14,7 @@ public class AutoCommand extends Module {
 
     @EventTarget
     public void onKey(EventKey event) {
-        if(event.getKey() == 52 && !(mc.currentScreen == null)) {
+        if(event.getKey() == 52 && mc.currentScreen == null) {
             mc.displayGuiScreen(new GuiChat("."));
         }
     }

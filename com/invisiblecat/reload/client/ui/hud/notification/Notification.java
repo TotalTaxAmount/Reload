@@ -66,6 +66,8 @@ public class Notification {
 
 
         drawRect((GuiScreen.width - 6) - offset, GuiScreen.height - 5 - height, GuiScreen.width, GuiScreen.height - 5, color.getRGB());
+        // create a progress bar in the bottom of the notification
+        drawRect((GuiScreen.width - 6) - offset, GuiScreen.height - 5 - height, (GuiScreen.width - 6) - offset + (int) (offset * (getTime() - fadeIn) / (double) (fadeOut - fadeIn)), GuiScreen.height - 5, color.darker().getRGB());
 
         light22.drawString(title, (int) (GuiScreen.width - offset - 2), GuiScreen.height - 2 - height, -1);
         light18.drawString(message, (int) (GuiScreen.width - offset - 2), GuiScreen.height - 18, -1);

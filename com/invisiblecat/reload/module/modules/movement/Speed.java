@@ -12,8 +12,8 @@ import com.invisiblecat.reload.utils.player.PlayerUtils;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
 public class Speed extends Module {
-    private final ModeSetting mode = new ModeSetting("Mode", "Verus", "Vanilla",
-            "NCP", "Verus", "NCP");
+    private final ModeSetting mode = new ModeSetting("Mode", "Vanilla", "Vanilla",
+            "Verus", "NCP");
     private final NumberSetting speed = new NumberSetting("Speed", 2, 1, 10, 0.1);
 
     private int wallTicks = 0, verusTicks = 0;

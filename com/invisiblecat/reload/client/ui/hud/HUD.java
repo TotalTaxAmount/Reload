@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class HUD {
     private final ArrayList<Element> elements = new ArrayList<Element>();
 
-    private static Color clientColor = new Color(119, 175, 36);
+    private static Color clientColor = new Color(30, 212, 218);
 
     public HUD() {
         elements.add(new Watermark());

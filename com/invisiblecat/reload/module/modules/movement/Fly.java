@@ -14,11 +14,10 @@ import com.invisiblecat.reload.utils.player.PlayerUtils;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.network.EnumPacketDirection;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.C0BPacketEntityAction;
-import net.minecraft.network.play.client.C0FPacketConfirmTransaction;
-import net.minecraft.network.play.client.C16PacketClientStatus;
-import net.minecraft.network.play.client.C18PacketSpectate;
+import net.minecraft.network.play.client.*;
 import net.minecraft.util.EnumFacing;
+
+import java.util.UUID;
 
 public class Fly extends Module {
     private final ModeSetting mode = new ModeSetting("Mode", "Verus2", "Velocity", "Vanilla", "Verus", "Verus2", "VerusSilent","Damage");
@@ -158,21 +157,29 @@ public class Fly extends Module {
                    break;
            case "verus2":
                mc.thePlayer.motionY = 0;
+               mc.thePlayer.fallDistance = 0;
                if (offGroundTicks > 25) {
                    mc.thePlayer.setSprinting(false);
                    mc.timer.timerSpeed = 1f;
-                   PlayerUtils.strafe(0.45);
+                   PlayerUtils.strafe(speed.getValueInt()/2.5F);
                } else {
-                   mc.timer.timerSpeed = 1F;
-                   mc.thePlayer.setSprinting(true);
+                   mc.timer.timerSpeed = 1.4F;
+                   mc.thePlayer.setSprinting(false);
+                   PacketUtils.sendPacketNoEvent(new C18PacketSpectate(UUID.randomUUID()));
                    PlayerUtils.strafe(speed.getValueInt()/2F);
                }
 
 
                if (mc.gameSettings.keyBindJump.isKeyDown()) {
                    mc.thePlayer.motionY = 0.7F;
+                   if (mc.thePlayer.ticksExisted % 2 == 0) {
+                       event.setGround(true);
+                   }
                } else if (mc.gameSettings.keyBindSneak.isKeyDown()) {
                    mc.thePlayer.motionY = -0.7F;
+                   if (mc.thePlayer.ticksExisted % 2 == 0) {
+                       event.setGround(true);
+                   }
                }
                break;
 

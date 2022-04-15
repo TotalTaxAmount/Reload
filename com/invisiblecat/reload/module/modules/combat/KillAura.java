@@ -30,5 +30,13 @@ public class KillAura extends Module {
         this.addSettings(range, autoBlock, legitAttack, swing, minCps, maxCps);
     }
 
+    // Find a target
+    @EventTarget
+    public void onUpdate(EventUpdate event) {
+        if (this.target == null) {
+            this.target = AuraUtils.getTarget(this.mc.thePlayer, (int) this.range.getValue());
+        }
+    }
+
 
 }

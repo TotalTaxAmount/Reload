@@ -23,6 +23,11 @@ public class Sprint extends Module {
             mc.thePlayer.setSprinting(true);
     }
 
+    @EventTarget
+    public void onJoinWorld(EventJoinWorld event) {
+        mc.thePlayer.setSprinting(false);
+    }
+
     @Override
     public void onDisable() {
         super.onDisable();
