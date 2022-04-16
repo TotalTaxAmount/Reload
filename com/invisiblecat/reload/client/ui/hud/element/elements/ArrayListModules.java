@@ -27,17 +27,17 @@ public class ArrayListModules extends Element {
 
        // Reload.instance.moduleManager.getModules().sort(Comparator.comparingInt((Module m) -> mc.fontRendererObj.getStringWidth(showModStats ? m.getName() + " " + m.getDisplayName() : m.getName())).reversed());
         // Sort the modules by length of name, if showModStats is enabled, add the display name to the name.
-        Reload.instance.moduleManager.getModules().sort(Comparator.comparingInt((Module m) ->
-                (showModStats ? (m.getName() + " " + m.getDisplayName()).length() : m.getName().length())).reversed());
+        Reload.instance.moduleManager.getModules().sort(Comparator.comparingInt((Module m) -> mc.fontRendererObj.getStringWidth(showModStats ? m.getName() + " " + m.getDisplayName() : m.getName())).reversed());
 
         // Render each module
         // if showModStats is true, render the module display name after the module name on the same line in a different color
         for (Module m : Reload.instance.moduleManager.getModules()) {
+
             if (m.isEnabled()) {
                 // check if the element is on the left or right side of the screen
                 if (this.getX() < sr.getScaledWidth() / 2) {
+                    // left side
                     if (showModStats) {
-                        // left side
                         font.drawString(m.getName(), this.getX(), this.getY() + (moduleCount * font.getHeight()), Color.WHITE.getRGB());
                         font.drawString(m.getDisplayName(), this.getX() + font.getWidth(m.getName()), this.getY() + (moduleCount * font.getHeight()), Color.DARK_GRAY.getRGB());
 
