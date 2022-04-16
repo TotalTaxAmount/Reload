@@ -17,8 +17,7 @@ public class ModuleFile {
 
     public void save() throws IOException {
         JsonObject finalJson = new JsonObject();
-        FileManager manager = Reload.instance.fileManager;
-
+        FileManager manager = new FileManager();
 
         Reload.instance.moduleManager.getModules().forEach(m -> {
             JsonObject moduleJson = new JsonObject();
@@ -54,9 +53,9 @@ public class ModuleFile {
     }
 
     public void load() throws IOException {
-        FileManager fileManager = new FileManager();
-        if(!Files.exists(Paths.get(fileManager.getMainDir() + "/current.json"))) {System.out.println("idkk"); return;}
-        Reader reader = Files.newBufferedReader(Paths.get(fileManager.getMainDir() + "/current.json"));
+        FileManager manager = new FileManager();
+        if(!Files.exists(Paths.get(manager.getMainDir() + "/current.json"))) {System.out.println("idkk"); return;}
+        Reader reader = Files.newBufferedReader(Paths.get(manager.getMainDir() + "/current.json"));
         JsonParser parser = new JsonParser();
         JsonObject jsonData = parser.parse(reader).getAsJsonObject();
 

@@ -9,10 +9,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class HUDFile {
-    private final FileManager manager = Reload.instance.fileManager;
-
 
     public void save() {
+        FileManager manager = new FileManager();
         JsonObject json = new JsonObject();
 
         Reload.instance.hud.getElements().forEach(element -> {
@@ -36,6 +35,7 @@ public class HUDFile {
     }
 
     public void load() throws IOException {
+        FileManager manager = new FileManager();
         if(!Files.exists(Paths.get(manager.getMainDir() + "/HUD.json"))) {
             System.out.println("no");
             return;
