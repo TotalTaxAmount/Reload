@@ -1,6 +1,9 @@
 package com.invisiblecat.reload.command.commands;
 
 import com.invisiblecat.reload.client.Reload;
+import com.invisiblecat.reload.client.ui.hud.notification.Notification;
+import com.invisiblecat.reload.client.ui.hud.notification.NotificationManager;
+import com.invisiblecat.reload.client.ui.hud.notification.NotificationType;
 import com.invisiblecat.reload.command.Command;
 import com.invisiblecat.reload.module.Module;
 import com.invisiblecat.reload.utils.chat.ChatUtils;
@@ -18,10 +21,13 @@ public class Bind extends Command {
 
     @Override
     public void onCommand(String[] args, String command) {
-
         if(args.length == 2) {
             String module = args[0];
             String key = args[1];
+
+            if(!Reload.instance.moduleManager.getModules().contains(Reload.instance.moduleManager.getModuleByName(module))) {
+                ChatUtils.sendChatMessageClient("Module " + module + " does not exist!", ChatUtils.Type.ERROR);
+            }
 
             for (Module m : Reload.instance.moduleManager.getModules()) {
                 if(key.length() > 1) {
@@ -33,6 +39,7 @@ public class Bind extends Command {
                     m.setKey(Keyboard.getKeyIndex(key.toUpperCase()));
 
                     ChatUtils.sendChatMessageClient("Bound " + m.getName().substring(0, 1).toUpperCase() + m.getName().substring(1) + " to " + key.toUpperCase() + ".", ChatUtils.Type.INFO);
+                    NotificationManager.show(new Notification(NotificationType.SUCCESS, "Bindings", "Bound " + m.getName().substring(0, 1).toUpperCase() + m.getName().substring(1) + " to " + key.toUpperCase() + ".", 3));
                     break;
                 }
             }
@@ -43,6 +50,9 @@ public class Bind extends Command {
                     m.setKey(Keyboard.KEY_NONE);
                 }
                 ChatUtils.sendChatMessageClient("Cleared all binds.", ChatUtils.Type.INFO);
+            } else {
+                ChatUtils.sendChatMessageClient("Invalid arguments.", ChatUtils.Type.ERROR);
+
             }
         }
     }
