@@ -9,14 +9,11 @@ public class GuiHUDConfig extends GuiScreen {
         this.drawDefaultBackground();
 
         for (Element e : Reload.instance.hud.getElements()) {
-            e.renderDraggable( mouseX, mouseY);
-            // if the user is hovering over the element, draw an outline around it
+            e.render();
             if (e.draggable.isHoverd(mouseX, mouseY)) {
                 e.draggable.drawOutline();
             }
-
         }
-
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 }

@@ -16,7 +16,6 @@ public class HUDFile {
 
         Reload.instance.hud.getElements().forEach(element -> {
             JsonObject elementJson = new JsonObject();
-            elementJson.addProperty("name", element.getName());
             elementJson.addProperty("x", element.getX());
             elementJson.addProperty("y", element.getY());
             elementJson.addProperty("width", element.getWidth());

@@ -30,10 +30,9 @@ public class Element {
     public void render() {
     }
 
-    public void renderDraggable(int mouseX, int mouseY) {
+    public void render(int mouseX, int mouseY) {
         render();
         draggable.draw(mouseX, mouseY);
-
     }
 
     public String getName() {
