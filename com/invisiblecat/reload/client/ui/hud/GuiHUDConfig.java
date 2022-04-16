@@ -9,7 +9,7 @@ public class GuiHUDConfig extends GuiScreen {
         this.drawDefaultBackground();
 
         for (Element e : Reload.instance.hud.getElements()) {
-            e.render();
+            e.render(mouseX, mouseY);
             if (e.draggable.isHoverd(mouseX, mouseY)) {
                 e.draggable.drawOutline();
             }

@@ -28,20 +28,40 @@ public class ArrayListModules extends Element {
         int moduleCount = 0;
         boolean showModStats = ((BooleanSetting) Reload.instance.moduleManager.getModuleByName("HUD").getSetting("Mod Stats")).isEnabled();
 
-        Reload.instance.moduleManager.getModules().sort(Comparator.comparingInt((Module m) -> mc.fontRendererObj.getStringWidth(showModStats ? m.getName() + " " + m.getDisplayName() : m.getName())).reversed());
+       // Reload.instance.moduleManager.getModules().sort(Comparator.comparingInt((Module m) -> mc.fontRendererObj.getStringWidth(showModStats ? m.getName() + " " + m.getDisplayName() : m.getName())).reversed());
+        // Sort the modules by length of name, if showModStats is enabled, add the display name to the name.
+        Reload.instance.moduleManager.getModules().sort(Comparator.comparingInt((Module m) ->
+                mc.fontRendererObj.getStringWidth(showModStats ? m.getName() + " " + m.getDisplayName() : m.getName())).reversed());
+        Reload.instance.moduleManager.getModules().forEach(m -> {
+                  System.out.println(m.getName() + " " + mc.fontRendererObj.getStringWidth(showModStats ? m.getName() + " " + m.getDisplayName() : m.getName()));
+                });
 
         // Render each module
         // if showModStats is true, render the module display name after the module name on the same line in a different color
         for (Module m : Reload.instance.moduleManager.getModules()) {
             if (m.isEnabled()) {
-                moduleCount++;
-                if (showModStats) {
-                    font.drawString(m.getName(), this.getX(), this.getY() + (moduleCount * font.getHeight()), Color.WHITE.getRGB());
-                    // then render the display name in a different color after the module name
-                    font.drawString(m.getDisplayName(), this.getX() + font.getWidth(m.getName()), this.getY() + (moduleCount * font.getHeight()), Color.DARK_GRAY.getRGB());
+                // check if the element is on the left or right side of the screen
+                if (this.getX() < sr.getScaledWidth() / 2) {
+                    if (showModStats) {
+                        font.drawString(m.getName(), this.getX(), this.getY() + (moduleCount * font.getHeight()), Color.WHITE.getRGB());
+                        // then render the display name in a different color after the module name
+                        font.drawString(m.getDisplayName(), this.getX() + font.getWidth(m.getName()), this.getY() + (moduleCount * font.getHeight()), Color.DARK_GRAY.getRGB());
+                    } else {
+                        font.drawString(m.getName(), this.getX(), this.getY() + (moduleCount * font.getHeight()), Color.WHITE.getRGB());
+                    }
                 } else {
-                    font.drawString(m.getName(), this.getX(), this.getY() + (moduleCount * font.getHeight()), Color.WHITE.getRGB());
+                    // if the element is on the right side of the screen, render the modules so that they are aligned to the right side of the screen
+                    if (showModStats) {
+                        font.drawString(m.getDisplayName(), this.getX() - font.getWidth(m.getDisplayName()), this.getY() + (moduleCount * font.getHeight()), Color.DARK_GRAY.getRGB());
+                        // then render the display name in a different color after the module name
+                        font.drawString(m.getName(), this.getX() - font.getWidth(m.getDisplayName()) - font.getWidth(m.getName()), this.getY() + (moduleCount * font.getHeight()), Color.WHITE.getRGB());
+                    } else {
+                        font.drawString(m.getName(), this.getX() - font.getWidth(m.getName()), this.getY() + (moduleCount * font.getHeight()), Color.WHITE.getRGB());
+                    }
+
                 }
+                moduleCount++;
+
             }
         }
         // set the width to the width of this biggest module name

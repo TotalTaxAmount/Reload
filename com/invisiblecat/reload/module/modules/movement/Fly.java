@@ -158,16 +158,23 @@ public class Fly extends Module {
            case "verus2":
                mc.thePlayer.motionY = 0;
                mc.thePlayer.fallDistance = 0;
-               if (offGroundTicks > 25) {
+               if (offGroundTicks > 125) {
                    mc.thePlayer.setSprinting(false);
                    mc.timer.timerSpeed = 1f;
                    PlayerUtils.strafe(speed.getValueInt()/2.5F);
                } else {
-                   mc.timer.timerSpeed = 1.4F;
+                   mc.timer.timerSpeed = 1.5F;
                    mc.thePlayer.setSprinting(false);
                    PacketUtils.sendPacketNoEvent(new C18PacketSpectate(UUID.randomUUID()));
-                   PlayerUtils.strafe(speed.getValueInt()/2F);
+                   PlayerUtils.strafe(speed.getValueInt()/1.9F);
                }
+               if (count > 10) {
+                   count = 0;
+                   PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY - 0.2, mc.thePlayer.posZ, false));
+               } else {
+                   count++;
+               }
+
 
 
                if (mc.gameSettings.keyBindJump.isKeyDown()) {
