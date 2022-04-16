@@ -1240,7 +1240,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                     {
                         RenderChunk renderchunk3 = this.func_181562_a(blockpos2, renderchunk4, enumfacing1);
 
-                        if (renderchunk3 != null && renderchunk3.setFrameIndex(frameCount) && ((ICamera)camera).isBoundingBoxInFrustum(renderchunk3.boundingBox))
+                        if (renderchunk3 != null && renderchunk3.setFrameIndex(frameCount) && ((ICamera)camera).isBoundingBoxInFrustum(renderchunk3.    boundingBox))
                         {
                             RenderGlobal.ContainerLocalRenderInformation renderglobal$containerlocalrenderinformation = new RenderGlobal.ContainerLocalRenderInformation(renderchunk3, enumfacing1, renderglobal$containerlocalrenderinformation1.counter + 1, (Object)null);
                             renderglobal$containerlocalrenderinformation.setFacing.addAll(renderglobal$containerlocalrenderinformation1.setFacing);

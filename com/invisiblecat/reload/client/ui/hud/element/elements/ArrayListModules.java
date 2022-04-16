@@ -43,23 +43,15 @@ public class ArrayListModules extends Element {
 
                     } else {
                         font.drawString(m.getName(), this.getX(), this.getY() + (moduleCount * font.getHeight()), Color.WHITE.getRGB());
-
                     }
-
                 } else {
                     // right side
                     if (showModStats) {
-                        // do the same as above, but filp the text to the right,
-                        // and add the module display name to the end of the module name
-                        font.drawString(m.getName(), this.getX() - font.getWidth(m.getName()), this.getY() + (moduleCount * font.getHeight()), Color.WHITE.getRGB());
-                        font.drawString(m.getDisplayName(), this.getX() - font.getWidth(m.getName() + " " + m.getDisplayName()), this.getY() + (moduleCount * font.getHeight() + 2), Color.DARK_GRAY.getRGB());
+                        font.drawString(m.getDisplayName(), this.getX() - font.getWidth(m.getDisplayName()), this.getY() + (moduleCount * font.getHeight()), Color.DARK_GRAY.getRGB());
+                        font.drawString(m.getName(), this.getX() - font.getWidth(m.getName() + " " + m.getDisplayName()), this.getY() + (moduleCount * font.getHeight()), Color.WHITE.getRGB());
                     } else {
                         font.drawString(m.getName(), this.getX() - font.getWidth(m.getName()), this.getY() + (moduleCount * font.getHeight()), Color.WHITE.getRGB());
                     }
-                    // set the width of the element to the width of the longest module name
-                    // but move the bounding box over by the width of the longest module name
-
-
                 }
                 moduleCount++;
 
