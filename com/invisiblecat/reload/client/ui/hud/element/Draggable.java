@@ -1,4 +1,4 @@
-package com.invisiblecat.reload.client.ui.hud;
+package com.invisiblecat.reload.client.ui.hud.element;
 
 import net.minecraft.client.gui.Gui;
 import org.lwjgl.input.Mouse;
@@ -100,25 +100,22 @@ public class Draggable {
     }
 
     public void drawOutline() {
-        // outline the module with a white outline
-        // use GL11
-        // dont fill in the outline
-        // use GL11.GL_LINE_LOOP
-        // set the color to white
-        // set the width to 1
-        // give the outline a padding of 2 pixels
+        // draw outline of the element
+        // the line color should be white
+
         GL11.glPushMatrix();
-        GL11.glEnable(GL11.GL_LINE_SMOOTH);
-        GL11.glLineWidth(1.0f);
-        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glLineWidth(2.0F);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glBegin(GL11.GL_LINE_LOOP);
-        GL11.glVertex2f(x - 2, y - 2);
-        GL11.glVertex2f(x + width + 2, y - 2);
-        GL11.glVertex2f(x + width + 2, y + height + 2);
-        GL11.glVertex2f(x - 2, y + height + 2);
+        GL11.glVertex2d(this.getxPosition(), this.getyPosition());
+        GL11.glVertex2d(this.getxPosition() + this.getWidth(), this.getyPosition());
+        GL11.glVertex2d(this.getxPosition() + this.getWidth(), this.getyPosition() + this.getHeight());
+        GL11.glVertex2d(this.getxPosition(), this.getyPosition() + this.getHeight());
         GL11.glEnd();
-        GL11.glDisable(GL11.GL_LINE_SMOOTH);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glPopMatrix();
+
     }
 
 }

@@ -1,9 +1,10 @@
 package com.invisiblecat.reload.client.ui.hud;
 
 import com.invisiblecat.reload.client.Reload;
-import com.invisiblecat.reload.client.ui.hud.elements.ArrayListModules;
-import com.invisiblecat.reload.client.ui.hud.elements.Info;
-import com.invisiblecat.reload.client.ui.hud.elements.Watermark;
+import com.invisiblecat.reload.client.ui.hud.element.Element;
+import com.invisiblecat.reload.client.ui.hud.element.elements.ArrayListModules;
+import com.invisiblecat.reload.client.ui.hud.element.elements.Info;
+import com.invisiblecat.reload.client.ui.hud.element.elements.Watermark;
 import com.invisiblecat.reload.client.ui.hud.notification.NotificationManager;
 import net.minecraft.client.Minecraft;
 

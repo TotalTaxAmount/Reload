@@ -1,4 +1,4 @@
-package com.invisiblecat.reload.client.ui.hud;
+package com.invisiblecat.reload.client.ui.hud.element;
 
 import com.invisiblecat.reload.client.Reload;
 import net.minecraft.client.gui.GuiScreen;

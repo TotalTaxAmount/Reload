@@ -1,4 +1,4 @@
-package com.invisiblecat.reload.client.ui.hud;
+package com.invisiblecat.reload.client.ui.hud.element;
 
 import com.invisiblecat.reload.utils.font.render.TTFFontRenderer;
 import net.minecraft.client.Minecraft;

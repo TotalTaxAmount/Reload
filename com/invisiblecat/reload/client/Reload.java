@@ -1,6 +1,6 @@
 package com.invisiblecat.reload.client;
 
-import com.invisiblecat.reload.client.ui.hud.GuiHUDConfig;
+import com.invisiblecat.reload.client.ui.hud.element.GuiHUDConfig;
 import com.invisiblecat.reload.command.CommandManager;
 import com.invisiblecat.reload.discord.DiscordRP;
 import com.invisiblecat.reload.event.EventManager;

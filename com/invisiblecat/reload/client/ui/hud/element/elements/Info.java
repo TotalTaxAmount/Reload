@@ -1,6 +1,6 @@
-package com.invisiblecat.reload.client.ui.hud.elements;
+package com.invisiblecat.reload.client.ui.hud.element.elements;
 
-import com.invisiblecat.reload.client.ui.hud.Element;
+import com.invisiblecat.reload.client.ui.hud.element.Element;
 import com.invisiblecat.reload.client.ui.hud.HUD;
 import com.invisiblecat.reload.utils.NetworkUtils;
 import com.invisiblecat.reload.utils.font.CustomFontUtil;
