@@ -44,14 +44,15 @@ public class Scaffold extends Module {
             mc.thePlayer.renderYawOffset = (float) neededYaw;
             mc.thePlayer.rotationPitchHead = (float) neededPitch;
 
+            event.setPitch((float) neededPitch);
+            event.setYaw((float) neededYaw);
+
             // if the block is air, get the rotations and place the block
             if (mc.theWorld.getBlockState(pos).getBlock() instanceof BlockAir) {
                 // get the rotations so that the player is facing the block
 
 
-                // set the player's rotation
-                event.setPitch((float) neededPitch);
-                event.setYaw((float) neededYaw);
+                // set the player's rotatio
 
                 // set the client side rotation
 
