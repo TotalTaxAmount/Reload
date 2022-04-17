@@ -7,7 +7,7 @@ import com.invisiblecat.reload.module.Module;
 import com.invisiblecat.reload.setting.settings.ModeSetting;
 
 public class Jesus extends Module {
-    private ModeSetting mode = new ModeSetting("Mode", "Fly", "Bounce", "Fly");
+    private ModeSetting mode = new ModeSetting("Mode", "Bounce", "Bounce");
 
     public Jesus() {
         super("Jesus", 0, Category.MOVEMENT, AutoDisable.FLAG);
@@ -25,12 +25,6 @@ public class Jesus extends Module {
                     }
                 }
                 break;
-            case "fly":
-                if (mc.thePlayer.isInWater() && !mc.thePlayer.isInvisible()) {
-                    mc.thePlayer.motionY = 0;
-                    event.setY(event.getY() + 0.5);
-
-                }
         }
 
     }
