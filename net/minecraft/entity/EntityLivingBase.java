@@ -383,9 +383,10 @@ public abstract class EntityLivingBase extends Entity
         this.prevMovedDistance = this.movedDistance;
         this.prevRenderYawOffset = this.renderYawOffset;
         this.prevRotationYawHead = this.rotationYawHead;
+        this.prevRotationPitchHead = this.rotationPitchHead;
         this.prevRotationYaw = this.rotationYaw;
         this.prevRotationPitch = this.rotationPitch;
-        this.prevRotationYawHead = this.rotationPitchHead;
+        this.prevRotationYawHead = this.rotationYawHead;
         this.worldObj.theProfiler.endSection();
     }
 

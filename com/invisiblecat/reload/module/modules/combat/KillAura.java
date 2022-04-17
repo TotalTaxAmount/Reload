@@ -24,7 +24,7 @@ public class KillAura extends Module {
         this.addSettings(range, autoBlock, legitAttack, swing, minCps, maxCps);
     }
 
-    // Find a target
+
 
 
 

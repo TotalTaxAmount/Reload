@@ -3,7 +3,6 @@ package net.minecraft.block;
 import java.util.List;
 import java.util.Random;
 
-import com.invisiblecat.reload.event.events.EventBB;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -498,10 +497,7 @@ public class Block
 
     public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
     {
-        EventBB event = new EventBB(pos, this.minX, this.minY, this.minZ, this.maxX, this.maxY, this.maxZ);
-        event.call();
-
-        return new AxisAlignedBB((double)event.getPos().getX() + event.getMinX(), (double)event.getPos().getY() + event.getMinY(), (double)event.getPos().getZ() + event.getMinZ(), (double)event.getPos().getX() + event.getMaxX(), (double)event.getPos().getY() + event.getMaxY(), (double)event.getPos().getZ() + event.getMaxZ());
+        return new AxisAlignedBB((double)pos.getX() + this.minX, (double)pos.getY() + this.maxY, (double)pos.getZ() + this.minZ, (double)pos.getX() + this.maxX, (double)pos.getY() + this.maxY, (double)pos.getZ() + this.maxZ);
     }
 
     /**
