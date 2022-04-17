@@ -2,9 +2,11 @@ package com.invisiblecat.reload.utils.player;
 
 import com.invisiblecat.reload.event.events.EventPreMotionUpdate;
 import javafx.geometry.BoundingBox;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 
 public class PlayerUtils {
     private static final Minecraft mc = Minecraft.getMinecraft();
@@ -150,5 +152,9 @@ public class PlayerUtils {
         double x = forward * moveSpeed * mx + strafe * moveSpeed * mz;
         double z = forward * moveSpeed * mz - strafe * moveSpeed * mx;
         mc.thePlayer.setVelocity(x, yVelocity, z);
+    }
+
+    public static Block getBlock(double xCoord, double yCoord, double zCoord) {
+        return mc.theWorld.getBlockState(new BlockPos(xCoord, yCoord, zCoord)).getBlock();
     }
 }

@@ -7,19 +7,32 @@ import com.invisiblecat.reload.module.Category;
 import com.invisiblecat.reload.module.Module;
 import com.invisiblecat.reload.setting.settings.BooleanSetting;
 import com.invisiblecat.reload.setting.settings.ModeSetting;
+import com.invisiblecat.reload.utils.BlockUtils;
+import com.invisiblecat.reload.utils.EnumFacingUtils;
+import com.invisiblecat.reload.utils.PacketUtils;
+import com.invisiblecat.reload.utils.player.PlayerUtils;
+import com.sun.javafx.geom.Vec3d;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 
 public class Scaffold extends Module {
-    private ModeSetting mode = new ModeSetting("Mode", "Normal", "Normal", "Hypixel");
+    private ModeSetting mode = new ModeSetting("Mode", "Easy", "Normal", "Easy");
     private BooleanSetting jump = new BooleanSetting("Jump", false);
     private BooleanSetting keepY = new BooleanSetting("Keep Y", false);
     private BooleanSetting sprint = new BooleanSetting("Sprint", false);
 
+    private EnumFacingUtils enumFacing;
+
     public Scaffold() {
         super("Scaffold", 0, Category.PLAYER, AutoDisable.WORLD);
+        this.addSettings(mode);
     }
 
     @EventTarget
@@ -28,42 +41,83 @@ public class Scaffold extends Module {
             mc.thePlayer.motionY = 0.0D;
         }
 
-        if (mode.getSelected().equals("Normal")) {
-            // get the block below the player
-            BlockPos pos = new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1.0D, mc.thePlayer.posZ);
+        BlockPos block = new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1.0D, mc.thePlayer.posZ );
 
-            double blockX = pos.getX();
-            double blockY = pos.getY();
-            double blockZ = pos.getZ();
+        enumFacing = getEnumFacing(new Vec3(block.getX(), block.getY(), block.getZ()));
 
-            // calculate the player's needed rotation to face the block
-            double neededPitch = Math.toDegrees(Math.atan2(blockY - mc.thePlayer.posY, blockZ - mc.thePlayer.posZ)) - 180.0D;
-            double neededYaw = Math.toDegrees(Math.atan2(blockX - mc.thePlayer.posX, blockZ - mc.thePlayer.posZ)) + Math.toDegrees(mc.thePlayer.rotationYaw)/2;
+        event.setYaw(getBlockRotations(block)[0]);
+        event.setPitch(getBlockRotations(block)[1]);
 
-            mc.thePlayer.rotationYawHead = (float) neededYaw;
-            mc.thePlayer.renderYawOffset = (float) neededYaw;
-            mc.thePlayer.rotationPitchHead = (float) neededPitch;
+        mc.thePlayer.renderYawOffset = getBlockRotations(block)[0];
+        mc.thePlayer.rotationYawHead = getBlockRotations(block)[0];
+        mc.thePlayer.rotationPitchHead = getBlockRotations(block)[1];
 
-            event.setPitch((float) neededPitch);
-            event.setYaw((float) neededYaw);
-
-            // if the block is air, get the rotations and place the block
-            if (mc.theWorld.getBlockState(pos).getBlock() instanceof BlockAir) {
-                // get the rotations so that the player is facing the block
-
-
-                // set the player's rotatio
-
-                // set the client side rotation
-
-
-                // place the block
-                mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(pos, 1, mc.thePlayer.inventory.getCurrentItem(), 0.0F, 0.0F, 0.0F));
-
-
-
+        if (BlockUtils.getBlock(block) instanceof BlockAir) {
+            if (mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.inventory.getItemStack(), block, enumFacing.getEnumFacing(), new Vec3(block.getX(), block.getY() - 1, block.getZ()))) {
+                mc.thePlayer.swingItem();
             }
         }
 
     }
+
+
+    private float[] getBlockRotations(BlockPos pos) {
+        final float[] rotations = BlockUtils.getDirectionToBlock(pos.getX(), pos.getY(), pos.getZ(), enumFacing.getEnumFacing());
+        float yaw = 0;
+        float pitch = 0;
+
+        switch (mode.getSelected().toLowerCase().replaceAll(" ", "")) {
+            case "simple":
+                switch (enumFacing.getEnumFacing()) {
+                    case SOUTH:
+                        yaw = 180;
+                        break;
+                    case WEST:
+                        yaw = -90;
+                        break;
+                    case EAST:
+                        yaw = 90;
+                    }
+                    pitch = 90;
+                    break;
+
+                case "normal":
+                    yaw = rotations[0] - 180;
+                    pitch = rotations[1];
+            }
+        return new float[]{yaw, pitch};
+    }
+
+    private EnumFacingUtils getEnumFacing(Vec3 pos) {
+        for (int x2 = -1; x2 <= 1; x2 += 2) {
+            if (!(PlayerUtils.getBlock(pos.xCoord + x2, pos.yCoord, pos.zCoord) instanceof BlockAir)) {
+                if (x2 > 0) {
+                    return new EnumFacingUtils(EnumFacing.WEST, new Vec3(x2, 0, 0));
+                } else {
+                    return new EnumFacingUtils(EnumFacing.EAST, new Vec3(x2, 0, 0));
+                }
+            }
+        }
+
+        for (int y2 = -1; y2 <= 1; y2 += 2) {
+            if (!(PlayerUtils.getBlock(pos.xCoord, pos.yCoord + y2, pos.zCoord) instanceof BlockAir)) {
+                if (y2 < 0) {
+                    return new EnumFacingUtils(EnumFacing.UP, new Vec3(0, y2, 0));
+                }
+            }
+        }
+
+        for (int z2 = -1; z2 <= 1; z2 += 2) {
+            if (!(PlayerUtils.getBlock(pos.xCoord, pos.yCoord, pos.zCoord + z2) instanceof BlockAir)) {
+                if (z2 < 0) {
+                    return new EnumFacingUtils(EnumFacing.SOUTH, new Vec3(0, 0, z2));
+                } else {
+                    return new EnumFacingUtils(EnumFacing.NORTH, new Vec3(0, 0, z2));
+                }
+            }
+        }
+
+        return null;
+    }
+
 }
