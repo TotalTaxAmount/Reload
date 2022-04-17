@@ -41,7 +41,7 @@ public class AutoDisable extends Module {
 
         Reload.instance.moduleManager.getModules().forEach(m -> {
             if(m.getAutoDisable() == AutoDisable.WORLD && m.isEnabled() && world.isEnabled()) {
-                m.setEnabled(false);
+                m.toggle(false);
                 if(doChat)ChatUtils.sendChatMessageClientWithDelay(m.getName() + " was disabled because of world change", ChatUtils.Type.INFO, 1000);
                 if(doNotification) NotificationManager.show(new Notification(NotificationType.INFO, this.getName(), m.getName() + " was disabled because of world change", 1));
             }
@@ -52,7 +52,7 @@ public class AutoDisable extends Module {
     public void onRespawn(EventRespawn event) {
         Reload.instance.moduleManager.getModules().forEach(m -> {
             if(m.getAutoDisable() == AutoDisable.RESPAWN && m.isEnabled() && respawn.isEnabled()) {
-                m.setEnabled(false);
+                m.toggle(false);
                 if(doChat)ChatUtils.sendChatMessageClient(m.getName() + " was disabled because of respawn", ChatUtils.Type.INFO);
                 if(doNotification) NotificationManager.show(new Notification(NotificationType.INFO, this.getName(), m.getName() + " was disabled because of respawn", 1));
 
