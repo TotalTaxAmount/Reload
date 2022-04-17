@@ -28,14 +28,9 @@ public class ArrayListModules extends Element {
        // Reload.instance.moduleManager.getModules().sort(Comparator.comparingInt((Module m) -> mc.fontRendererObj.getStringWidth(showModStats ? m.getName() + " " + m.getDisplayName() : m.getName())).reversed());
         // Sort the modules by length of name, if showModStats is enabled, add the display name to the name.
         Reload.instance.moduleManager.getModules().sort(Comparator.comparingInt((Module m) -> mc.fontRendererObj.getStringWidth(showModStats ? m.getName() + " " + m.getDisplayName() : m.getName())).reversed());
-
-        // Render each module
-        // if showModStats is true, render the module display name after the module name on the same line in a different color
         for (Module m : Reload.instance.moduleManager.getModules()) {
-
             if (m.isEnabled()) {
-                // check if the element is on the left or right side of the screen
-                if (this.getX() < sr.getScaledWidth() / 2) {
+                if (this.getX() + this.draggable.getWidth()/2 < sr.getScaledWidth() / 2) {
                     // left side
                     if (showModStats) {
                         font.drawString(m.getName(), this.getX(), this.getY() + (moduleCount * font.getHeight()), Color.WHITE.getRGB());
@@ -47,8 +42,8 @@ public class ArrayListModules extends Element {
                 } else {
                     // right side
                     if (showModStats) {
-                        font.drawString(m.getDisplayName(), this.getX() - font.getWidth(m.getDisplayName()), this.getY() + (moduleCount * font.getHeight()), Color.DARK_GRAY.getRGB());
-                        font.drawString(m.getName(), this.getX() - font.getWidth(m.getName() + " " + m.getDisplayName()), this.getY() + (moduleCount * font.getHeight()), Color.WHITE.getRGB());
+                        font.drawString(m.getDisplayName(), this.getX() - font.getWidth(m.getDisplayName()) + this.draggable.getWidth(), this.getY() + (moduleCount * font.getHeight()), Color.DARK_GRAY.getRGB());
+                        font.drawString(m.getName(), this.getX() - font.getWidth(m.getName() + " " + m.getDisplayName()) + this.draggable.getWidth(), this.getY() + (moduleCount * font.getHeight()), Color.WHITE.getRGB());
                     } else {
                         font.drawString(m.getName(), this.getX() - font.getWidth(m.getName()), this.getY() + (moduleCount * font.getHeight()), Color.WHITE.getRGB());
                     }

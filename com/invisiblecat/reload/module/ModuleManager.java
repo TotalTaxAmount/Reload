@@ -28,6 +28,7 @@ public class ModuleManager {
         modules.add(new Fly());
         modules.add(new InvMove());
         modules.add(new Speed());
+        modules.add(new Jesus());
 
         //Player
         modules.add(new FastPlace());

@@ -45,5 +45,4 @@ public class HUD {
     public ArrayList<Element> getElements() {
         return elements;
     }
-
 }

@@ -69,13 +69,33 @@ public class ModuleFile {
                 JsonObject settings = mod.get("settings").getAsJsonObject();
                 m.getSettings().forEach(s -> {
                     if (s instanceof BooleanSetting) {
-                        ((BooleanSetting) s).setEnabled(settings.get(s.getName()).getAsBoolean());
+                        try {
+                            ((BooleanSetting) s).setEnabled(settings.get(s.getName()).getAsBoolean());
+                        } catch (NullPointerException e) {
+                            Reload.instance.reloadLogger.warn("Could not load boolean setting: " + s.getName());
+                        }
+
                     } else if (s instanceof ModeSetting) {
-                        ((ModeSetting) s).setSelected(settings.get(s.getName()).getAsString());
+                        //((ModeSetting) s).setSelected(settings.get(s.getName()).getAsString());
+                        try {
+                            ((ModeSetting) s).setSelected(settings.get(s.getName()).getAsString());
+                        } catch (NullPointerException e) {
+                            Reload.instance.reloadLogger.warn("Could not load mode setting: " + s.getName());
+                        }
                     } else if (s instanceof NumberSetting) {
-                        ((NumberSetting) s).setValue(settings.get(s.getName()).getAsInt());
+                       // ((NumberSetting) s).setValue(settings.get(s.getName()).getAsInt());
+                        try {
+                            ((NumberSetting) s).setValue(settings.get(s.getName()).getAsInt());
+                        } catch (NullPointerException e) {
+                            Reload.instance.reloadLogger.warn("Could not load number setting: " + s.getName());
+                        }
                     } else if (s instanceof StringSetting) {
-                        ((StringSetting) s).setValue(settings.get(s.getName()).getAsString());
+                       // ((StringSetting) s).setValue(settings.get(s.getName()).getAsString());
+                        try {
+                            ((StringSetting) s).setValue(settings.get(s.getName()).getAsString());
+                        } catch (NullPointerException e) {
+                            Reload.instance.reloadLogger.warn("Could not load string setting: " + s.getName());
+                        }
                     }
                 });
             }

@@ -23,7 +23,6 @@ public class Element {
 
         draggable = new Draggable(x, y, x + width, y + height, new Color(0, 0, 0, 0).getRGB());
 
-
         toggled = true;
     }
 
@@ -82,4 +81,5 @@ public class Element {
     public void setHeight(int height) {
         this.height = height;
     }
+
 }

@@ -1,8 +1,11 @@
 package com.invisiblecat.reload.client.ui.hud.element;
 
+import com.invisiblecat.reload.utils.render.ColorUtils;
 import net.minecraft.client.gui.Gui;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
+
+import java.awt.*;
 
 public class Draggable {
     private int x;
@@ -115,8 +118,6 @@ public class Draggable {
         GL11.glEnd();
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glPopMatrix();
-
     }
-
 }
 
