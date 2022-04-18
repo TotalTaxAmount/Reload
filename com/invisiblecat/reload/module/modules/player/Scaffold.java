@@ -24,7 +24,7 @@ import net.minecraft.util.Vec3;
 
 public class Scaffold extends Module {
     private ModeSetting mode = new ModeSetting("Mode", "Normal", "Normal", "Easy");
-    private ModeSetting timing = new ModeSetting("Timing", "Post", "Pre", "Post");
+    private ModeSetting timing = new ModeSetting("Timing", "Pre", "Pre", "Post");
     private BooleanSetting jump = new BooleanSetting("Jump", false);
     private BooleanSetting keepY = new BooleanSetting("Keep Y", false);
     private BooleanSetting sprint = new BooleanSetting("Sprint", false);
@@ -55,7 +55,7 @@ public class Scaffold extends Module {
 
         if (timing.getSelected().equalsIgnoreCase("pre")) {
             // place block
-            mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.inventory.getItemStack(), block, enumFacing.getEnumFacing(), new Vec3(0.5, 0.5, 0.5));
+            mc.playerController.sendUseItem(mc.thePlayer, mc.theWorld, mc.thePlayer.inventory.getItemStack());
         }
 
     }
@@ -64,7 +64,7 @@ public class Scaffold extends Module {
     public void onPostMotionUpdate(EventPostMotionUpdate event) {
         if (timing.getSelected().equalsIgnoreCase("post")) {
             // place block
-            mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.inventory.getItemStack(), new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1.0D, mc.thePlayer.posZ), enumFacing.getEnumFacing(), new Vec3(0.5, 0.5, 0.5));
+            mc.playerController.sendUseItem(mc.thePlayer, mc.theWorld, mc.thePlayer.inventory.getItemStack());
         }
     }
 
