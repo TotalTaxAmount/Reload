@@ -17,6 +17,8 @@ import net.minecraft.block.BlockAir;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.network.play.client.C09PacketHeldItemChange;
+import net.minecraft.network.play.client.C0APacketAnimation;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
@@ -28,12 +30,15 @@ public class Scaffold extends Module {
     private BooleanSetting jump = new BooleanSetting("Jump", false);
     private BooleanSetting keepY = new BooleanSetting("Keep Y", false);
     private BooleanSetting sprint = new BooleanSetting("Sprint", false);
+    private BooleanSetting drag = new BooleanSetting("Drag", true);
 
     private EnumFacingUtils enumFacing;
 
+
+
     public Scaffold() {
         super("Scaffold", 0, Category.PLAYER, AutoDisable.WORLD);
-        this.addSettings(mode, timing, jump, keepY, sprint);
+        this.addSettings(mode, timing, jump, keepY, sprint, drag);
     }
 
     @EventTarget
@@ -41,8 +46,9 @@ public class Scaffold extends Module {
         if (keepY.isEnabled() && mc.thePlayer.isCollidedVertically) {
             mc.thePlayer.motionY = 0.0D;
         }
-
         BlockPos block = new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1.0D, mc.thePlayer.posZ );
+
+
 
         enumFacing = getEnumFacing(new Vec3(block.getX(), block.getY(), block.getZ()));
 
@@ -55,22 +61,27 @@ public class Scaffold extends Module {
 
         if (timing.getSelected().equalsIgnoreCase("pre")) {
             // place block
-            mc.playerController.sendUseItem(mc.thePlayer, mc.theWorld, mc.thePlayer.inventory.getItemStack());
+            mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), block, enumFacing.getEnumFacing(), new Vec3(block.getX(), block.getY(), block.getZ()));
         }
 
     }
 
     @EventTarget
     public void onPostMotionUpdate(EventPostMotionUpdate event) {
+        BlockPos block = new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1.0D, mc.thePlayer.posZ );
+
+        mc.thePlayer.renderYawOffset = getBlockRotations(block)[0];
+        mc.thePlayer.rotationYawHead = getBlockRotations(block)[0];
+        mc.thePlayer.rotationPitchHead = getBlockRotations(block)[1];
+
         if (timing.getSelected().equalsIgnoreCase("post")) {
             // place block
-            mc.playerController.sendUseItem(mc.thePlayer, mc.theWorld, mc.thePlayer.inventory.getItemStack());
+            mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), block, enumFacing.getEnumFacing(), new Vec3(block.getX(), block.getY(), block.getZ()));
         }
     }
 
-
     private float[] getBlockRotations(BlockPos pos) {
-        final float[] rotations = BlockUtils.getDirectionToBlock(pos.getX(), pos.getY(), pos.getZ());
+        final float[] rotations = BlockUtils.getRotations(pos.getX(), pos.getY(), pos.getZ());
         float yaw = 0;
         float pitch = 0;
 
@@ -92,6 +103,24 @@ public class Scaffold extends Module {
                 case "normal":
                     yaw = rotations[0];
                     pitch = rotations[1];
+
+                case "bruteforce":
+                    for (EnumFacing enumFacing : EnumFacing.values()) {
+                        if (enumFacing.getAxis() == EnumFacing.Axis.Y) {
+                            continue;
+                        }
+                        if (enumFacing.getAxis() == EnumFacing.Axis.X) {
+                            yaw = -90;
+                            pitch = 90;
+                        }
+                        if (enumFacing.getAxis() == EnumFacing.Axis.Z) {
+                            yaw = 90;
+                            pitch = 90;
+                        }
+
+                    }
+                    break;
+
             }
         return new float[]{yaw, pitch};
     }
