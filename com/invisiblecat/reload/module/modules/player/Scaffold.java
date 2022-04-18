@@ -24,6 +24,7 @@ import net.minecraft.util.Vec3;
 
 public class Scaffold extends Module {
     private ModeSetting mode = new ModeSetting("Mode", "Normal", "Normal", "Easy");
+    private ModeSetting timing = new ModeSetting("Timing", "Post", "Pre", "Post");
     private BooleanSetting jump = new BooleanSetting("Jump", false);
     private BooleanSetting keepY = new BooleanSetting("Keep Y", false);
     private BooleanSetting sprint = new BooleanSetting("Sprint", false);
@@ -32,7 +33,7 @@ public class Scaffold extends Module {
 
     public Scaffold() {
         super("Scaffold", 0, Category.PLAYER, AutoDisable.WORLD);
-        this.addSettings(mode);
+        this.addSettings(mode, timing, jump, keepY, sprint);
     }
 
     @EventTarget
@@ -52,12 +53,19 @@ public class Scaffold extends Module {
         mc.thePlayer.rotationYawHead = getBlockRotations(block)[0];
         mc.thePlayer.rotationPitchHead = getBlockRotations(block)[1];
 
-        if (BlockUtils.getBlock(block) instanceof BlockAir) {
-            if (mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.inventory.getItemStack(), block, enumFacing.getEnumFacing(), new Vec3(block.getX(), block.getY() - 1, block.getZ()))) {
-                mc.thePlayer.swingItem();
-            }
+        if (timing.getSelected().equalsIgnoreCase("pre")) {
+            // place block
+            mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.inventory.getItemStack(), block, enumFacing.getEnumFacing(), new Vec3(0.5, 0.5, 0.5));
         }
 
+    }
+
+    @EventTarget
+    public void onPostMotionUpdate(EventPostMotionUpdate event) {
+        if (timing.getSelected().equalsIgnoreCase("post")) {
+            // place block
+            mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.inventory.getItemStack(), new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1.0D, mc.thePlayer.posZ), enumFacing.getEnumFacing(), new Vec3(0.5, 0.5, 0.5));
+        }
     }
 
 
