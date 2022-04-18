@@ -23,7 +23,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 
 public class Scaffold extends Module {
-    private ModeSetting mode = new ModeSetting("Mode", "Easy", "Normal", "Easy");
+    private ModeSetting mode = new ModeSetting("Mode", "Normal", "Normal", "Easy");
     private BooleanSetting jump = new BooleanSetting("Jump", false);
     private BooleanSetting keepY = new BooleanSetting("Keep Y", false);
     private BooleanSetting sprint = new BooleanSetting("Sprint", false);
@@ -62,7 +62,7 @@ public class Scaffold extends Module {
 
 
     private float[] getBlockRotations(BlockPos pos) {
-        final float[] rotations = BlockUtils.getDirectionToBlock(pos.getX(), pos.getY(), pos.getZ(), enumFacing.getEnumFacing());
+        final float[] rotations = BlockUtils.getDirectionToBlock(pos.getX(), pos.getY(), pos.getZ());
         float yaw = 0;
         float pitch = 0;
 
@@ -82,7 +82,7 @@ public class Scaffold extends Module {
                     break;
 
                 case "normal":
-                    yaw = rotations[0] - 180;
+                    yaw = rotations[0];
                     pitch = rotations[1];
             }
         return new float[]{yaw, pitch};

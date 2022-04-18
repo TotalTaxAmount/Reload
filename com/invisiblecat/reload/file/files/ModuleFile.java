@@ -66,7 +66,13 @@ public class ModuleFile {
                     m.toggle(false);
                 }
                 m.setKey(mod.get("key").getAsInt());
-                JsonObject settings = mod.get("settings").getAsJsonObject();
+                JsonObject settings;
+                try {
+                    settings = mod.get("settings").getAsJsonObject();
+                } catch (Exception e) {
+                    Reload.instance.reloadLogger.warn("Failed to load settings for module " + m.getName());
+                    return;
+                }
                 m.getSettings().forEach(s -> {
                     if (s instanceof BooleanSetting) {
                         try {

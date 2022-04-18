@@ -45,6 +45,7 @@ public class ModuleManager {
         modules.add(new Chams());
         modules.add(new HUDmodule());
         modules.add(new Capes());
+        modules.add(new ClickGUIModule());
 
         //Exploit
         modules.add(new Disabler());

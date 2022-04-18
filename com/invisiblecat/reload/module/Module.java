@@ -8,6 +8,9 @@ import com.invisiblecat.reload.event.EventManager;
 import com.invisiblecat.reload.setting.Setting;
 import com.invisiblecat.reload.setting.settings.BooleanSetting;
 import com.invisiblecat.reload.client.ui.sound.PlaySounds;
+import com.invisiblecat.reload.setting.settings.ModeSetting;
+import com.invisiblecat.reload.setting.settings.NumberSetting;
+import com.invisiblecat.reload.setting.settings.StringSetting;
 import com.invisiblecat.reload.utils.chat.ChatUtils;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -62,6 +65,43 @@ public class Module {
         }
         return null;
     }
+    // get setting as BooleanSetting
+    public BooleanSetting getBooleanSetting(String name) {
+        Setting setting = getSetting(name);
+        if(setting instanceof BooleanSetting) {
+            return (BooleanSetting) setting;
+        }
+        return null;
+    }
+
+    // get setting as NumberSetting
+    public NumberSetting getNumberSetting(String name) {
+        Setting setting = getSetting(name);
+        if(setting instanceof NumberSetting) {
+            return (NumberSetting) setting;
+        }
+        return null;
+    }
+    // get setting as StringSetting
+    public StringSetting getStringSetting(String name) {
+        Setting setting = getSetting(name);
+        if(setting instanceof StringSetting) {
+            return (StringSetting) setting;
+        }
+        return null;
+    }
+
+    // get setting as ModeSetting
+    public ModeSetting getModeSetting(String name) {
+        Setting setting = getSetting(name);
+        if(setting instanceof ModeSetting) {
+            return (ModeSetting) setting;
+        }
+        return null;
+    }
+
+
+
     public void onEnable() {
         Reload.instance.eventManager.register(this);
 
@@ -131,15 +171,6 @@ public class Module {
         this.displayName = displayName;
     }
 
-    @Override
-    public String toString() {
-        return name+"{" +
-                "displayName='" + displayName + '\'' +
-                ", key=" + key +
-                ", category=" + category +
-                ", toggled=" + toggled +
-                '}';
-    }
     public enum AutoDisable {
         RESPAWN, FLAG, WORLD, NONE;
     }
