@@ -24,6 +24,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 
+import java.util.Random;
+
 public class Scaffold extends Module {
     private ModeSetting mode = new ModeSetting("Mode", "Simple", "Normal", "Simple");
     private ModeSetting timing = new ModeSetting("Timing", "Pre", "Pre", "Post");
@@ -59,11 +61,16 @@ public class Scaffold extends Module {
         mc.thePlayer.rotationYawHead = getBlockRotations(block)[0];
         mc.thePlayer.rotationPitchHead = getBlockRotations(block)[1];
 
-        if (timing.getSelected().equalsIgnoreCase("pre") && BlockUtils.getBlock(block) instanceof BlockAir) {
-            // place block
-            mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), block, enumFacing.getEnumFacing(), new Vec3(block.getX(), block.getY(), block.getZ()));
-        }
 
+        if (timing.getSelected().equalsIgnoreCase("pre") && BlockUtils.getBlock(block) instanceof BlockAir) {
+            PacketUtils.sendPacketNoEvent(new C0APacketAnimation());
+
+            MovingObjectPosition work = mc.thePlayer.rayTraceCustom(3.0D, mc.timer.renderPartialTicks, getBlockRotations(block)[0], getBlockRotations(block)[1]);
+            mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), block, enumFacing.getEnumFacing(), work.hitVec);
+            mc.thePlayer.swingItem();
+
+            PacketUtils.sendPacketNoEvent(new C0APacketAnimation());
+        }
     }
 
     @EventTarget
@@ -74,10 +81,18 @@ public class Scaffold extends Module {
         mc.thePlayer.rotationYawHead = getBlockRotations(block)[0];
         mc.thePlayer.rotationPitchHead = getBlockRotations(block)[1];
 
+
         if (timing.getSelected().equalsIgnoreCase("post") && BlockUtils.getBlock(block) instanceof BlockAir) {
-            // place block
-            mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), block, enumFacing.getEnumFacing(), new Vec3(block.getX(), block.getY(), block.getZ()));
+            PacketUtils.sendPacketNoEvent(new C0APacketAnimation());
+            mc.thePlayer.swingItem();
+
+            MovingObjectPosition work = mc.thePlayer.rayTraceCustom(mc.playerController.getBlockReachDistance(), mc.timer.renderPartialTicks, getBlockRotations(block)[0], getBlockRotations(block)[1]);
+            mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), block, enumFacing.getEnumFacing(), work.hitVec);
+
+            PacketUtils.sendPacketNoEvent(new C0APacketAnimation());
         }
+
+
     }
 
     private float[] getBlockRotations(BlockPos pos) {
@@ -87,14 +102,15 @@ public class Scaffold extends Module {
 
         switch (mode.getSelected().toLowerCase().replaceAll(" ", "")) {
             case "simple":
+                Random random = new Random();
                 switch (enumFacing.getEnumFacing()) {
                     case SOUTH: {
-                        yaw = 180;
+                        yaw = random.nextInt(188 - 175 + 1) + 178;
                         break;
                     }
 
                     case EAST: {
-                        yaw = 90;
+                        yaw = random.nextInt(97 - 84 + 1) + 88;
                         break;
                     }
 
@@ -102,12 +118,12 @@ public class Scaffold extends Module {
                         yaw = -90;
                         break;
                     }
-                    default: {
-                        yaw = 0;
-                        break;
-                    }
                 }
-                pitch = 85;
+                if (mc.thePlayer.motionY > 0.0D) {
+                    pitch = 90;
+                } else {
+                    pitch = 82;
+                }
                 break;
 
                 case "normal":
