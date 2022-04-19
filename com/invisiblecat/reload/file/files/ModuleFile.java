@@ -3,10 +3,14 @@ package com.invisiblecat.reload.file.files;
 
 import com.google.gson.*;
 import com.invisiblecat.reload.client.Reload;
+import com.invisiblecat.reload.client.ui.hud.notification.Notification;
+import com.invisiblecat.reload.client.ui.hud.notification.NotificationManager;
+import com.invisiblecat.reload.client.ui.hud.notification.NotificationType;
 import com.invisiblecat.reload.file.FileManager;
 import com.invisiblecat.reload.module.Module;
 import com.invisiblecat.reload.setting.Setting;
 import com.invisiblecat.reload.setting.settings.*;
+import com.mojang.realmsclient.gui.ChatFormatting;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -17,8 +21,14 @@ public class ModuleFile {
 
     public void save() throws IOException {
         JsonObject finalJson = new JsonObject();
+        JsonObject allModsJson = new JsonObject();
         FileManager manager = new FileManager();
 
+
+
+        finalJson.addProperty("version", Reload.instance.version);
+        // add a property for date
+        finalJson.addProperty("date", manager.getDate());
         Reload.instance.moduleManager.getModules().forEach(m -> {
             JsonObject moduleJson = new JsonObject();
             moduleJson.addProperty("toggled", m.isEnabled());
@@ -40,10 +50,9 @@ public class ModuleFile {
                         }
                     });
             moduleJson.add("settings", settingsJson);
-
-            finalJson.add(m.getName(), moduleJson);
-
+            allModsJson.add(m.getName(), moduleJson);
         });
+        finalJson.add("modules", allModsJson);
         Gson idk = new Gson();
         JsonElement element = idk.fromJson(finalJson.toString(), JsonElement.class);
         try (Writer writer = new FileWriter(manager.getMainDir() + "/current.json")) {
@@ -57,10 +66,19 @@ public class ModuleFile {
         if(!Files.exists(Paths.get(manager.getMainDir() + "/current.json"))) {System.out.println("idkk"); return;}
         Reader reader = Files.newBufferedReader(Paths.get(manager.getMainDir() + "/current.json"));
         JsonParser parser = new JsonParser();
-        JsonObject jsonData = parser.parse(reader).getAsJsonObject();
-
+        JsonObject jsonData;
+        try {
+            jsonData = parser.parse(reader).getAsJsonObject();
+            if (jsonData.get("version").getAsDouble() < Reload.instance.version) {
+                NotificationManager.show(new Notification(NotificationType.WARNING, "Reload", "Your current config is outdated. Please update it.", 2));
+            }
+        } catch (Exception e) {
+            Reload.instance.reloadLogger.error("Failed to load config: \n" + ChatFormatting.RED + e);
+            return;
+        }
+        JsonObject modules = jsonData.get("modules").getAsJsonObject();
         Reload.instance.moduleManager.getModules().forEach(m -> {
-            JsonObject mod = jsonData.get(m.getName()) != null ? jsonData.get(m.getName()).getAsJsonObject() : null;
+            JsonObject mod = modules.get(m.getName()) != null ? modules.get(m.getName()).getAsJsonObject() : null;
             if (mod != null) {
                 if (mod.get("toggled").getAsBoolean()  && m.getAutoDisable() == Module.AutoDisable.NONE) {
                     m.toggle(false);

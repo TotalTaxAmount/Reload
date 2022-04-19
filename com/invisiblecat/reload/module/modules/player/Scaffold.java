@@ -25,7 +25,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 
 public class Scaffold extends Module {
-    private ModeSetting mode = new ModeSetting("Mode", "Normal", "Normal", "Easy");
+    private ModeSetting mode = new ModeSetting("Mode", "Simple", "Normal", "Simple");
     private ModeSetting timing = new ModeSetting("Timing", "Pre", "Pre", "Post");
     private BooleanSetting jump = new BooleanSetting("Jump", false);
     private BooleanSetting keepY = new BooleanSetting("Keep Y", false);
@@ -59,7 +59,7 @@ public class Scaffold extends Module {
         mc.thePlayer.rotationYawHead = getBlockRotations(block)[0];
         mc.thePlayer.rotationPitchHead = getBlockRotations(block)[1];
 
-        if (timing.getSelected().equalsIgnoreCase("pre")) {
+        if (timing.getSelected().equalsIgnoreCase("pre") && BlockUtils.getBlock(block) instanceof BlockAir) {
             // place block
             mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), block, enumFacing.getEnumFacing(), new Vec3(block.getX(), block.getY(), block.getZ()));
         }
@@ -74,52 +74,47 @@ public class Scaffold extends Module {
         mc.thePlayer.rotationYawHead = getBlockRotations(block)[0];
         mc.thePlayer.rotationPitchHead = getBlockRotations(block)[1];
 
-        if (timing.getSelected().equalsIgnoreCase("post")) {
+        if (timing.getSelected().equalsIgnoreCase("post") && BlockUtils.getBlock(block) instanceof BlockAir) {
             // place block
             mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), block, enumFacing.getEnumFacing(), new Vec3(block.getX(), block.getY(), block.getZ()));
         }
     }
 
     private float[] getBlockRotations(BlockPos pos) {
-        final float[] rotations = BlockUtils.getRotations(pos.getX(), pos.getY(), pos.getZ());
+        final float[] rotations = BlockUtils.getDirectionToBlock(pos.getX(), pos.getY(), pos.getZ(), enumFacing.getEnumFacing());
         float yaw = 0;
         float pitch = 0;
 
         switch (mode.getSelected().toLowerCase().replaceAll(" ", "")) {
             case "simple":
                 switch (enumFacing.getEnumFacing()) {
-                    case SOUTH:
+                    case SOUTH: {
                         yaw = 180;
                         break;
-                    case WEST:
+                    }
+
+                    case EAST: {
+                        yaw = 90;
+                        break;
+                    }
+
+                    case WEST: {
                         yaw = -90;
                         break;
-                    case EAST:
-                        yaw = 90;
                     }
-                    pitch = 90;
-                    break;
+                    default: {
+                        yaw = 0;
+                        break;
+                    }
+                }
+                pitch = 85;
+                break;
 
                 case "normal":
                     yaw = rotations[0];
                     pitch = rotations[1];
-
-                case "bruteforce":
-                    for (EnumFacing enumFacing : EnumFacing.values()) {
-                        if (enumFacing.getAxis() == EnumFacing.Axis.Y) {
-                            continue;
-                        }
-                        if (enumFacing.getAxis() == EnumFacing.Axis.X) {
-                            yaw = -90;
-                            pitch = 90;
-                        }
-                        if (enumFacing.getAxis() == EnumFacing.Axis.Z) {
-                            yaw = 90;
-                            pitch = 90;
-                        }
-
-                    }
                     break;
+
 
             }
         return new float[]{yaw, pitch};

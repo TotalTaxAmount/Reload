@@ -20,7 +20,8 @@ import org.lwjgl.opengl.Display;
 
 
 public class Reload {
-    public String clientName = "Reload", version = "0.1", creates = "InvisibleCat#0001 and Cosmics#0001";
+    public String clientName = "Reload", creates = "InvisibleCat#0001 and Cosmics#0001";
+    public double version = 0.1;
 
     public static Reload instance = new Reload();
     public Logger reloadLogger = LogManager.getLogger("Reload");

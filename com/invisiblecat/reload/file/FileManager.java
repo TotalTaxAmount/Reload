@@ -8,6 +8,8 @@ import net.minecraft.client.Minecraft;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class FileManager {
     private Minecraft mc = Minecraft.getMinecraft();
@@ -49,6 +51,7 @@ public class FileManager {
         return configs;
     }
 
+
     public void save() {
         try {
             moduleFile.save();
@@ -64,5 +67,11 @@ public class FileManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getDate() {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        return formatter.format(date);
     }
 }
