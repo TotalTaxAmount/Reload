@@ -1,10 +1,13 @@
 package com.invisiblecat.reload.module.modules.player;
 
+import com.invisiblecat.reload.client.Reload;
 import com.invisiblecat.reload.event.EventTarget;
 import com.invisiblecat.reload.event.events.EventPostMotionUpdate;
 import com.invisiblecat.reload.event.events.EventPreMotionUpdate;
+import com.invisiblecat.reload.event.events.EventUpdate;
 import com.invisiblecat.reload.module.Category;
 import com.invisiblecat.reload.module.Module;
+import com.invisiblecat.reload.module.modules.movement.Speed;
 import com.invisiblecat.reload.setting.settings.BooleanSetting;
 import com.invisiblecat.reload.setting.settings.ModeSetting;
 import com.invisiblecat.reload.utils.BlockUtils;
@@ -14,6 +17,7 @@ import com.invisiblecat.reload.utils.player.PlayerUtils;
 import com.sun.javafx.geom.Vec3d;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
@@ -35,39 +39,60 @@ public class Scaffold extends Module {
     private BooleanSetting drag = new BooleanSetting("Drag", true);
 
     private EnumFacingUtils enumFacing;
-
-
+    private int offGroundTicks = 0;
+    private double startY;
 
     public Scaffold() {
         super("Scaffold", 0, Category.PLAYER, AutoDisable.WORLD);
         this.addSettings(mode, timing, jump, keepY, sprint, drag);
     }
 
+    @Override
+    public void onEnable() {
+        startY = mc.thePlayer.posY;
+        super.onEnable();
+    }
+
+    @EventTarget
+    public void onUpdate(EventUpdate event) {
+        mc.thePlayer.setSprinting(sprint.isEnabled());
+    }
+
     @EventTarget
     public void onPreMotionUpdate(EventPreMotionUpdate event) {
+        if (mc.thePlayer.onGround) {
+            offGroundTicks = 0;
+        } else
+            offGroundTicks++;
+
         if (keepY.isEnabled() && mc.thePlayer.isCollidedVertically) {
             mc.thePlayer.motionY = 0.0D;
         }
+
+        if (mc.thePlayer.onGround || (mc.gameSettings.keyBindJump.isKeyDown() && !keepY.isEnabled()))
+            startY = mc.thePlayer.posY;
+
+        if (keepY.isEnabled() && mc.thePlayer.posY < startY) startY = mc.thePlayer.posY;
+
         BlockPos block = new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1.0D, mc.thePlayer.posZ );
-
-
 
         enumFacing = getEnumFacing(new Vec3(block.getX(), block.getY(), block.getZ()));
 
-        event.setYaw(getBlockRotations(block)[0]);
-        event.setPitch(getBlockRotations(block)[1]);
+//        event.setYaw(getBlockRotations(block)[0]);
+//        event.setPitch(getBlockRotations(block)[1]);
 
         mc.thePlayer.renderYawOffset = getBlockRotations(block)[0];
         mc.thePlayer.rotationYawHead = getBlockRotations(block)[0];
         mc.thePlayer.rotationPitchHead = getBlockRotations(block)[1];
 
 
-        if (timing.getSelected().equalsIgnoreCase("pre") && BlockUtils.getBlock(block) instanceof BlockAir) {
+        if (timing.getSelected().equalsIgnoreCase("pre") && BlockUtils.getBlock(block) instanceof BlockAir && offGroundTicks < 5) {
             PacketUtils.sendPacketNoEvent(new C0APacketAnimation());
 
-            MovingObjectPosition work = mc.thePlayer.rayTraceCustom(3.0D, mc.timer.renderPartialTicks, getBlockRotations(block)[0], getBlockRotations(block)[1]);
-            mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), block, enumFacing.getEnumFacing(), work.hitVec);
+//            MovingObjectPosition work = mc.thePlayer.rayTraceCustom(3.0D, mc.timer.renderPartialTicks, getBlockRotations(block)[0], getBlockRotations(block)[1]);
+//            mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), block, enumFacing.getEnumFacing(), work.hitVec);
             mc.thePlayer.swingItem();
+            BlockUtils.placeBlock(block, getBlockRotations(block)[0], getBlockRotations(block)[1], enumFacing.getEnumFacing());
 
             PacketUtils.sendPacketNoEvent(new C0APacketAnimation());
         }
@@ -82,12 +107,14 @@ public class Scaffold extends Module {
         mc.thePlayer.rotationPitchHead = getBlockRotations(block)[1];
 
 
-        if (timing.getSelected().equalsIgnoreCase("post") && BlockUtils.getBlock(block) instanceof BlockAir) {
-            PacketUtils.sendPacketNoEvent(new C0APacketAnimation());
-            mc.thePlayer.swingItem();
 
-            MovingObjectPosition work = mc.thePlayer.rayTraceCustom(mc.playerController.getBlockReachDistance(), mc.timer.renderPartialTicks, getBlockRotations(block)[0], getBlockRotations(block)[1]);
-            mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), block, enumFacing.getEnumFacing(), work.hitVec);
+        if (timing.getSelected().equalsIgnoreCase("post") && BlockUtils.getBlock(block) instanceof BlockAir && offGroundTicks < 5) {
+            PacketUtils.sendPacketNoEvent(new C0APacketAnimation());
+
+//            MovingObjectPosition work = mc.thePlayer.rayTraceCustom(3.0D, mc.timer.renderPartialTicks, getBlockRotations(block)[0], getBlockRotations(block)[1]);
+//            mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), block, enumFacing.getEnumFacing(), work.hitVec);
+            mc.thePlayer.swingItem();
+            BlockUtils.placeBlock(block, getBlockRotations(block)[0], getBlockRotations(block)[1], enumFacing.getEnumFacing());
 
             PacketUtils.sendPacketNoEvent(new C0APacketAnimation());
         }
@@ -96,7 +123,7 @@ public class Scaffold extends Module {
     }
 
     private float[] getBlockRotations(BlockPos pos) {
-        final float[] rotations = BlockUtils.getDirectionToBlock(pos.getX(), pos.getY(), pos.getZ(), enumFacing.getEnumFacing());
+        final float[] rotations = BlockUtils.getDirectionToBlock(pos.getX(), pos.getY(), pos.getZ());
         float yaw = 0;
         float pitch = 0;
 
@@ -105,12 +132,12 @@ public class Scaffold extends Module {
                 Random random = new Random();
                 switch (enumFacing.getEnumFacing()) {
                     case SOUTH: {
-                        yaw = random.nextInt(188 - 175 + 1) + 178;
+                        yaw = 180;
                         break;
                     }
 
                     case EAST: {
-                        yaw = random.nextInt(97 - 84 + 1) + 88;
+                        yaw = 90;
                         break;
                     }
 
@@ -122,7 +149,7 @@ public class Scaffold extends Module {
                 if (mc.thePlayer.motionY > 0.0D) {
                     pitch = 90;
                 } else {
-                    pitch = 82;
+                    pitch = 80.5F;
                 }
                 break;
 

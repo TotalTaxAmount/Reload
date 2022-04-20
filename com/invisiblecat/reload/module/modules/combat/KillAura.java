@@ -1,11 +1,14 @@
 package com.invisiblecat.reload.module.modules.combat;
 
 
+import com.invisiblecat.reload.event.EventTarget;
+import com.invisiblecat.reload.event.events.EventUpdate;
 import com.invisiblecat.reload.module.Category;
 import com.invisiblecat.reload.module.Module;
 import com.invisiblecat.reload.setting.settings.BooleanSetting;
 import com.invisiblecat.reload.setting.settings.NumberSetting;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.network.play.server.S42PacketCombatEvent;
 
 public class KillAura extends Module {
 
@@ -24,8 +27,8 @@ public class KillAura extends Module {
         this.addSettings(range, autoBlock, legitAttack, swing, minCps, maxCps);
     }
 
-
-
-
-
+    @EventTarget
+    public void onUpdate(EventUpdate event) {
+        
+    }
 }

@@ -1,5 +1,6 @@
 package com.invisiblecat.reload.utils;
 
+import com.invisiblecat.reload.utils.player.RotationUtils;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -7,32 +8,48 @@ import net.minecraft.entity.projectile.EntityEgg;
 import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.util.*;
 
 public class BlockUtils {
-    public static float[] getDirectionToBlock(final double x, final double y, final double z, final EnumFacing enumfacing) {
-        final EntitySnowball var4 = new EntitySnowball(Minecraft.getMinecraft().theWorld);
-        var4.posX = x + 0.5D;
-        var4.posY = y + 0.5D;
-        var4.posZ = z + 0.5D;
-        var4.posX += (double) enumfacing.getDirectionVec().getX() * 0.5D;
-        var4.posY += (double) enumfacing.getDirectionVec().getY() * 0.5D;
-        var4.posZ += (double) enumfacing.getDirectionVec().getZ() * 0.5D;
-        return getRotations(var4.posX, var4.posY, var4.posZ);
+    public static float[] getDirectionToBlock(final double x, final double y, final double z) {
+        // get rotation to look at the block
+        // use a temp EntitySnowball
+        // use enumfacing to determine the direction
+        // return the direction
+
+
+        EntitySnowball entitySnowball = new EntitySnowball(Minecraft.getMinecraft().theWorld);
+        entitySnowball.setPosition(x, y, z);
+        entitySnowball.rotationPitch = RotationUtils.getRotations(x, y, z)[1];
+        entitySnowball.rotationYaw = RotationUtils.getRotations(x, y, z)[0];
+
+        entitySnowball.setLocationAndAngles(x, y, z, RotationUtils.getRotations(x, y, z)[0], RotationUtils.getRotations(x, y, z)[1]);
+        entitySnowball.setPositionAndRotation(x, y, z, RotationUtils.getRotations(x, y, z)[0], RotationUtils.getRotations(x, y, z)[1]);
+        EnumFacing enumFacing = EnumFacing.getFacingFromVector((float) (entitySnowball.posX - x), (float) (entitySnowball.posY - y), (float) (entitySnowball.posZ - z));
+        return new float[]{entitySnowball.rotationYaw, entitySnowball.rotationPitch, enumFacing.getHorizontalIndex()};
     }
 
-    public static float[] getRotations(final double posX, final double posY, final double posZ) {
-        final EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-        final double x = posX - player.posX;
-        final double y = posY - (player.posY + (double) player.getEyeHeight());
-        final double z = posZ - player.posZ;
-        final double dist = MathHelper.sqrt_double(x * x + z * z);
-        final float yaw = (float) (Math.atan2(z, x) * 180.0D / Math.PI);
-        final float pitch = (float) (-(Math.atan2(y, dist) * 180.0D / Math.PI));
-        return new float[]{yaw, pitch};
-    }
 
     public static Block getBlock(BlockPos block) {
         return Minecraft.getMinecraft().theWorld.getBlockState(block).getBlock();
+    }
+
+    public static void placeBlock(BlockPos block, float yaw, float pitch, EnumFacing enumFacing) {
+        // Find a block in the player invetory
+        // if it is a block, place it
+        // else break
+
+        for (int i = 0; i < Minecraft.getMinecraft().thePlayer.inventory.getSizeInventory(); i++) {
+            ItemStack itemstack = Minecraft.getMinecraft().thePlayer.inventory.getStackInSlot(i);
+            if (itemstack != null && itemstack.getItem() instanceof ItemBlock) {
+                Minecraft.getMinecraft().thePlayer.inventory.currentItem = i;
+            }
+        }
+        // place the block using mc.playerController.onPlayerRightClick
+        Vec3 work = Minecraft.getMinecraft().thePlayer.rayTraceCustom(3.0D, Minecraft.getMinecraft().timer.renderPartialTicks, yaw, pitch).hitVec;
+        Minecraft.getMinecraft().playerController.onPlayerRightClick(Minecraft.getMinecraft().thePlayer, Minecraft.getMinecraft().theWorld, Minecraft.getMinecraft().thePlayer.getHeldItem(), block, enumFacing, work);
+
     }
 }
