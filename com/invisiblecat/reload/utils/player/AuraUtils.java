@@ -5,6 +5,7 @@ import com.invisiblecat.reload.utils.PacketUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 
 public class AuraUtils extends Module {
@@ -21,7 +22,7 @@ public class AuraUtils extends Module {
     }
 
     public static boolean shouldAttack(EntityLivingBase target) {
-        return target != Minecraft.getMinecraft().thePlayer && target.isEntityAlive();
+        return target != Minecraft.getMinecraft().thePlayer && target.isEntityAlive() && !target.isInvisible();
     }
 
     public static void attack(EntityLivingBase target, boolean legit) {

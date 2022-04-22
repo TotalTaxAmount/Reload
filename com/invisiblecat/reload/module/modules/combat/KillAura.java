@@ -8,11 +8,16 @@ import com.invisiblecat.reload.module.Category;
 import com.invisiblecat.reload.module.Module;
 import com.invisiblecat.reload.setting.settings.BooleanSetting;
 import com.invisiblecat.reload.setting.settings.NumberSetting;
+import com.invisiblecat.reload.utils.PacketUtils;
 import com.invisiblecat.reload.utils.TimerUtils;
 import com.invisiblecat.reload.utils.player.AuraUtils;
 import com.invisiblecat.reload.utils.player.RotationUtils;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.network.play.client.C07PacketPlayerDigging;
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.server.S42PacketCombatEvent;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 
 public class KillAura extends Module {
 
@@ -27,7 +32,8 @@ public class KillAura extends Module {
 
     private static float yaw, pitch;
     public EntityLivingBase target;
-    private TimerUtils timer = new TimerUtils();
+    private boolean isBlock;
+    private final TimerUtils timer = new TimerUtils();
 
 
     public KillAura() {
@@ -38,7 +44,9 @@ public class KillAura extends Module {
 
     @EventTarget
     public void onPreMotionUpdate(EventPreMotionUpdate event) {
-        if (target == null) {
+        target = AuraUtils.getTarget(range.getValueInt());
+
+        if (target == null || !target.isEntityAlive()) {
             return;
         }
         float[] rotations = RotationUtils.getRotations(target);
@@ -53,7 +61,9 @@ public class KillAura extends Module {
 
         if (timer.hasTimePassed(1000 / aps.getValueInt(), false)) {
             AuraUtils.attack(target, legitAttack.isEnabled());
-            mc.thePlayer.swingItem();
+            if (swing.isEnabled()) {
+                mc.thePlayer.swingItem();
+            }
             timer.reset();
         }
     }
@@ -62,7 +72,8 @@ public class KillAura extends Module {
     public void onUpdate(EventUpdate event) {
         target = AuraUtils.getTarget(range.getValueInt());
 
-        if (target == null) {
+        if (target == null || !target.isEntityAlive()) {
+            unblock();
             return;
         }
         float[] rotations = RotationUtils.getRotations(target);
@@ -71,16 +82,41 @@ public class KillAura extends Module {
 
         if (timer.hasTimePassed(1000 / aps.getValueInt(), false)) {
             AuraUtils.attack(target, legitAttack.isEnabled());
-            mc.thePlayer.swingItem();
+            if (swing.isEnabled()) {
+                mc.thePlayer.swingItem();
+            }
+            if (autoBlock.isEnabled()) {
+                block();
+            }
             timer.reset();
         }
     }
 
+    @Override
+    public void onDisable() {
+        unblock();
+        super.onDisable();
+    }
 
     @Override
     public void onEnable() {
         super.onEnable();
         yaw = mc.thePlayer.rotationYaw;
         pitch = mc.thePlayer.rotationPitch;
+    }
+
+    private void block() {
+        mc.playerController.sendUseItem(mc.thePlayer, mc.theWorld, mc.thePlayer.getCurrentEquippedItem());
+        mc.gameSettings.keyBindUseItem.setState(true);
+        mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255, mc.thePlayer.getHeldItem(), 0, 0, 0));
+        isBlock = true;
+    }
+
+    private void unblock() {
+        if (isBlock) {
+            mc.gameSettings.keyBindUseItem.setState(false);
+            PacketUtils.sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
+            isBlock = false;
+        }
     }
 }

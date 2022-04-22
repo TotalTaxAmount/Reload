@@ -78,8 +78,8 @@ public class Scaffold extends Module {
 
         enumFacing = getEnumFacing(new Vec3(block.getX(), block.getY(), block.getZ()));
 
-//        event.setYaw(getBlockRotations(block)[0]);
-//        event.setPitch(getBlockRotations(block)[1]);
+        event.setYaw(getBlockRotations(block)[0]);
+        event.setPitch(getBlockRotations(block)[1]);
 
         mc.thePlayer.renderYawOffset = getBlockRotations(block)[0];
         mc.thePlayer.rotationYawHead = getBlockRotations(block)[0];
@@ -149,7 +149,7 @@ public class Scaffold extends Module {
                 if (mc.thePlayer.motionY > 0.0D) {
                     pitch = 90;
                 } else {
-                    pitch = 80.5F;
+                    pitch = random.nextInt(85 - 80) + 80;
                 }
                 break;
 
