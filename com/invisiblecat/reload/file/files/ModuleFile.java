@@ -41,12 +41,10 @@ public class ModuleFile {
                             settingsJson.addProperty(s.getName(), ((BooleanSetting) s).isEnabled());
                         } else if (s instanceof ModeSetting) {
                             settingsJson.addProperty(s.getName(), ((ModeSetting) s).getSelected());
-                            System.out.println(((ModeSetting) s).getSelected());
                         } else if (s instanceof NumberSetting) {
                             settingsJson.addProperty(s.getName(), ((NumberSetting) s).getValue());
                         } else if (s instanceof StringSetting) {
                             settingsJson.addProperty(s.getName(), ((StringSetting) s).getValue());
-                            System.out.println("String setting: " + ((StringSetting) s).getValue());
                         }
                     });
             moduleJson.add("settings", settingsJson);

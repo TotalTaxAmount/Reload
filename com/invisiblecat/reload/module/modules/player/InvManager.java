@@ -42,8 +42,8 @@ public final class InvManager extends Module {
     private final BooleanSetting throwUselessItems = new BooleanSetting("Throw Thrash", true);
     private final BooleanSetting throwCustomItems = new BooleanSetting("Throw Custom Items",  true);
     private final BooleanSetting throwHeads = new BooleanSetting("Throw Heads",  true);
-    private final BooleanSetting noMovement = new BooleanSetting("No Move",  true);
-    private final BooleanSetting openInventory = new BooleanSetting("Open Inventory",  true);
+    private final BooleanSetting noMovement = new BooleanSetting("No Move",  false);
+    private final BooleanSetting openInventory = new BooleanSetting("Open Inventory",  false);
 
     private final BooleanSetting equipBestGear = new BooleanSetting("Equip Best Gear",  true);
     private final NumberSetting swordSlot = new NumberSetting("Sword Slot",  1, 1, 10, 1);
@@ -55,7 +55,6 @@ public final class InvManager extends Module {
     private final NumberSetting gapSlot = new NumberSetting("Gap Slot",  7, 1, 10, 1);
 
     private final int INVENTORY_ROWS = 4, INVENTORY_COLUMNS = 9, ARMOR_SLOTS = 4;
-    private final int INVENTORY_SLOTS = INVENTORY_ROWS * INVENTORY_COLUMNS + ARMOR_SLOTS;
 
     private EntityPlayer player;
     private PlayerControllerMP playerController;
@@ -70,6 +69,7 @@ public final class InvManager extends Module {
 
     public InvManager() {
         super("InvManager", 0, Category.PLAYER, AutoDisable.NONE);
+        this.addSettings(minDelay, maxDelay, throwUselessItems, throwCustomItems, throwHeads, noMovement, openInventory, equipBestGear, swordSlot, pickaxeSlot, axeSlot, shovelSlot, blockSlot, potionSlot, gapSlot);
     }
 
     @Override
@@ -141,6 +141,7 @@ public final class InvManager extends Module {
         playerController = mc.playerController;
 
         /* Looping through all inventory slots to remove unwhitelisted or blacklisted items */
+        int INVENTORY_SLOTS = INVENTORY_ROWS * INVENTORY_COLUMNS + ARMOR_SLOTS;
         if (throwUselessItems.isEnabled()) {
             for (int i = 0; i < INVENTORY_SLOTS; ++i) {
                 final ItemStack itemStack = player.inventory.getStackInSlot(i);
