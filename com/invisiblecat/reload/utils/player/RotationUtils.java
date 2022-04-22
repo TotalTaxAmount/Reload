@@ -13,7 +13,7 @@ public class RotationUtils {
         // use updateRotation to make it smooth
         final float[] var4 = new float[2];
         double d0 = target.posX - Minecraft.getMinecraft().thePlayer.posX;
-        double d1 = target.posY - (Minecraft.getMinecraft().thePlayer).posY;
+        double d1 = (target.posY + target.getEyeHeight()) - (Minecraft.getMinecraft().thePlayer.posY + Minecraft.getMinecraft().thePlayer.getEyeHeight());
         double d2 = target.posZ - Minecraft.getMinecraft().thePlayer.posZ;
         double d3 = (double)MathHelper.sqrt_double(d0 * d0 + d2 * d2);
         float f = (float)(MathHelper.func_181159_b(d2, d0) * 180.0D / Math.PI) - 90.0F;
