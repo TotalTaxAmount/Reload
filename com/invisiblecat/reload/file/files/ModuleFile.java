@@ -94,7 +94,7 @@ public class ModuleFile {
                         try {
                             ((BooleanSetting) s).setEnabled(settings.get(s.getName()).getAsBoolean());
                         } catch (NullPointerException e) {
-                            Reload.instance.reloadLogger.warn("Could not load boolean setting: " + s.getName());
+                            Reload.instance.reloadLogger.warn("Could not load boolean setting: " + s.getName() + " for module " + m.getName());
                         }
 
                     } else if (s instanceof ModeSetting) {
@@ -102,21 +102,21 @@ public class ModuleFile {
                         try {
                             ((ModeSetting) s).setSelected(settings.get(s.getName()).getAsString());
                         } catch (NullPointerException e) {
-                            Reload.instance.reloadLogger.warn("Could not load mode setting: " + s.getName());
+                            Reload.instance.reloadLogger.warn("Could not load mode setting: " + s.getName() + " for module " + m.getName());
                         }
                     } else if (s instanceof NumberSetting) {
                        // ((NumberSetting) s).setValue(settings.get(s.getName()).getAsInt());
                         try {
                             ((NumberSetting) s).setValue(settings.get(s.getName()).getAsInt());
                         } catch (NullPointerException e) {
-                            Reload.instance.reloadLogger.warn("Could not load number setting: " + s.getName());
+                            Reload.instance.reloadLogger.warn("Could not load number setting: " + s.getName() + " for module " + m.getName());
                         }
                     } else if (s instanceof StringSetting) {
                        // ((StringSetting) s).setValue(settings.get(s.getName()).getAsString());
                         try {
                             ((StringSetting) s).setValue(settings.get(s.getName()).getAsString());
                         } catch (NullPointerException e) {
-                            Reload.instance.reloadLogger.warn("Could not load string setting: " + s.getName());
+                            Reload.instance.reloadLogger.warn("Could not load string setting: " + s.getName() + " for module " + m.getName());
                         }
                     }
                 });
