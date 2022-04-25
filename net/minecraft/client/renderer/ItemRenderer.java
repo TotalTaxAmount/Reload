@@ -1,5 +1,9 @@
 package net.minecraft.client.renderer;
 
+import com.invisiblecat.reload.client.Reload;
+import com.invisiblecat.reload.module.modules.render.Animations;
+import com.invisiblecat.reload.setting.settings.BooleanSetting;
+import com.invisiblecat.reload.setting.settings.ModeSetting;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -328,7 +332,7 @@ public class ItemRenderer
     {
         float f = 1.0F - (this.prevEquippedProgress + (this.equippedProgress - this.prevEquippedProgress) * partialTicks);
         EntityPlayerSP entityplayersp = this.mc.thePlayer;
-        float f1 = entityplayersp.getSwingProgress(partialTicks);
+        float swingProgress = entityplayersp.getSwingProgress(partialTicks);
         float f2 = entityplayersp.prevRotationPitch + (entityplayersp.rotationPitch - entityplayersp.prevRotationPitch) * partialTicks;
         float f3 = entityplayersp.prevRotationYaw + (entityplayersp.rotationYaw - entityplayersp.prevRotationYaw) * partialTicks;
         this.func_178101_a(f2, f3);
@@ -341,45 +345,73 @@ public class ItemRenderer
         {
             if (this.itemToRender.getItem() instanceof ItemMap)
             {
-                this.renderItemMap(entityplayersp, f2, f, f1);
+                this.renderItemMap(entityplayersp, f2, f, swingProgress);
             }
             else if (entityplayersp.getItemInUseCount() > 0)
             {
                 EnumAction enumaction = this.itemToRender.getItemUseAction();
 
-                switch (ItemRenderer.ItemRenderer$1.field_178094_a[enumaction.ordinal()])
+                if (((BooleanSetting) Reload.instance.moduleManager.getModuleByClass(Animations.class).getSetting("Always")).isEnabled())
+                    equippedProgress = 0f;
+
+                switch (enumaction)
                 {
-                    case 1:
+                    case NONE:
                         this.transformFirstPersonItem(f, 0.0F);
                         break;
 
-                    case 2:
-                    case 3:
+                    case EAT:
+                    case DRINK:
                         this.func_178104_a(entityplayersp, partialTicks);
                         this.transformFirstPersonItem(f, 0.0F);
                         break;
 
-                    case 4:
-                        this.transformFirstPersonItem(f, 0.0F);
-                        this.func_178103_d();
+                    case BLOCK:
+                        if (!Reload.instance.moduleManager.getModuleByClass(Animations.class).isEnabled()) {
+                            this.transformFirstPersonItem(f, 0.0F);
+                            this.func_178103_d();
+                        } else {
+                            String mode = ((ModeSetting) Reload.instance.moduleManager.getModuleByClass(Animations.class).getSetting("Mode")).getSelected();
+                            switch (mode) {
+                                case "1.7": {
+                                    this.transformFirstPersonItem(0.2f, swingProgress);
+                                    this.func_178103_d();
+                                    GlStateManager.translate(-0.5F, 0.2F, 0.0F);
+                                    break;
+                                } case "Cool": {
+                                    GlStateManager.translate(0.41F, -0.25F, -0.5555557F);
+                                    GlStateManager.translate(0.0F, 0, 0.0F);
+                                    GlStateManager.rotate(35.0F, 0f, 1.5F, 0.0F);
+                                    GlStateManager.translate(0, -Math.sin(equippedProgress) / 3, 0);
+                                    float idfk = MathHelper.sin(swingProgress * swingProgress / 64 * (float) Math.PI);
+                                    float pens = MathHelper.sin(MathHelper.sqrt_float(swingProgress) * (float) Math.PI);
+                                    GlStateManager.rotate(idfk * -5.0F, 0.0F, 0.0F, 0.0F);
+                                    GlStateManager.rotate(pens * -12.0F, 0.0F, 0.0F, 1.0F);
+                                    GlStateManager.rotate(pens * -65.0F, 1.0F, 0.0F, 0.0F);
+                                    GlStateManager.scale(0.3F, 0.3F, 0.3F);
+                                    this.func_178103_d();
+                                }
+                            }
+                        }
+
                         break;
 
-                    case 5:
+                    case BOW:
                         this.transformFirstPersonItem(f, 0.0F);
                         this.func_178098_a(partialTicks, entityplayersp);
                 }
             }
             else
             {
-                this.func_178105_d(f1);
-                this.transformFirstPersonItem(f, f1);
+                this.func_178105_d(swingProgress);
+                this.transformFirstPersonItem(f, swingProgress);
             }
 
             this.renderItem(entityplayersp, this.itemToRender, ItemCameraTransforms.TransformType.FIRST_PERSON);
         }
         else if (!entityplayersp.isInvisible())
         {
-            this.func_178095_a(entityplayersp, f, f1);
+            this.func_178095_a(entityplayersp, f, swingProgress);
         }
 
         GlStateManager.popMatrix();

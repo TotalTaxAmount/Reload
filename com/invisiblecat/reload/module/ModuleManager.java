@@ -40,9 +40,8 @@ public class ModuleManager {
         //Render
         modules.add(new ChestESP());
         modules.add(new Fullbright());
-        modules.add(new Chams());
         modules.add(new HUDmodule());
-        modules.add(new Capes());
+        modules.add(new Animations());
         modules.add(new ClickGUIModule());
 
         //Exploit
@@ -63,5 +62,9 @@ public class ModuleManager {
     }
     public Module getModuleByName(String name) {
         return modules.stream().filter(module -> module.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
+    }
+    // create a getModuleByClass method
+    public Module getModuleByClass(Class<? extends Module> clazz) {
+        return modules.stream().filter(module -> module.getClass().equals(clazz)).findFirst().orElse(null);
     }
 }
