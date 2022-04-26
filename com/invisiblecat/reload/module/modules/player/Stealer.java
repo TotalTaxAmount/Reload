@@ -35,8 +35,8 @@ public class Stealer extends Module {
     private final TimerUtils timer = new TimerUtils();
     private final TimerUtils timer2 = new TimerUtils();
 
-    private final NumberSetting minDelay = new NumberSetting("Min Delay", 1, 0, 1000, 1);
-    private final NumberSetting maxDelay = new NumberSetting("Max Delay", 2, 0, 1000, 1);
+    private final NumberSetting minDelay = new NumberSetting("Min Delay", 200, 0, 1000, 1);
+    private final NumberSetting maxDelay = new NumberSetting("Max Delay", 250       , 0, 1000, 1);
     private final BooleanSetting stealTrashItems = new BooleanSetting("Steal trash items", false);
     private final BooleanSetting autoClose = new BooleanSetting("Auto Close", true);
     private final BooleanSetting hideGui = new BooleanSetting("Hide Gui", false);

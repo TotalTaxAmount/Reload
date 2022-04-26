@@ -70,4 +70,12 @@ public class C17PacketCustomPayload implements Packet<INetHandlerPlayServer>
     {
         return this.data;
     }
+
+    public void setChannel(String channel) {
+        this.channel = channel;
+    }
+
+    public void setData(PacketBuffer data) {
+        this.data = data;
+    }
 }

@@ -1,5 +1,6 @@
 package com.invisiblecat.reload.module;
 
+import com.invisiblecat.reload.module.modules.combat.AntiBot;
 import com.invisiblecat.reload.module.modules.combat.KillAura;
 import com.invisiblecat.reload.module.modules.combat.Velocity;
 import com.invisiblecat.reload.module.modules.movement.*;
@@ -22,6 +23,7 @@ public class ModuleManager {
         //Combat
         modules.add(new Velocity());
         modules.add(new KillAura());
+        modules.add(new AntiBot());
 
         //Movement
         modules.add(new Sprint());
@@ -53,6 +55,7 @@ public class ModuleManager {
         //Other
         modules.add(new AutoCommand());
         modules.add(new AutoLogin());
+        modules.add(new ClientSpoofer());
         modules.add(new AutoDisable());
 
         //None

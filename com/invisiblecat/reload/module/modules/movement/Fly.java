@@ -20,7 +20,7 @@ import net.minecraft.util.EnumFacing;
 import java.util.UUID;
 
 public class Fly extends Module {
-    private final ModeSetting mode = new ModeSetting("Mode", "Verus2", "Velocity", "Vanilla", "Verus", "Verus2", "VerusSilent","Damage");
+    private final ModeSetting mode = new ModeSetting("Mode", "Verus2", "Velocity", "Vanilla", "Verus", "Verus2","Damage", "Collide");
     private final NumberSetting speed = new NumberSetting("Speed", 2, 0, 10, 0.1);
     private final BooleanSetting bypassVanillaKick = new BooleanSetting("BypassVanillaKick", true);
     boolean hasBeenDamaged = false;
@@ -176,8 +176,6 @@ public class Fly extends Module {
                    count++;
                }
 
-
-
                if (mc.gameSettings.keyBindJump.isKeyDown()) {
                    mc.thePlayer.motionY = 0.7F;
                    if (mc.thePlayer.ticksExisted % 2 == 0) {
@@ -190,9 +188,38 @@ public class Fly extends Module {
                    }
                }
                break;
+            case "collide": {
+                if (!mc.gameSettings.keyBindSneak.isKeyDown()) {
+                    if (PlayerUtils.isMoving()) {
+                        PlayerUtils.strafe(speed.getValue());
+                    } else {
+                        mc.thePlayer.motionY = 0;
+                        mc.thePlayer.motionX = 0;
+                        mc.thePlayer.motionZ = 0;
+                    }
+
+                    if (mc.gameSettings.keyBindJump.isKeyDown()) {
+                        mc.thePlayer.motionY = -(mc.thePlayer.posY - roundToOnGround(mc.thePlayer.posY + 0.5));
+                    } else {
+                        mc.thePlayer.motionY = -(mc.thePlayer.posY - roundToOnGround(mc.thePlayer.posY));
+                    }
+
+                    if (mc.thePlayer.posY % (1.0F / 64.0F) < 0.005) {
+                        event.setGround(true);
+                    }
+                }
+
+                break;
+            }
+
 
         }
     }
+
+    private double roundToOnGround(double posY) {
+        return posY - (posY % 0.015625);
+    }
+
     @Override
     public void onDisable() {
         super.onDisable();

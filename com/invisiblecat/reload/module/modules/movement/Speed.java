@@ -7,6 +7,8 @@ import com.invisiblecat.reload.module.Category;
 import com.invisiblecat.reload.module.Module;
 import com.invisiblecat.reload.setting.settings.ModeSetting;
 import com.invisiblecat.reload.setting.settings.NumberSetting;
+import com.invisiblecat.reload.utils.PacketUtils;
+import com.invisiblecat.reload.utils.TimerUtils;
 import com.invisiblecat.reload.utils.chat.ChatUtils;
 import com.invisiblecat.reload.utils.player.PlayerUtils;
 import com.mojang.realmsclient.gui.ChatFormatting;
@@ -17,6 +19,8 @@ public class Speed extends Module {
     private final NumberSetting speed = new NumberSetting("Speed", 2, 1, 10, 0.1);
 
     private int wallTicks = 0, verusTicks = 0;
+
+    private TimerUtils timer = new TimerUtils();
 
     private boolean direction = false;
     private boolean isTimer = false;
@@ -61,15 +65,18 @@ public class Speed extends Module {
                         PlayerUtils.strafe();
                     }
                 case "verus":
+                    PlayerUtils.strafe();
                     if (mc.thePlayer.onGround) {
-                        mc.thePlayer.jump();
-                        PlayerUtils.strafe(0.55);
-                    } else {
-                        PlayerUtils.strafe(0.349        );
+                        mc.thePlayer.motionY = 0.2632563;
+                        PlayerUtils.strafe(1.001);
+                    } else if (timer.hasTimePassed(500, true)) {
+                        mc.thePlayer.motionY = -2;
+                        PlayerUtils.strafe(0.764);
                     }
-                    if (mc.thePlayer.motionY > 0.5) {
-                        mc.thePlayer.motionY = -1;
-                    }
+                    if (mc.thePlayer.isCollidedHorizontally) {
+                        mc.thePlayer.stepHeight = 1;
+                    } else
+                        mc.thePlayer.stepHeight = 0.5F;
                     break;
             }
         }

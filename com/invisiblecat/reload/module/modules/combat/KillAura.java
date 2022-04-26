@@ -1,5 +1,6 @@
 package com.invisiblecat.reload.module.modules.combat;
 
+import com.invisiblecat.reload.client.Reload;
 import com.invisiblecat.reload.event.EventTarget;
 import com.invisiblecat.reload.event.events.EventPreMotionUpdate;
 import com.invisiblecat.reload.event.events.EventUpdate;
@@ -13,6 +14,7 @@ import com.invisiblecat.reload.utils.player.AuraUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 
+import java.io.Reader;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
@@ -70,6 +72,7 @@ public class KillAura extends Module {
     }
 
     private List<EntityLivingBase> getTargets() {
+        AntiBot antiBot = (AntiBot) Reload.instance.moduleManager.getModuleByClass(AntiBot.class);
         return mc.theWorld.loadedEntityList
                 .stream().filter(entity -> entity instanceof EntityLivingBase)
                 .map(entity -> ((EntityLivingBase) entity))
@@ -80,7 +83,11 @@ public class KillAura extends Module {
 
                     if (entity.isDead) return false;
 
+                    if (antiBot.bots.contains(entity)) return false;
+
                     if (entity.ticksExisted < 2) return false;
+
+
 
                     if (mc.thePlayer.getDistanceToEntity(entity) > range.getValue()) return false;
 
