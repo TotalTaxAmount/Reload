@@ -29,6 +29,7 @@ public class AutoDisable extends Module {
 
     public AutoDisable() {
         super("AutoDisable", 0, Category.OTHER, AutoDisable.NONE);
+        this.addSettings(world, respawn, flag, chat, notification);
     }
 
     @Override
@@ -68,7 +69,6 @@ public class AutoDisable extends Module {
                     m.toggle(false);
                     if(doChat)ChatUtils.sendChatMessageClient(m.getName() + " was disabled because of flag", ChatUtils.Type.WARN  );
                     if(doNotification) NotificationManager.show(new Notification(NotificationType.WARNING, this.getName(), m.getName() + " was disabled because of flag", 1));
-
                 }
             });
         }
