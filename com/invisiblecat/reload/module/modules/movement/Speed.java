@@ -11,11 +11,11 @@ import com.invisiblecat.reload.utils.PacketUtils;
 import com.invisiblecat.reload.utils.TimerUtils;
 import com.invisiblecat.reload.utils.chat.ChatUtils;
 import com.invisiblecat.reload.utils.player.PlayerUtils;
-import com.mojang.realmsclient.gui.ChatFormatting;
+
 
 public class Speed extends Module {
     private final ModeSetting mode = new ModeSetting("Mode", "Vanilla", "Vanilla",
-            "Verus", "NCP");
+            "Verus", "Test");
     private final NumberSetting speed = new NumberSetting("Speed", 2, 1, 10, 0.1);
 
     private int wallTicks = 0, verusTicks = 0;
@@ -78,6 +78,13 @@ public class Speed extends Module {
                     } else
                         mc.thePlayer.stepHeight = 0.5F;
                     break;
+                case "test": {
+                    PlayerUtils.strafe();
+                    if (mc.thePlayer.onGround) {
+                        mc.thePlayer.jump();
+                    }
+                    break;
+                }
             }
         }
     }
