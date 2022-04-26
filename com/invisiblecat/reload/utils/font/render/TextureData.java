@@ -1,5 +1,8 @@
-package com.invisiblecat.reload.utils.font.render;
+/* This is from the rise src leak (sry Alan).
+ I just need a quick good TTF renderer.
+ */
 
+package com.invisiblecat.reload.utils.font.render;
 
 import java.nio.ByteBuffer;
 

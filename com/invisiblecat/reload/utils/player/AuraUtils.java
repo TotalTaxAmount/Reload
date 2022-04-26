@@ -12,21 +12,6 @@ import net.minecraft.network.play.client.C02PacketUseEntity;
 
 public class AuraUtils extends Module {
 
-    public static EntityLivingBase getTarget(double range, ModeSetting mode) {
-        EntityLivingBase entityLivingBase = null;
-        for (Entity entity : Minecraft.getMinecraft().theWorld.loadedEntityList) {
-            if (Minecraft.getMinecraft().thePlayer.getDistanceToEntity(entity) <= range && shouldAttack((EntityLivingBase) entity)) {
-                entityLivingBase = (EntityLivingBase) entity;
-            }
-
-        }
-        return entityLivingBase;
-    }
-
-    public static boolean shouldAttack(EntityLivingBase target) {
-        return target != Minecraft.getMinecraft().thePlayer && target.isEntityAlive() && !target.isInvisible() ;
-    }
-
     public static void attack(EntityLivingBase target, boolean legit) {
         if (legit) {
             Minecraft.getMinecraft().playerController.attackEntity(Minecraft.getMinecraft().thePlayer, target);

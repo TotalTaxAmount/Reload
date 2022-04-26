@@ -168,10 +168,11 @@ public class Fly extends Module {
                    PacketUtils.sendPacketNoEvent(new C18PacketSpectate(UUID.randomUUID()));
                    PlayerUtils.strafe(speed.getValueInt()/1.9F);
                }
-               if (count > 10) {
+               if (count > 20) {
                    count = 0;
-                   PacketUtils.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY - 0.2, mc.thePlayer.posZ, false));
+                   mc.timer.timerSpeed = 0.4F;
                } else {
+                   mc.timer.timerSpeed = 1F;
                    count++;
                }
 

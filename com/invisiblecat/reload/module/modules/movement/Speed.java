@@ -67,6 +67,9 @@ public class Speed extends Module {
                     } else {
                         PlayerUtils.strafe(0.349        );
                     }
+                    if (mc.thePlayer.motionY > 0.5) {
+                        mc.thePlayer.motionY = -1;
+                    }
                     break;
             }
         }

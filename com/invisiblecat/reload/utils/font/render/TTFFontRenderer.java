@@ -1,3 +1,7 @@
+/* This is from the rise src leak (sry Alan).
+ I just need a quick good TTF renderer.
+ */
+
 package com.invisiblecat.reload.utils.font.render;
 
 import net.minecraft.client.Minecraft;

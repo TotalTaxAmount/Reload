@@ -27,7 +27,10 @@ public class ArrayListModules extends Element {
 
        // Reload.instance.moduleManager.getModules().sort(Comparator.comparingInt((Module m) -> mc.fontRendererObj.getStringWidth(showModStats ? m.getName() + " " + m.getDisplayName() : m.getName())).reversed());
         // Sort the modules by length of name, if showModStats is enabled, add the display name to the name.
-        Reload.instance.moduleManager.getModules().sort(Comparator.comparingInt((Module m) -> mc.fontRendererObj.getStringWidth(showModStats ? m.getName() + " " + m.getDisplayName() : m.getName())).reversed());
+        Reload.instance.moduleManager.getModules().sort(
+                Comparator.comparingInt(
+                        (Module m) -> (int)font.getWidth(showModStats ? m.getName() + " " + m.getDisplayName() : m.getName())).reversed());
+
         for (Module m : Reload.instance.moduleManager.getModules()) {
             if (m.isEnabled()) {
                 if (this.getX() + this.draggable.getWidth()/2 < sr.getScaledWidth() / 2) {
@@ -54,8 +57,6 @@ public class ArrayListModules extends Element {
         }
         this.draggable.setWidth((int) font.getWidth(showModStats ? Reload.instance.moduleManager.getModules().get(0).getName() + " " + Reload.instance.moduleManager.getModules().get(0).getDisplayName() : Reload.instance.moduleManager.getModules().get(0).getName()));
         this.draggable.setHeight((int) (font.getHeight() * moduleCount));
-
-
-
     }
+
 }

@@ -6,7 +6,7 @@ public class TimerUtils {
     public boolean hasTimePassed(long ms, boolean b) {
         ms = lastMs + ms;
 
-        if(b) {
+        if(b && System.currentTimeMillis() >= ms) {
             reset();
         }
         return System.currentTimeMillis() >= ms;

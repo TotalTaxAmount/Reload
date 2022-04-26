@@ -33,15 +33,44 @@ public class KillAura extends Module {
 
     private BooleanSetting legit = new BooleanSetting("Legit", false);
     private BooleanSetting swing = new BooleanSetting("Swing", true);
+    private BooleanSetting block = new BooleanSetting("Block", true);
+
+    private List<EntityLivingBase> entities;
+    private EntityLivingBase target;
+
 
     public KillAura() {
-        super("KillAura", 0, Category.PLAYER, AutoDisable.NONE);
+        super("KillAura", 0, Category.PLAYER, AutoDisable.WORLD);
         this.addSettings(range, sort, players, others, legit, minCps, maxCps, swing);
     }
 
     @EventTarget
     public void onPreMotionUpdate(EventPreMotionUpdate event) {
-        List<EntityLivingBase> entities = mc.theWorld.loadedEntityList
+        entities = getTargets();
+        if (entities.size() > 0) {
+            target = entities.get(0);
+
+            event.setYaw(getRotations(target)[0]);
+            event.setPitch(getRotations(target)[1]);
+
+            mc.thePlayer.rotationYawHead = getRotations(target)[0];
+            mc.thePlayer.renderYawOffset = getRotations(target)[0];
+            mc.thePlayer.rotationPitchHead = getRotations(target)[1];
+
+            attack();
+        }
+    }
+    @EventTarget
+    public void onUpdate(EventUpdate event) {
+        if (maxCps.getValue() < minCps.getValue()) maxCps.setValue(minCps.getValueInt());
+        entities = getTargets();
+        target = entities.get(0);
+
+        attack();
+    }
+
+    private List<EntityLivingBase> getTargets() {
+        return mc.theWorld.loadedEntityList
                 .stream().filter(entity -> entity instanceof EntityLivingBase)
                 .map(entity -> ((EntityLivingBase) entity))
                 .filter(entity -> {
@@ -70,20 +99,36 @@ public class KillAura extends Module {
                             return -1;
                     }
                 })).collect(Collectors.toList());
+    }
 
-        if (entities.size() > 0) {
-            EntityLivingBase target = entities.get(0);
+    private float[] getRotations(EntityLivingBase entity) {
+        double deltaX = entity.posX + (entity.posX - entity.lastTickPosX) - mc.thePlayer.posX;
+        double deltaZ = entity.posZ + (entity.posZ - entity.lastTickPosZ) - mc.thePlayer.posZ;
+        double deltaY = entity.posY - 3.5 + entity.getEyeHeight() - mc.thePlayer.posY + mc.thePlayer.getEyeHeight();
+        double dist = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaZ, 2));
+        float yaw = (float) Math.toDegrees(-Math.atan(deltaX / deltaZ));
+        float pitch = (float) Math.toDegrees(-Math.atan(deltaY / dist));
 
-            if (timer.hasTimePassed(1000 / random.nextInt(maxCps.getValueInt() - minCps.getValueInt() + 1) + minCps.getValueInt(), false)) {
-                AuraUtils.attack(target, legit.isEnabled());
-                if (swing.isEnabled()) mc.thePlayer.swingItem();
-                timer.reset();
-            }
+        double v = Math.toDegrees(Math.atan(deltaZ / deltaX));
+        if (deltaX < 0 && deltaZ < 0) {
+            yaw = (float) (90 + v);
+        } else if (deltaX > 0 && deltaZ < 0) {
+            yaw = (float) (-90 + v);
+        }
+
+        return new float[]{yaw, pitch};
+
+    }
+
+    private void attack() {
+        long cps = random.nextInt(maxCps.getValueInt() - minCps.getValueInt() + 1) + minCps.getValueInt();
+
+        if (timer.hasTimePassed(1000 / cps, true)) {
+            if (target.isDead) return;
+            AuraUtils.attack(target, legit.isEnabled());
+            if (swing.isEnabled()) mc.thePlayer.swingItem();
         }
     }
-    @EventTarget
-    public void onUpdate(EventUpdate event) {
 
-    }
 
 }
