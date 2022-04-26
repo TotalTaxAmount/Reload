@@ -2,6 +2,7 @@ package com.invisiblecat.reload.module.modules.other;
 
 import com.invisiblecat.reload.event.EventTarget;
 import com.invisiblecat.reload.event.events.EventSendPacket;
+import com.invisiblecat.reload.event.events.EventUpdate;
 import com.invisiblecat.reload.module.Category;
 import com.invisiblecat.reload.module.Module;
 import com.invisiblecat.reload.setting.settings.ModeSetting;
@@ -14,6 +15,12 @@ public class ClientSpoofer extends Module {
 
     public ClientSpoofer() {
         super("ClientSpoofer", 0, Category.OTHER, AutoDisable.NONE);
+    }
+
+    @EventTarget
+    public void onUpdate(EventUpdate event) {
+        this.setDisplayName(client.getSelected());
+
     }
 
     @EventTarget
