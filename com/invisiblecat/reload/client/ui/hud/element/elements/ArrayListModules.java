@@ -6,6 +6,7 @@ import com.invisiblecat.reload.module.Module;
 import com.invisiblecat.reload.setting.settings.BooleanSetting;
 import com.invisiblecat.reload.utils.font.CustomFontUtil;
 import com.invisiblecat.reload.utils.font.render.TTFFontRenderer;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.util.Comparator;
@@ -50,13 +51,22 @@ public class ArrayListModules extends Element {
                     } else {
                         font.drawString(m.getName(), this.getX() - font.getWidth(m.getName()), this.getY() + (moduleCount * font.getHeight()), Color.WHITE.getRGB());
                     }
+                    // blur the background with GSGL
+
                 }
+
+
                 moduleCount++;
 
             }
         }
         this.draggable.setWidth((int) font.getWidth(showModStats ? Reload.instance.moduleManager.getModules().get(0).getName() + " " + Reload.instance.moduleManager.getModules().get(0).getDisplayName() : Reload.instance.moduleManager.getModules().get(0).getName()));
         this.draggable.setHeight((int) (font.getHeight() * moduleCount));
+    }
+
+    private void drawBlur(String text, int padding, int x, int y, int color) {
+       g
+
     }
 
 }
