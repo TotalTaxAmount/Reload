@@ -1,11 +1,13 @@
 package com.invisiblecat.reload.client.ui.hud.element.elements;
 
 import com.invisiblecat.reload.client.Reload;
+import com.invisiblecat.reload.client.ui.hud.HUD;
 import com.invisiblecat.reload.client.ui.hud.element.Element;
 import com.invisiblecat.reload.module.Module;
 import com.invisiblecat.reload.setting.settings.BooleanSetting;
 import com.invisiblecat.reload.utils.font.CustomFontUtil;
 import com.invisiblecat.reload.utils.font.render.TTFFontRenderer;
+import net.minecraft.client.gui.Gui;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -37,22 +39,20 @@ public class ArrayListModules extends Element {
                 if (this.getX() + this.draggable.getWidth()/2 < sr.getScaledWidth() / 2) {
                     // left side
                     if (showModStats) {
-                        font.drawString(m.getName(), this.getX(), this.getY() + (moduleCount * font.getHeight()), Color.WHITE.getRGB());
-                        font.drawString(m.getDisplayName(), this.getX() + font.getWidth(m.getName()), this.getY() + (moduleCount * font.getHeight()), Color.DARK_GRAY.getRGB());
+                        font.drawString(m.getName(), this.getX(), this.getY() + (moduleCount * font.getHeight()), HUD.getClientColor().darker().getRGB());
+                        font.drawString(m.getDisplayName(), this.getX() + font.getWidth(m.getName()), this.getY() + (moduleCount * font.getHeight()), HUD.getClientColor().getRGB());
 
                     } else {
-                        font.drawString(m.getName(), this.getX(), this.getY() + (moduleCount * font.getHeight()), Color.WHITE.getRGB());
+                        font.drawString(m.getName(), this.getX(), this.getY() + (moduleCount * font.getHeight()), HUD.getClientColor().getRGB());
                     }
                 } else {
                     // right side
                     if (showModStats) {
-                        font.drawString(m.getDisplayName(), this.getX() - font.getWidth(m.getDisplayName()) + this.draggable.getWidth(), this.getY() + (moduleCount * font.getHeight()), Color.DARK_GRAY.getRGB());
-                        font.drawString(m.getName(), this.getX() - font.getWidth(m.getName() + " " + m.getDisplayName()) + this.draggable.getWidth(), this.getY() + (moduleCount * font.getHeight()), Color.WHITE.getRGB());
+                        font.drawString(m.getDisplayName(), this.getX() - font.getWidth(m.getDisplayName()) + this.draggable.getWidth(), this.getY() + (moduleCount * font.getHeight()), HUD.getClientColor().darker().getRGB());
+                        font.drawString(m.getName(), this.getX() - font.getWidth(m.getName() + " " + m.getDisplayName()) + this.draggable.getWidth(), this.getY() + (moduleCount * font.getHeight()), HUD.getClientColor().getRGB());
                     } else {
-                        font.drawString(m.getName(), this.getX() - font.getWidth(m.getName()), this.getY() + (moduleCount * font.getHeight()), Color.WHITE.getRGB());
+                        font.drawString(m.getName(), this.getX() - font.getWidth(m.getName()), this.getY() + (moduleCount * font.getHeight()), HUD.getClientColor().getRGB());
                     }
-                    // blur the background with GSGL
-
                 }
 
 
@@ -64,9 +64,5 @@ public class ArrayListModules extends Element {
         this.draggable.setHeight((int) (font.getHeight() * moduleCount));
     }
 
-    private void drawBlur(String text, int padding, int x, int y, int color) {
-       g
-
-    }
 
 }

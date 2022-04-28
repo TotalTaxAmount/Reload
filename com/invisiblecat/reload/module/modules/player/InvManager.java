@@ -1,4 +1,4 @@
-//Sry Alan
+//this is not mine, idk who made it
 
 package com.invisiblecat.reload.module.modules.player;
 
@@ -53,8 +53,6 @@ public final class InvManager extends Module {
     private final NumberSetting blockSlot = new NumberSetting("Block Slot",  5, 1, 10, 1);
     private final NumberSetting potionSlot = new NumberSetting("Potion Slot",  6, 1, 10, 1);
     private final NumberSetting gapSlot = new NumberSetting("Gap Slot",  7, 1, 10, 1);
-
-    private final int INVENTORY_ROWS = 4, INVENTORY_COLUMNS = 9, ARMOR_SLOTS = 4;
 
     private EntityPlayer player;
     private PlayerControllerMP playerController;
@@ -126,21 +124,25 @@ public final class InvManager extends Module {
             return;
         }
 
-
         if (delay == null) {
             delay = RandomUtils.nextInt((int) minDelay.getValue(), (int) maxDelay.getValue());
+        }
+
+        if (!timer.hasTimePassed(delay, false)) {
+            return;
         }
 
         movedItem = false;
         timer.reset();
         delay = RandomUtils.nextInt((int) minDelay.getValue(), (int) maxDelay.getValue());
 
-        /* Allows the mode of the manager to function */
 
         player = mc.thePlayer;
         playerController = mc.playerController;
 
-        /* Looping through all inventory slots to remove unwhitelisted or blacklisted items */
+        int INVENTORY_ROWS = 4;
+        int INVENTORY_COLUMNS = 9;
+        int ARMOR_SLOTS = 4;
         int INVENTORY_SLOTS = INVENTORY_ROWS * INVENTORY_COLUMNS + ARMOR_SLOTS;
         if (throwUselessItems.isEnabled()) {
             for (int i = 0; i < INVENTORY_SLOTS; ++i) {
@@ -280,6 +282,7 @@ public final class InvManager extends Module {
                 }
             }
         }
+
 
         /* Throws away armor that isn't considered the best */
         if (throwUselessItems.isEnabled()) {
@@ -445,16 +448,14 @@ public final class InvManager extends Module {
             add(Items.redstone);
             add(Items.diamond);
             add(Items.emerald);
-            add(Items.quartz);
             add(Items.bow);
             add(Items.arrow);
-            add(Items.fishing_rod);
         }};
 
         final Item item = itemStack.getItem();
         final String itemName = itemStack.getDisplayName();
 
-        if (itemName.contains("Right Click") || itemName.contains("Click to Use") || itemName.contains("Players Finder"))
+        if (itemName.contains("Right Click") || itemName.contains("Click to Use") || itemName.contains("Players Finder") || itemName.toLowerCase().contains("kit"))
             return true;
 
         final ArrayList<Integer> whitelistedPotions = new ArrayList<Integer>() {{
@@ -506,7 +507,6 @@ public final class InvManager extends Module {
         final Item item = itemStack.getItem();
         int level = EnchantmentHelper.getEnchantmentLevel(Enchantment.efficiency.effectId, itemStack);
 
-        //Percentage of Efficiency per Level
         switch (level) {
             case 1:
                 level = 30;

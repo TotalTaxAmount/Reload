@@ -53,6 +53,7 @@ public class ModuleManager {
         //Exploit
         modules.add(new Disabler());
         modules.add(new Kick());
+        modules.add(new NoRot());
 
         //Other
         modules.add(new AutoCommand());

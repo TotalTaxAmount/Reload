@@ -123,4 +123,8 @@ public class S12PacketEntityVelocity implements Packet<INetHandlerPlayClient>
     public void setMotionZ(int motionZ) {
         this.motionZ = motionZ;
     }
+
+    public void setEntityId(int entityId) {
+        this.entityID = entityId;
+    }
 }

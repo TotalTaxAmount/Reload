@@ -108,4 +108,28 @@ public class C08PacketPlayerBlockPlacement implements Packet<INetHandlerPlayServ
     {
         return this.facingZ;
     }
+
+    public void setPosition(BlockPos position) {
+        this.position = position;
+    }
+
+    public void setPlacedBlockDirection(int placedBlockDirection) {
+        this.placedBlockDirection = placedBlockDirection;
+    }
+
+    public void setStack(ItemStack stack) {
+        this.stack = stack;
+    }
+
+    public void setFacingX(float facingX) {
+        this.facingX = facingX;
+    }
+
+    public void setFacingY(float facingY) {
+        this.facingY = facingY;
+    }
+
+    public void setFacingZ(float facingZ) {
+        this.facingZ = facingZ;
+    }
 }

@@ -14,7 +14,6 @@ import com.invisiblecat.reload.utils.player.AuraUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 
-import java.io.Reader;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
@@ -27,6 +26,8 @@ public class KillAura extends Module {
     private NumberSetting range = new NumberSetting("Range", 3, 1, 8, 0.1);
     private NumberSetting minCps = new NumberSetting("Minimum CPS", 10, 1, 20, 1);
     private NumberSetting maxCps = new NumberSetting("Maximum CPS", 15, 1, 20, 1);
+
+    private ModeSetting rotMode = new ModeSetting("Rotation Mode", "Normal", "Normal");
 
     private ModeSetting sort = new ModeSetting("Sort", "Distance", "Health", "Distance", "Hurt Time");
 
@@ -43,7 +44,7 @@ public class KillAura extends Module {
 
     public KillAura() {
         super("KillAura", 0, Category.PLAYER, AutoDisable.WORLD);
-        this.addSettings(range, sort, players, others, legit, minCps, maxCps, swing);
+        this.addSettings(range, sort, rotMode, players, others, legit, minCps, maxCps, swing);
     }
 
     @EventTarget
@@ -138,4 +139,7 @@ public class KillAura extends Module {
     }
 
 
+    public EntityLivingBase getTarget() {
+        return target;
+    }
 }

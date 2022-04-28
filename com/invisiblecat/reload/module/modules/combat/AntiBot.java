@@ -26,9 +26,6 @@ public class AntiBot extends Module {
     @EventTarget
     public void onPreMotionUpdate(EventPreMotionUpdate event) {
         bots.clear();
-
-        List<Integer> ids = new ArrayList<>();
-
         for (EntityPlayer player : mc.theWorld.playerEntities) {
             if (player == mc.thePlayer) return;
 

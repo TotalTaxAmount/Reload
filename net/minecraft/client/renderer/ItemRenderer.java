@@ -372,6 +372,8 @@ public class ItemRenderer
                             this.func_178103_d();
                         } else {
                             String mode = ((ModeSetting) Reload.instance.moduleManager.getModuleByClass(Animations.class).getSetting("Mode")).getSelected();
+                            float var1 = MathHelper.sin(MathHelper.sqrt_float(swingProgress) * (float) Math.PI);
+
                             switch (mode) {
                                 case "1.7": {
                                     this.transformFirstPersonItem(0.2f, swingProgress);
@@ -391,9 +393,34 @@ public class ItemRenderer
                                     GlStateManager.scale(0.3F, 0.3F, 0.3F);
                                     this.func_178103_d();
                                 }
-                            }
-                        }
+                                case "Exhibition": {
+                                    this.transformFirstPersonItem(equippedProgress / 2.0F, 0.0F);
+                                    GlStateManager.translate(0.0F, 0.3F, -0.0F);
+                                    GlStateManager.rotate(-var1 * 31.0F, 1, 0, 2.0F);
+                                    GlStateManager.rotate(-var1 * 33.0F, 1.5F, (var1 / 1.1F), 0F);
+                                    this.func_178103_d();
+                                    break;
+                                }
+                                case "Skid": {
+                                    GlStateManager.translate(0.56F - var1 / 15, -0.4F + var1 / 15, -0.71999997F);
+                                    GlStateManager.translate(0.0F, equippedItemSlot * -0.6F, 0.0F);
+                                    GlStateManager.rotate(40.0F, 0.0F, 1.0F, 0.0F);
 
+                                    float ff = MathHelper.sin(swingProgress * swingProgress * (float) Math.PI);
+                                    float f1 = MathHelper.sin(MathHelper.sqrt_float(swingProgress) * (float) Math.PI);
+
+                                    GlStateManager.rotate(ff * -30.0F, 0.0F, 1.0F, 0.0F);
+                                    GlStateManager.rotate(f1 * -20.0F, 0.0F, 0.0F, 1.0F);
+                                    GlStateManager.rotate(f1 * -85.0F, 1.0F, 0.0F, 0.0F);
+                                    GlStateManager.scale(0.25F, 0.25F, 0.25F);
+
+                                    this.func_178103_d();
+
+                                    break;
+                                }
+                            }
+
+                        }
                         break;
 
                     case BOW:

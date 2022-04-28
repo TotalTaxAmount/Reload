@@ -78,6 +78,10 @@ public class C02PacketUseEntity implements Packet<INetHandlerPlayServer>
         return this.action;
     }
 
+    public void setAction(Action action) {
+        this.action = action;
+    }
+
     public Vec3 getHitVec()
     {
         return this.hitVec;

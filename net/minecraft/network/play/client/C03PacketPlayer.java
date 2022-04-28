@@ -110,6 +110,10 @@ public class C03PacketPlayer implements Packet<INetHandlerPlayServer>
         this.moving = isMoving;
     }
 
+    public void setRotating(boolean idk) {
+        this.rotating = idk;
+    }
+
     public static class C04PacketPlayerPosition extends C03PacketPlayer
     {
         public C04PacketPlayerPosition()
