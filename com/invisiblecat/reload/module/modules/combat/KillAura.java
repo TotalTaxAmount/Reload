@@ -74,7 +74,7 @@ public class KillAura extends Module {
 
     private List<EntityLivingBase> getTargets() {
         AntiBot antiBot = (AntiBot) Reload.instance.moduleManager.getModuleByClass(AntiBot.class);
-        return mc.theWorld.loadedEntityList
+        List<EntityLivingBase> var2 = mc.theWorld.loadedEntityList
                 .stream().filter(entity -> entity instanceof EntityLivingBase)
                 .map(entity -> ((EntityLivingBase) entity))
                 .filter(entity -> {
@@ -107,6 +107,8 @@ public class KillAura extends Module {
                             return -1;
                     }
                 })).collect(Collectors.toList());
+        if (var2.isEmpty() && timer.hasTimePassed(1000, true)) return null;
+        return var2;
     }
 
     private float[] getRotations(EntityLivingBase entity) {
@@ -138,6 +140,17 @@ public class KillAura extends Module {
         }
     }
 
+    @Override
+    public void onEnable() {
+        super.onEnable();
+        target = null;
+    }
+
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        target = null;
+    }
 
     public EntityLivingBase getTarget() {
         return target;

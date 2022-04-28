@@ -94,6 +94,7 @@ public class Speed extends Module {
                         PlayerUtils.strafe();
                         mc.thePlayer.motionY = -0.41999998688698;
                     }
+                    break;
                 }
             }
         }

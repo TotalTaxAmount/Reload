@@ -29,7 +29,7 @@ public class Element {
     public void render() {
     }
 
-    public void render(int mouseX, int mouseY) {
+    public void renderDrag(int mouseX, int mouseY) {
         render();
         draggable.draw(mouseX, mouseY);
     }

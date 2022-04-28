@@ -5,6 +5,7 @@ import com.invisiblecat.reload.client.ui.clickgui.ClickGUI;
 import com.invisiblecat.reload.client.ui.hud.element.Element;
 import com.invisiblecat.reload.client.ui.hud.element.elements.ArrayListModules;
 import com.invisiblecat.reload.client.ui.hud.element.elements.Info;
+import com.invisiblecat.reload.client.ui.hud.element.elements.TargetHUD;
 import com.invisiblecat.reload.client.ui.hud.element.elements.Watermark;
 import com.invisiblecat.reload.client.ui.hud.notification.NotificationManager;
 import net.minecraft.client.Minecraft;
@@ -21,6 +22,7 @@ public class HUD {
         elements.add(new Watermark());
         elements.add(new ArrayListModules());
         elements.add(new Info());
+        elements.add(new TargetHUD());
     }
 
     public void render() {

@@ -18,7 +18,7 @@ public class GuiHUDConfig extends GuiScreen {
         this.drawDefaultBackground();
 
         for (Element e : Reload.instance.hud.getElements()) {
-            e.render(mouseX, mouseY);
+            e.renderDrag(mouseX, mouseY);
             if (e.draggable.getxPosition() < 0) {
                 e.draggable.setxPosition(0);
             } else if (e.draggable.getxPosition() > sr.getScaledWidth() - e.draggable.getWidth()) {

@@ -21,4 +21,9 @@ ________________________________________________________
 - better Blocks MC disabler
 - Finsh base so I can work on bypass for outher servers
 - Coustum Main Menu (Gonna be the first HTML thingy)
+- fix targetHUD (ass rn)
+- add NoFall
+- add TargetStrafe
+- idk
+- add more rot modes to ka
 

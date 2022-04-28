@@ -44,7 +44,12 @@ public class HUDFile {
         JsonObject jsonData = parser.parse(reader).getAsJsonObject();
 
         Reload.instance.hud.getElements().forEach(element -> {
-            JsonObject elementJson = jsonData.get(element.getName()).getAsJsonObject();
+            JsonObject elementJson;
+            try {
+                elementJson = jsonData.get(element.getName()).getAsJsonObject();
+            } catch (NullPointerException ignored) {
+                elementJson = null;
+            }
             if (elementJson != null) {
                 if (elementJson.has("x")) element.setX(elementJson.get("x").getAsInt());
                 if (elementJson.has("y")) element.setY(elementJson.get("y").getAsInt());
