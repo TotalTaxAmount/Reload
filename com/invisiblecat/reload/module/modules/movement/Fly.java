@@ -214,6 +214,7 @@ public class Fly extends Module {
             }
             case "vulcan": {
                 mc.timer.timerSpeed = 1.2F;
+                mc.thePlayer.jump();
                 mc.thePlayer.motionY = 0;
                 PlayerUtils.strafe(0.5);
                 if (idk) {
@@ -222,6 +223,11 @@ public class Fly extends Module {
                 } else {
                     idk = true;
                     mc.thePlayer.motionY = -0.4;
+                }
+                if (timer.hasTimePassed(850, true) && !mc.thePlayer.onGround) {
+                    mc.timer.timerSpeed = .4F;
+                } else {
+                    mc.timer.timerSpeed = 1F;
                 }
                 break;
             }

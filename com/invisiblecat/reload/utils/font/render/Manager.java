@@ -39,13 +39,6 @@ public class Manager {
                 this.fonts.put("Light " + i, new TTFFontRenderer(executorService, textureQueue, myFont));
             }
             for (final int i : new int[]{12, 18, 24, 36, 48, 60, 72}) {
-                final InputStream istream = this.getClass().getResourceAsStream("/assets/minecraft/reload/fonts/KungFu.ttf");
-
-                Font myFont = Font.createFont(0, istream);
-                myFont = myFont.deriveFont(Font.PLAIN, (float) i);
-                this.fonts.put("KungFu " + i, new TTFFontRenderer(executorService, textureQueue, myFont));
-            }
-            for (final int i : new int[]{12, 18, 24, 36, 48, 60, 72}) {
                 final InputStream istream = this.getClass().getResourceAsStream("/assets/minecraft/reload/fonts/Poggers.ttf");
 
                 Font myFont = Font.createFont(0, istream);

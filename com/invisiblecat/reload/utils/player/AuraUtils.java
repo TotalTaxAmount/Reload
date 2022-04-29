@@ -13,10 +13,12 @@ import net.minecraft.network.play.client.C02PacketUseEntity;
 public class AuraUtils extends Module {
 
     public static void attack(EntityLivingBase target, boolean legit) {
-        if (legit) {
-            Minecraft.getMinecraft().playerController.attackEntity(Minecraft.getMinecraft().thePlayer, target);
-        } else {
-            PacketUtils.sendPacket(new C02PacketUseEntity(target, C02PacketUseEntity.Action.ATTACK));
+        if (target.isEntityAlive()) {
+            if (legit) {
+                Minecraft.getMinecraft().playerController.attackEntity(Minecraft.getMinecraft().thePlayer, target);
+            } else {
+                PacketUtils.sendPacket(new C02PacketUseEntity(target, C02PacketUseEntity.Action.ATTACK));
+            }
         }
     }
 
