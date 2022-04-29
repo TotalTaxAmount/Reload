@@ -14,6 +14,7 @@ import com.invisiblecat.reload.setting.settings.NumberSetting;
 import com.invisiblecat.reload.utils.PacketUtils;
 import com.invisiblecat.reload.utils.TimerUtils;
 import com.invisiblecat.reload.utils.player.AuraUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -23,6 +24,7 @@ import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import org.apache.commons.lang3.RandomUtils;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -39,7 +41,7 @@ public class KillAura extends Module {
     private NumberSetting minCps = new NumberSetting("Minimum CPS", 10, 1, 20, 1);
     private NumberSetting maxCps = new NumberSetting("Maximum CPS", 15, 1, 20, 1);
 
-    private ModeSetting rotMode = new ModeSetting("Rotation Mode", "Normal", "Normal");
+    private ModeSetting rotMode = new ModeSetting("Rotation Mode", "Normal", "Normal", "Down");
 
     private ModeSetting sort = new ModeSetting("Sort", "Distance", "Health", "Distance", "Hurt Time");
 
@@ -54,7 +56,8 @@ public class KillAura extends Module {
 
     private List<EntityLivingBase> entities;
     private EntityLivingBase target;
-    private boolean blocking;
+    private float yaw, pitch,
+            lastYaw, lastPitch;
 
 
     public KillAura() {
@@ -67,13 +70,15 @@ public class KillAura extends Module {
         entities = getTargets();
         if (entities.size() > 0) {
             target = entities.get(0);
+            yaw = getRotations(target)[0];
+            pitch = getRotations(target)[1];
 
-            event.setYaw(getRotations(target)[0]);
-            event.setPitch(getRotations(target)[1]);
+            event.setYaw(yaw);
+            event.setPitch(pitch);
 
-            mc.thePlayer.rotationYawHead = getRotations(target)[0];
-            mc.thePlayer.renderYawOffset = getRotations(target)[0];
-            mc.thePlayer.rotationPitchHead = getRotations(target)[1];
+            mc.thePlayer.rotationYawHead = yaw;
+            mc.thePlayer.renderYawOffset = yaw;
+            mc.thePlayer.rotationPitchHead = pitch;
 
             attack();
         }
@@ -84,19 +89,20 @@ public class KillAura extends Module {
         if (block.isEnabled() && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
             mc.gameSettings.keyBindUseItem.setState(true);
         }
-        if (target == null || !target.isEntityAlive() || (mc.thePlayer.getDistanceToEntity(target) > range.getValue())) {
+        if (target == null || !target.isEntityAlive() || (mc.thePlayer.getDistanceToEntity(target) > range.getValue()) && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
             mc.gameSettings.keyBindUseItem.setState(false);
         }
     }
 
     @EventTarget
     public void onUpdate(EventUpdate event) {
+        this.setDisplayName(rotMode.getSelected());
         if (maxCps.getValue() < minCps.getValue()) maxCps.setValue(minCps.getValueInt());
         entities = getTargets();
         assert entities != null;
         target = entities.get(0);
 
-        attack();
+        //attack();
     }
 
     private List<EntityLivingBase> getTargets() {
@@ -109,7 +115,7 @@ public class KillAura extends Module {
 
                     if (!(entity instanceof EntityPlayer) && !others.isEnabled()) return false;
 
-                    if (entity.isDead) return false;
+                    if (!entity.isEntityAlive()) return false;
 
                     if (antiBot.bots.contains(entity)) return false;
 
@@ -154,6 +160,8 @@ public class KillAura extends Module {
 //    }
 
     private float[] getRotations(EntityLivingBase entity) {
+        lastYaw = yaw;
+        lastPitch = pitch;
         double deltaX = entity.posX + (entity.posX - entity.lastTickPosX) - mc.thePlayer.posX;
         double deltaZ = entity.posZ + (entity.posZ - entity.lastTickPosZ) - mc.thePlayer.posZ;
         double deltaY = entity.posY - 3.5 + entity.getEyeHeight() - mc.thePlayer.posY + mc.thePlayer.getEyeHeight();
@@ -168,8 +176,14 @@ public class KillAura extends Module {
             yaw = (float) (-90 + v);
         }
 
+        switch (rotMode.getSelected()) {
+            case "Normal":
+                break;
+            case "Down":
+                pitch = RandomUtils.nextFloat(89, 90);
+                break;
+        }
         return new float[]{yaw, pitch};
-
     }
 
     private void attack() {

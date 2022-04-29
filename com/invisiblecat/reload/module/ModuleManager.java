@@ -33,6 +33,7 @@ public class ModuleManager {
         modules.add(new InvMove());
         modules.add(new Speed());
         modules.add(new Jesus());
+        modules.add(new NoSlow());
 
         //Player
         modules.add(new FastPlace());

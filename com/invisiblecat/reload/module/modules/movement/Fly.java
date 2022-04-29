@@ -224,11 +224,6 @@ public class Fly extends Module {
                     idk = true;
                     mc.thePlayer.motionY = -0.4;
                 }
-                if (timer.hasTimePassed(850, true) && !mc.thePlayer.onGround) {
-                    mc.timer.timerSpeed = .4F;
-                } else {
-                    mc.timer.timerSpeed = 1F;
-                }
                 break;
             }
 
@@ -245,6 +240,7 @@ public class Fly extends Module {
         super.onDisable();
         mc.timer.timerSpeed = 1;
         PlayerUtils.strafe(0);
+        mc.thePlayer.motionY = 0;
     }
 //    @EventTarget
 //    public void onUpdate(EventUpdate event) {
