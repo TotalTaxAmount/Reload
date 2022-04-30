@@ -41,7 +41,7 @@ public class KillAura extends Module {
     private NumberSetting minCps = new NumberSetting("Minimum CPS", 10, 1, 20, 1);
     private NumberSetting maxCps = new NumberSetting("Maximum CPS", 15, 1, 20, 1);
 
-    private ModeSetting rotMode = new ModeSetting("Rotation Mode", "Normal", "Normal", "Down");
+    private ModeSetting rotMode = new ModeSetting("Rotation Mode", "Normal", "Normal", "Down", "Snap");
 
     private ModeSetting sort = new ModeSetting("Sort", "Distance", "Health", "Distance", "Hurt Time");
 
@@ -58,7 +58,6 @@ public class KillAura extends Module {
     private EntityLivingBase target;
     private float yaw, pitch,
             lastYaw, lastPitch;
-
 
     public KillAura() {
         super("KillAura", 0, Category.PLAYER, AutoDisable.WORLD);
@@ -177,6 +176,10 @@ public class KillAura extends Module {
         }
 
         switch (rotMode.getSelected()) {
+            case "Snap":
+                yaw = (float) Math.round(yaw / 45) * 45;
+                pitch = (float) Math.round(pitch / 45) * 45;
+                break;
             case "Normal":
                 break;
             case "Down":
