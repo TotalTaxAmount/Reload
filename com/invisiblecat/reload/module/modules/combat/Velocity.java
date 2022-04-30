@@ -14,10 +14,11 @@ public class Velocity extends Module {
 
     public NumberSetting horizontal = new NumberSetting("Horizontal", 0, 0, 100, 1);
     public NumberSetting vertical = new NumberSetting("Vertical", 0, 0, 100, 1);
-    public ModeSetting mode = new ModeSetting("Mode", "Simple", "Cancel", "ACCv4", "Simple");
+    public ModeSetting mode = new ModeSetting("Mode", "ACCv4", "Cancel", "ACCv4", "Simple");
 
     public Velocity() {
         super("Velocity", 0, Category.COMBAT, AutoDisable.NONE);
+        this.addSettings(horizontal, vertical, mode);
     }
 
     @EventTarget

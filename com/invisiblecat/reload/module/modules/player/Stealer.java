@@ -35,12 +35,14 @@ public class Stealer extends Module {
     private final TimerUtils timer = new TimerUtils();
     private final TimerUtils timer2 = new TimerUtils();
 
-    private final NumberSetting minDelay = new NumberSetting("Min Delay", 200, 0, 1000, 1);
-    private final NumberSetting maxDelay = new NumberSetting("Max Delay", 250       , 0, 1000, 1);
-    private final BooleanSetting stealTrashItems = new BooleanSetting("Steal trash items", false);
-    private final BooleanSetting autoClose = new BooleanSetting("Auto Close", true);
-    private final BooleanSetting hideGui = new BooleanSetting("Hide Gui", false);
-    private final BooleanSetting chestName = new BooleanSetting("Check chest name", true);
+    private NumberSetting minDelay = new NumberSetting("Min Delay", 200, 0, 1000, 1);
+    private NumberSetting maxDelay = new NumberSetting("Max Delay", 250       , 0, 1000, 1);
+    private BooleanSetting stealTrashItems = new BooleanSetting("Steal trash items", false);
+    private BooleanSetting autoClose = new BooleanSetting("Auto Close", true);
+    private BooleanSetting hideGui = new BooleanSetting("Hide Gui", false);
+    private BooleanSetting chestName = new BooleanSetting("Check chest name", true);
+
+    private
 
 
     int timerDecide = 0;
@@ -64,7 +66,7 @@ public class Stealer extends Module {
         done = false;
     }
     @EventTarget
-    public void onRecivePacket(@Nullable EventRecivePacket event) {
+    public void onRecivePacket(EventRecivePacket event) {
         if (mc.thePlayer.ticksExisted <= 60) return;
 
         if (event.getPacket() instanceof S30PacketWindowItems) {

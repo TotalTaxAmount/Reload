@@ -3,11 +3,21 @@ package net.minecraft.client.network;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
+import com.invisiblecat.reload.client.Reload;
+import com.invisiblecat.reload.client.ui.hud.notification.Notification;
+import com.invisiblecat.reload.client.ui.hud.notification.NotificationManager;
+import com.invisiblecat.reload.client.ui.hud.notification.NotificationType;
 import com.invisiblecat.reload.event.events.EventJoinWorld;
+import com.invisiblecat.reload.utils.PacketUtils;
 import com.mojang.authlib.GameProfile;
 import io.netty.buffer.Unpooled;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -1706,10 +1716,45 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
         this.gameController.theWorld.playSound(packetIn.getX(), packetIn.getY(), packetIn.getZ(), packetIn.getSoundName(), packetIn.getVolume(), packetIn.getPitch(), false);
     }
 
+    private boolean validateResourcePackUrl(String url, String hash) {
+        try {
+            System.out.println("[ExploitFix] Validating resource pack url: " + url);
+            URI uri = new URI(url);
+            String scheme = uri.getScheme();
+            boolean isLevelProtocol = "level".equals(scheme);
+
+            if (!"http".equals(scheme) && !"https".equals(scheme) && !isLevelProtocol) {
+                PacketUtils.sendPacketNoEvent(new C19PacketResourcePackStatus(hash, C19PacketResourcePackStatus.Action.FAILED_DOWNLOAD));
+                throw new URISyntaxException(url, "Wrong protocol");
+            }
+
+            url = URLDecoder.decode(url.substring("level://".length()), StandardCharsets.UTF_8.toString());
+
+            if (isLevelProtocol && (url.contains("..") || !url.endsWith("/resources.zip"))) {
+                Reload.instance.reloadLogger.warn("Malicious server tried to access " + url);
+
+                if (Minecraft.getMinecraft().thePlayer != null) {
+                    NotificationManager.show(new Notification(NotificationType.WARNING ,"WARNING", "Malicious server tried to access " + url, 2));
+                }
+
+                throw new URISyntaxException(url, "Invalid levelstorage resourcepack path");
+            }
+
+        } catch (URISyntaxException ignored) {
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+
+    }
+
     public void handleResourcePack(S48PacketResourcePackSend packetIn)
     {
         final String s = packetIn.getURL();
         final String s1 = packetIn.getHash();
+
+        if (!this.validateResourcePackUrl(s, s1)) return;
 
         if (s.startsWith("level://"))
         {

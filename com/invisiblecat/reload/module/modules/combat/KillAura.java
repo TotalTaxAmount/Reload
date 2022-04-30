@@ -44,6 +44,7 @@ public class KillAura extends Module {
     private ModeSetting rotMode = new ModeSetting("Rotation Mode", "Normal", "Normal", "Down");
 
     private ModeSetting sort = new ModeSetting("Sort", "Distance", "Health", "Distance", "Hurt Time");
+    private ModeSetting blockMode = new ModeSetting("Block Mode", "Normal", "Normal", "AAC");
 
     private BooleanSetting players = new BooleanSetting("Players", true);
     private BooleanSetting others = new BooleanSetting("Outers", true);
@@ -59,10 +60,12 @@ public class KillAura extends Module {
     private float yaw, pitch,
             lastYaw, lastPitch;
 
+    private boolean blocking;
+
 
     public KillAura() {
         super("KillAura", 0, Category.PLAYER, AutoDisable.WORLD);
-        this.addSettings(range, sort, rotMode, players, others, legit, minCps, maxCps, swing, block, invsibles, targetESP);
+        this.addSettings(range, sort, rotMode, players, others, legit, minCps, maxCps, swing, block, invsibles, targetESP, blockMode);
     }
 
     @EventTarget
@@ -86,11 +89,13 @@ public class KillAura extends Module {
 
     @EventTarget
     public void onPostMotionUpdate(EventPostMotionUpdate event) {
-        if (block.isEnabled() && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
-            mc.gameSettings.keyBindUseItem.setState(true);
-        }
-        if (target == null || !target.isEntityAlive() || (mc.thePlayer.getDistanceToEntity(target) > range.getValue()) && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
-            mc.gameSettings.keyBindUseItem.setState(false);
+        if (blockMode.is("Normal")) {
+            if (block.isEnabled() && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
+                mc.gameSettings.keyBindUseItem.setState(true);
+            }
+            if (target == null || !target.isEntityAlive() || (mc.thePlayer.getDistanceToEntity(target) > range.getValue()) && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
+                mc.gameSettings.keyBindUseItem.setState(false);
+            }
         }
     }
 
@@ -99,8 +104,18 @@ public class KillAura extends Module {
         this.setDisplayName(rotMode.getSelected());
         if (maxCps.getValue() < minCps.getValue()) maxCps.setValue(minCps.getValueInt());
         entities = getTargets();
-        assert entities != null;
+
+        if (entities == null) return;
         target = entities.get(0);
+
+        if (mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
+            if (blockMode.is("AAC")) {
+                if (mc.thePlayer.ticksExisted % 2 == 0) {
+                    mc.playerController.interactWithEntitySendPacket(mc.thePlayer, target);
+                    PacketUtils.sendPacket(new C08PacketPlayerBlockPlacement(mc.thePlayer.getHeldItem()));
+                }
+            }
+        }
 
         //attack();
     }
@@ -144,20 +159,14 @@ public class KillAura extends Module {
         return var2;
     }
 
-//    private void block() {
-//        mc.playerController.sendUseItem(mc.thePlayer, mc.theWorld, mc.thePlayer.getCurrentEquippedItem());
-//        mc.gameSettings.keyBindUseItem.setState(true);
-//        mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255, mc.thePlayer.getHeldItem(), 0, 0, 0));
-//        blocking = true;
-//    }
-//
-//    private void unblock() {
-//        if (blocking) {
-//            mc.gameSettings.keyBindUseItem.setState(false);
-//            PacketUtils.sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
-//            blocking = false;
-//        }
-//    }
+
+    private void unblock() {
+        if (blocking) {
+            mc.gameSettings.keyBindUseItem.setState(false);
+            PacketUtils.sendPacket(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
+            blocking = false;
+        }
+    }
 
     private float[] getRotations(EntityLivingBase entity) {
         lastYaw = yaw;
