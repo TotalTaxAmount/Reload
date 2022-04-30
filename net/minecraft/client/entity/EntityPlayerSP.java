@@ -1,9 +1,13 @@
 package net.minecraft.client.entity;
 
+import com.invisiblecat.reload.client.Reload;
 import com.invisiblecat.reload.event.events.EventChat;
 import com.invisiblecat.reload.event.events.EventPostMotionUpdate;
 import com.invisiblecat.reload.event.events.EventPreMotionUpdate;
 import com.invisiblecat.reload.event.events.EventUpdate;
+import com.invisiblecat.reload.module.modules.movement.NoSlow;
+import com.invisiblecat.reload.setting.settings.BooleanSetting;
+import com.invisiblecat.reload.setting.settings.ModeSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -33,6 +37,7 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.C01PacketChatMessage;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
@@ -806,11 +811,14 @@ public class EntityPlayerSP extends AbstractClientPlayer
         boolean flag2 = this.movementInput.moveForward >= f;
         this.movementInput.updatePlayerMoveState();
 
-        if (this.isUsingItem() && !this.isRiding())
+        boolean noSlow = Reload.instance.moduleManager.getModuleByClass(NoSlow.class).isEnabled();
+
+        if (this.isUsingItem() && !this.isRiding() && !noSlow)
         {
             this.movementInput.moveStrafe *= 0.2F;
             this.movementInput.moveForward *= 0.2F;
             this.sprintToggleTimer = 0;
+
         }
 
         this.pushOutOfBlocks(this.posX - (double)this.width * 0.35D, this.getEntityBoundingBox().minY + 0.5D, this.posZ + (double)this.width * 0.35D);

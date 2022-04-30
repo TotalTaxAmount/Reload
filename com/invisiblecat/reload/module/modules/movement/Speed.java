@@ -85,14 +85,14 @@ public class Speed extends Module {
                     }
                     break;
                 } case "vulcan": {
+                    PlayerUtils.strafe(0.35);
                     if (mc.thePlayer.onGround) {
                         mc.thePlayer.jump();
-                        mc.thePlayer.motionY = 0.0;
-                        PlayerUtils.strafe(0.15);
                         mc.thePlayer.motionY = 0.41999998688698;
                     } else {
-                        PlayerUtils.strafe();
-                        mc.thePlayer.motionY = -0.41999998688698;
+                        if (timer.hasTimePassed(200, true)) {
+                            mc.thePlayer.motionY = -0.567435523;
+                        }
                     }
                     break;
                 }
@@ -116,7 +116,7 @@ public class Speed extends Module {
     public void onDisable() {
         mc.timer.timerSpeed = 1f;
         if(isTimer)
-            Reload.instance.moduleManager.getModuleByName("Timer").setEnabled(true);
+            Reload.instance.moduleManager.getModuleByName("Timer").toggle(false);
         mc.thePlayer.stepHeight =.5f;
         mc.thePlayer.motionY = 0.0f;
         super.onDisable();

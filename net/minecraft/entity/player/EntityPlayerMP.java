@@ -2,8 +2,19 @@ package net.minecraft.entity.player;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.invisiblecat.reload.client.Reload;
+import com.invisiblecat.reload.client.ui.hud.notification.Notification;
+import com.invisiblecat.reload.client.ui.hud.notification.NotificationManager;
+import com.invisiblecat.reload.client.ui.hud.notification.NotificationType;
+import com.invisiblecat.reload.utils.PacketUtils;
 import com.mojang.authlib.GameProfile;
 import io.netty.buffer.Unpooled;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -13,6 +24,7 @@ import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockFenceGate;
 import net.minecraft.block.BlockWall;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
@@ -38,6 +50,7 @@ import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.client.C15PacketClientSettings;
+import net.minecraft.network.play.client.C19PacketResourcePackStatus;
 import net.minecraft.network.play.server.S02PacketChat;
 import net.minecraft.network.play.server.S06PacketUpdateHealth;
 import net.minecraft.network.play.server.S0APacketUseBed;
@@ -1191,6 +1204,8 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
     {
         this.playerNetServerHandler.sendPacket(new S48PacketResourcePackSend(url, hash));
     }
+
+
 
     /**
      * Get the position in the world. <b>{@code null} is not allowed!</b> If you are not an entity in the world, return
