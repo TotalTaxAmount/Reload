@@ -216,6 +216,7 @@ public class KillAura extends Module {
                 break;
 
             case "Smart":
+                if (target.getPosition() == mc.thePlayer.getPositionEyes(mc.timer.renderPartialTicks).) {
 
 
         }

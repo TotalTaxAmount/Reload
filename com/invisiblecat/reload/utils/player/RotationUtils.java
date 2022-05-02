@@ -4,6 +4,8 @@ package com.invisiblecat.reload.utils.player;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.projectile.EntityEgg;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 
@@ -33,6 +35,16 @@ public class RotationUtils {
         var4[0] = (float) (Math.atan2(var6, var10) * 180.0D / Math.PI) - 90.0F;
         var4[1] = (float) -(Math.atan2(var8, var12) * 180.0D / Math.PI);
         return var4;
+    }
+    public static float[] getDirectionToBlock(final double x, final double y, final double z, final EnumFacing enumfacing) {
+        final EntityEgg var4 = new EntityEgg(Minecraft.getMinecraft().theWorld);
+        var4.posX = x + 0.5D;
+        var4.posY = y + 0.5D;
+        var4.posZ = z + 0.5D;
+        var4.posX += (double) enumfacing.getDirectionVec().getX() * 0.5D;
+        var4.posY += (double) enumfacing.getDirectionVec().getY() * 0.5D;
+        var4.posZ += (double) enumfacing.getDirectionVec().getZ() * 0.5D;
+        return getRotations(var4.posX, var4.posY, var4.posZ);
     }
 
     private static float updateRotation(float p_75652_1_, float p_75652_2_, float p_75652_3_)
