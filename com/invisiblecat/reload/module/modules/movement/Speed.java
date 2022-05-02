@@ -15,7 +15,7 @@ import com.invisiblecat.reload.utils.player.PlayerUtils;
 
 public class Speed extends Module {
     private final ModeSetting mode = new ModeSetting("Mode", "Vanilla", "Vanilla",
-            "Verus", "Test");
+            "Verus", "Test", "Vulcan");
     private final NumberSetting speed = new NumberSetting("Speed", 2, 1, 10, 0.1);
 
     private int wallTicks = 0, verusTicks = 0;
@@ -90,8 +90,8 @@ public class Speed extends Module {
                         mc.thePlayer.jump();
                         mc.thePlayer.motionY = 0.41999998688698;
                     } else {
-                        if (timer.hasTimePassed(200, true)) {
-                            mc.thePlayer.motionY = -0.567435523;
+                        if (timer.hasTimePassed(300, true)) {
+                            mc.thePlayer.motionY = -0.367435523;
                         }
                     }
                     break;

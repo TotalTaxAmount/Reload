@@ -53,6 +53,8 @@ public class ModuleManager {
         modules.add(new Disabler());
         modules.add(new Kick());
         modules.add(new NoRot());
+        modules.add(new PingSpoof());
+        modules.add(new PacketLogger());
 
         //Other
         modules.add(new AutoCommand());

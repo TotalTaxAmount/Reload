@@ -8,22 +8,8 @@ public enum NotificationType {
     WARNING(new Color(206, 238, 8, 220)),
     ERROR(new Color(239, 5, 5, 220));
 
-    public Color color;
+    public final Color color;
     NotificationType(Color color) {
         this.color = color;
-//        switch (this) {
-//            case INFO:
-//                color = new Color(77, 178, 232, 144);
-//                break;
-//            case SUCCESS:
-//                color = new Color(62, 232, 11, 220);
-//                break;
-//            case WARNING:
-//                color = new Color(213, 239, 34, 220);
-//                break;
-//            case ERROR:
-//                color = new Color(239, 5, 5, 220);
-//                break;
-//        }
     }
 }

@@ -66,6 +66,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
     public final NetHandlerPlayClient sendQueue;
     private final StatFileWriter statWriter;
 
+
     /**
      * The last X position which was transmitted to the server, used to determine when the X position changes and needs
      * to be re-trasmitted
@@ -936,4 +937,5 @@ public class EntityPlayerSP extends AbstractClientPlayer
             this.sendPlayerAbilities();
         }
     }
+
 }

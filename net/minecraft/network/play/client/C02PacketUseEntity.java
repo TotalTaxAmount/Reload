@@ -87,6 +87,7 @@ public class C02PacketUseEntity implements Packet<INetHandlerPlayServer>
         return this.hitVec;
     }
 
+
     public static enum Action
     {
         INTERACT,

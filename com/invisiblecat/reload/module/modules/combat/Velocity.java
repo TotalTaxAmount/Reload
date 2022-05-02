@@ -14,7 +14,7 @@ public class Velocity extends Module {
 
     public NumberSetting horizontal = new NumberSetting("Horizontal", 0, 0, 100, 1);
     public NumberSetting vertical = new NumberSetting("Vertical", 0, 0, 100, 1);
-    public ModeSetting mode = new ModeSetting("Mode", "ACCv4", "Cancel", "ACCv4", "Simple");
+    public ModeSetting mode = new ModeSetting("Mode", "Normal", "Cancel", "ACCv4", "Normal");
 
     public Velocity() {
         super("Velocity", 0, Category.COMBAT, AutoDisable.NONE);
@@ -45,7 +45,7 @@ public class Velocity extends Module {
                     mc.thePlayer.setVelocity(0.0D, p.getMotionY() / 8000.0D, p.getMotionZ() / 8000.0D / 2.0D);
                 }
                 break;
-            case "simple":
+            case "normal":
                 if(event.getPacket() instanceof S12PacketEntityVelocity) {
                     S12PacketEntityVelocity p = (S12PacketEntityVelocity) event.getPacket();
                     if(horizontal.getValueInt() == 0 && vertical.getValueInt() == 0) {
