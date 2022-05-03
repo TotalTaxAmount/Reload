@@ -6,8 +6,6 @@ import com.invisiblecat.reload.event.events.EventPostMotionUpdate;
 import com.invisiblecat.reload.event.events.EventPreMotionUpdate;
 import com.invisiblecat.reload.event.events.EventUpdate;
 import com.invisiblecat.reload.module.modules.movement.NoSlow;
-import com.invisiblecat.reload.setting.settings.BooleanSetting;
-import com.invisiblecat.reload.setting.settings.ModeSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -37,16 +35,7 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
-import net.minecraft.network.play.client.C01PacketChatMessage;
-import net.minecraft.network.play.client.C03PacketPlayer;
-import net.minecraft.network.play.client.C07PacketPlayerDigging;
-import net.minecraft.network.play.client.C0APacketAnimation;
-import net.minecraft.network.play.client.C0BPacketEntityAction;
-import net.minecraft.network.play.client.C0CPacketInput;
-import net.minecraft.network.play.client.C0DPacketCloseWindow;
-import net.minecraft.network.play.client.C13PacketPlayerAbilities;
-import net.minecraft.network.play.client.C16PacketClientStatus;
+import net.minecraft.network.play.client.*;
 import net.minecraft.potion.Potion;
 import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatFileWriter;
@@ -938,4 +927,10 @@ public class EntityPlayerSP extends AbstractClientPlayer
         }
     }
 
+    public Entity getRidingEntity() {
+        return this.ridingEntity;
+    }
+    public void setRidingEntity(Entity entity) {
+        this.ridingEntity = entity;
+    }
 }

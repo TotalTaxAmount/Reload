@@ -30,6 +30,7 @@ import org.lwjgl.opengl.GL11;
 import java.awt.*;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -76,6 +77,9 @@ public class KillAura extends Module {
             yaw = getRotations(target)[0];
             pitch = getRotations(target)[1];
 
+            lastYaw = yaw;
+            lastPitch = pitch;
+
             if (mc.thePlayer.getDistanceToEntity(target) <= rotRange.getValue()) {
                 event.setYaw(yaw);
                 event.setPitch(pitch);
@@ -92,7 +96,7 @@ public class KillAura extends Module {
     @EventTarget
     public void onPostMotionUpdate(EventPostMotionUpdate event) {
         if (blockMode.is("Normal")) {
-            if (block.isEnabled() && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword && target.isEntityAlive() && target.isEntityAlive() && mc.thePlayer.getDistanceToEntity(target) <= range.getValue()) {
+            if (block.isEnabled() && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword && target.isEntityAlive() && mc.thePlayer.getDistanceToEntity(target) <= range.getValue()) {
                 mc.gameSettings.keyBindUseItem.setState(true);
             } else {
                 if (mc.thePlayer.isBlocking()) {
@@ -178,7 +182,7 @@ public class KillAura extends Module {
 
         double deltaX = entity.posX + (entity.posX - entity.lastTickPosX) - mc.thePlayer.posX;
         double deltaZ = entity.posZ + (entity.posZ - entity.lastTickPosZ) - mc.thePlayer.posZ;
-        double deltaY = entity.posY - 3.5 + entity.getEyeHeight() - mc.thePlayer.posY + mc.thePlayer.getEyeHeight();
+        double deltaY = entity.posY + (entity.posY - entity.lastTickPosY) - mc.thePlayer.posY;
         double dist = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaZ, 2));
         float yaw = (float) Math.toDegrees(-Math.atan(deltaX / deltaZ));
         float pitch = (float) Math.toDegrees(-Math.atan(deltaY / dist));
@@ -189,9 +193,6 @@ public class KillAura extends Module {
         } else if (deltaX > 0 && deltaZ < 0) {
             yaw = (float) (-90 + v);
         }
-
-        lastYaw = yaw;
-        lastPitch = pitch;
 
         switch (rotMode.getSelected()) {
             case "Snap":
@@ -216,10 +217,17 @@ public class KillAura extends Module {
                 break;
 
             case "Smart":
-                if (target.getPosition() == mc.thePlayer.getPositionEyes(mc.timer.renderPartialTicks).) {
+                float idkYaw = lastYaw;
+                float idkPitch = lastPitch;
 
+                if (AuraUtils.isLookingAtEntity(entity, idkYaw, idkPitch)) {
+                    yaw = (float) (idkYaw + Math.random() * 10 - 4.5);
+                    pitch = (float) (idkPitch + Math.random() * 10 - 4.5);
+                }
+                break;
 
         }
+
         return new float[]{yaw, pitch};
     }
 
