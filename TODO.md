@@ -25,5 +25,9 @@ ________________________________________________________
 - add NoFall
 - add TargetStrafe
 - idk
-- add more rot modes to ka
+- Fix scaffold
+- Fix AutoLogin
+- Improve Vulcan disabler, and add bypasses for other servers
+- ~~add more rot modes to ka~~
+- fix font sizing
 

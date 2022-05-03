@@ -223,6 +223,7 @@ public class KillAura extends Module {
                 if (AuraUtils.isLookingAtEntity(entity, idkYaw, idkPitch)) {
                     yaw = (float) (idkYaw + Math.random() * 10 - 4.5);
                     pitch = (float) (idkPitch + Math.random() * 10 - 4.5);
+                    //TODO: fix this @RotationUtils.java
                 }
                 break;
 
