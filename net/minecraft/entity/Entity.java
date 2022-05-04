@@ -2609,7 +2609,6 @@ public abstract class Entity implements ICommandSender
     {
         return this.dataWatcher.getWatchableObjectString(2);
     }
-
     /**
      * Returns true if this thing is named
      */

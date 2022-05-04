@@ -2,13 +2,14 @@ package com.invisiblecat.reload.module.modules.combat;
 
 import com.invisiblecat.reload.event.EventTarget;
 import com.invisiblecat.reload.event.events.EventPreMotionUpdate;
+import com.invisiblecat.reload.event.events.EventUpdate;
 import com.invisiblecat.reload.module.Category;
 import com.invisiblecat.reload.module.Module;
 import com.invisiblecat.reload.setting.settings.BooleanSetting;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import org.lwjgl.input.Keyboard;
+import net.minecraft.util.BlockPos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,9 @@ public class AntiBot extends Module {
     private BooleanSetting nameCheck = new BooleanSetting("Name check", true);
     private BooleanSetting sameName = new BooleanSetting("Same name", true);
     private BooleanSetting ticksExist = new BooleanSetting("Ticks existed", true);
+    private BooleanSetting tb = new BooleanSetting("Teleport", true);
+
+    private int ticks = 0;
 
     public AntiBot() {
         super("AntiBot", 0, Category.COMBAT, AutoDisable.NONE);
@@ -40,7 +44,7 @@ public class AntiBot extends Module {
                 bots.add(player);
             }
 
-            if (ticksExist.isEnabled() && player.ticksExisted <= 0) {
+            if (ticksExist.isEnabled() && player.ticksExisted <= 10) {
                 bots.add(player);
             }
 
@@ -70,7 +74,22 @@ public class AntiBot extends Module {
 
                 names.add(name);
             }
+
+            if (tb.isEnabled()) {
+                BlockPos oldPos = new BlockPos(player.lastTickPosX, player.lastTickPosY, player.lastTickPosZ);
+                if (ticks > 20) {
+                    BlockPos newPos = new BlockPos(player.posX, player.posY, player.posZ);
+                    if (oldPos.distanceSq(newPos) > 100) {
+                        bots.add(player);
+                    }
+                }
+            }
         }
+    }
+
+    @EventTarget
+    public void onUpdate (EventUpdate event) {
+        ticks++;
     }
 
     @Override

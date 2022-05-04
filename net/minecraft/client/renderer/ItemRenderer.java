@@ -1,6 +1,7 @@
 package net.minecraft.client.renderer;
 
 import com.invisiblecat.reload.client.Reload;
+import com.invisiblecat.reload.module.modules.combat.KillAura;
 import com.invisiblecat.reload.module.modules.render.Animations;
 import com.invisiblecat.reload.setting.settings.BooleanSetting;
 import com.invisiblecat.reload.setting.settings.ModeSetting;
@@ -20,10 +21,7 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemMap;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.MathHelper;
@@ -371,54 +369,7 @@ public class ItemRenderer
                             this.transformFirstPersonItem(f, 0.0F);
                             this.func_178103_d();
                         } else {
-                            String mode = ((ModeSetting) Reload.instance.moduleManager.getModuleByClass(Animations.class).getSetting("Mode")).getSelected();
-                            float var1 = MathHelper.sin(MathHelper.sqrt_float(swingProgress) * (float) Math.PI);
-
-                            switch (mode) {
-                                case "1.7": {
-                                    this.transformFirstPersonItem(0.2f, swingProgress);
-                                    this.func_178103_d();
-                                    GlStateManager.translate(-0.5F, 0.2F, 0.0F);
-                                    break;
-                                } case "Cool": {
-                                    GlStateManager.translate(0.41F, -0.25F, -0.5555557F);
-                                    GlStateManager.translate(0.0F, 0, 0.0F);
-                                    GlStateManager.rotate(35.0F, 0f, 1.5F, 0.0F);
-                                    GlStateManager.translate(0, -Math.sin(equippedProgress) / 3, 0);
-                                    float idfk = MathHelper.sin(swingProgress * swingProgress / 64 * (float) Math.PI);
-                                    float pens = MathHelper.sin(MathHelper.sqrt_float(swingProgress) * (float) Math.PI);
-                                    GlStateManager.rotate(idfk * -5.0F, 0.0F, 0.0F, 0.0F);
-                                    GlStateManager.rotate(pens * -12.0F, 0.0F, 0.0F, 1.0F);
-                                    GlStateManager.rotate(pens * -65.0F, 1.0F, 0.0F, 0.0F);
-                                    GlStateManager.scale(0.3F, 0.3F, 0.3F);
-                                    this.func_178103_d();
-                                }
-                                case "Exhibition": {
-                                    this.transformFirstPersonItem(equippedProgress / 2.0F, 0.0F);
-                                    GlStateManager.translate(0.0F, 0.3F, -0.0F);
-                                    GlStateManager.rotate(-var1 * 31.0F, 1, 0, 2.0F);
-                                    GlStateManager.rotate(-var1 * 33.0F, 1.5F, (var1 / 1.1F), 0F);
-                                    this.func_178103_d();
-                                    break;
-                                }
-                                case "Skid": {
-                                    GlStateManager.translate(0.56F - var1 / 15, -0.4F + var1 / 15, -0.71999997F);
-                                    GlStateManager.translate(0.0F, equippedItemSlot * -0.6F, 0.0F);
-                                    GlStateManager.rotate(40.0F, 0.0F, 1.0F, 0.0F);
-
-                                    float ff = MathHelper.sin(swingProgress * swingProgress * (float) Math.PI);
-                                    float f1 = MathHelper.sin(MathHelper.sqrt_float(swingProgress) * (float) Math.PI);
-
-                                    GlStateManager.rotate(ff * -30.0F, 0.0F, 1.0F, 0.0F);
-                                    GlStateManager.rotate(f1 * -20.0F, 0.0F, 0.0F, 1.0F);
-                                    GlStateManager.rotate(f1 * -85.0F, 1.0F, 0.0F, 0.0F);
-                                    GlStateManager.scale(0.25F, 0.25F, 0.25F);
-
-                                    this.func_178103_d();
-
-                                    break;
-                                }
-                            }
+                            doBlockAnimation(enumaction, swingProgress);
 
                         }
                         break;
@@ -430,8 +381,16 @@ public class ItemRenderer
             }
             else
             {
-                this.func_178105_d(swingProgress);
-                this.transformFirstPersonItem(f, swingProgress);
+                KillAura ka = (KillAura) Reload.instance.moduleManager.getModuleByClass(KillAura.class);
+                ModeSetting blockMode = (ModeSetting) ka.getSetting("Block Mode");
+                BooleanSetting block = (BooleanSetting) ka.getSetting("Block");
+
+                if (ka.isEnabled() && ka.getTarget() != null && block.isEnabled() && blockMode.is("Fake") && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
+                    doBlockAnimation(EnumAction.BLOCK, swingProgress);
+                } else {
+                    this.func_178105_d(swingProgress);
+                    this.transformFirstPersonItem(f, swingProgress);
+                }
             }
 
             this.renderItem(entityplayersp, this.itemToRender, ItemCameraTransforms.TransformType.FIRST_PERSON);
@@ -444,6 +403,58 @@ public class ItemRenderer
         GlStateManager.popMatrix();
         GlStateManager.disableRescaleNormal();
         RenderHelper.disableStandardItemLighting();
+    }
+
+    private void doBlockAnimation(EnumAction enumAction, float swingProgress) {
+        String mode = ((ModeSetting) Reload.instance.moduleManager.getModuleByClass(Animations.class).getSetting("Mode")).getSelected();
+        float var1 = MathHelper.sin(MathHelper.sqrt_float(swingProgress) * (float) Math.PI);
+
+        switch (mode) {
+            case "1.7": {
+                this.transformFirstPersonItem(0.2f, swingProgress);
+                this.func_178103_d();
+                GlStateManager.translate(-0.5F, 0.2F, 0.0F);
+                break;
+            } case "Cool": {
+                GlStateManager.translate(0.41F, -0.25F, -0.5555557F);
+                GlStateManager.translate(0.0F, 0, 0.0F);
+                GlStateManager.rotate(35.0F, 0f, 1.5F, 0.0F);
+                GlStateManager.translate(0, -Math.sin(equippedProgress) / 3, 0);
+                float idfk = MathHelper.sin(swingProgress * swingProgress / 64 * (float) Math.PI);
+                float pens = MathHelper.sin(MathHelper.sqrt_float(swingProgress) * (float) Math.PI);
+                GlStateManager.rotate(idfk * -5.0F, 0.0F, 0.0F, 0.0F);
+                GlStateManager.rotate(pens * -12.0F, 0.0F, 0.0F, 1.0F);
+                GlStateManager.rotate(pens * -65.0F, 1.0F, 0.0F, 0.0F);
+                GlStateManager.scale(0.3F, 0.3F, 0.3F);
+                this.func_178103_d();
+            }
+            case "Exhibition": {
+                this.transformFirstPersonItem(equippedProgress / 2.0F, 0.0F);
+                GlStateManager.translate(0.0F, 0.3F, -0.0F);
+                GlStateManager.rotate(-var1 * 31.0F, 1, 0, 2.0F);
+                GlStateManager.rotate(-var1 * 33.0F, 1.5F, (var1 / 1.1F), 0F);
+                this.func_178103_d();
+                break;
+            }
+            case "Skid": {
+                GlStateManager.translate(0.56F - var1 / 15, -0.4F + var1 / 15, -0.71999997F);
+                GlStateManager.translate(0.0F, equippedItemSlot * -0.6F, 0.0F);
+                GlStateManager.rotate(40.0F, 0.0F, 1.0F, 0.0F);
+
+                float ff = MathHelper.sin(swingProgress * swingProgress * (float) Math.PI);
+                float f1 = MathHelper.sin(MathHelper.sqrt_float(swingProgress) * (float) Math.PI);
+
+                GlStateManager.rotate(ff * -30.0F, 0.0F, 1.0F, 0.0F);
+                GlStateManager.rotate(f1 * -20.0F, 0.0F, 0.0F, 1.0F);
+                GlStateManager.rotate(f1 * -85.0F, 1.0F, 0.0F, 0.0F);
+                GlStateManager.scale(0.25F, 0.25F, 0.25F);
+
+                this.func_178103_d();
+
+                break;
+            }
+        }
+
     }
 
     /**

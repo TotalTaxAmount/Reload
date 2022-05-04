@@ -46,7 +46,7 @@ public class KillAura extends Module {
     private ModeSetting rotMode = new ModeSetting("Rotation Mode", "Normal", "Normal", "Down", "Snap", "Legit");
 
     private ModeSetting sort = new ModeSetting("Sort", "Distance", "Health", "Distance", "Hurt Time");
-    private ModeSetting blockMode = new ModeSetting("Block Mode", "Normal", "Normal", "AAC");
+    private ModeSetting blockMode = new ModeSetting("Block Mode", "Normal", "Normal", "Fake");
 
     private BooleanSetting players = new BooleanSetting("Players", true);
     private BooleanSetting others = new BooleanSetting("Outers", true);
@@ -115,17 +115,12 @@ public class KillAura extends Module {
 
         entities = getTargets();
 
-        if (entities == null) return;
+        if (entities == null) {
+            target = null;
+            return;
+        }
         target = entities.get(0);
 
-        if (mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
-            if (blockMode.is("AAC")) {
-                if (mc.thePlayer.ticksExisted % 2 == 0) {
-                    mc.playerController.interactWithEntitySendPacket(mc.thePlayer, target);
-                    PacketUtils.sendPacket(new C08PacketPlayerBlockPlacement(mc.thePlayer.getHeldItem()));
-                }
-            }
-        }
 
         //attack();
     }
@@ -227,6 +222,10 @@ public class KillAura extends Module {
                 }
                 break;
 
+            case "None":
+                yaw = mc.thePlayer.rotationYaw;
+                pitch = mc.thePlayer.rotationPitch;
+                break;
         }
 
         return new float[]{yaw, pitch};
