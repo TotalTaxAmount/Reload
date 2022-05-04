@@ -212,14 +212,14 @@ public class KillAura extends Module {
                 break;
 
             case "Smart":
-                float idkYaw = lastYaw;
-                float idkPitch = lastPitch;
+                // pitch
+                if (AuraUtils.isLookingAtEntity(entity, yaw, lastPitch))
+                    pitch = lastPitch;
 
-                if (AuraUtils.isLookingAtEntity(entity, idkYaw, idkPitch)) {
-                    yaw = (float) (idkYaw + Math.random() * 10 - 4.5);
-                    pitch = (float) (idkPitch + Math.random() * 10 - 4.5);
-                    //TODO: fix this @RotationUtils.java
-                }
+                // yaw
+                if (AuraUtils.isLookingAtEntity(entity, lastYaw, pitch))
+                    yaw = lastYaw;
+
                 break;
 
             case "None":

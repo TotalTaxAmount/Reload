@@ -41,9 +41,9 @@ public class AuraUtils extends Module {
 
         float angle = (float) Math.acos(dot / (length * lookLength));
         angle = (float) Math.toDegrees(angle);
-        boolean looking = angle < 39.12566774F;
+        boolean looking = angle < 30.32566774F;
 
-        System.out.println("[Smart Angle] Angle: " + angle + " | Yaw: " + yaw + " | Pitch: " + pitch + " | Looking: " + looking + "(Entity: " + entity.getName() + ")");
+        System.out.println("[Smart Angle] Angle: " + angle + " | Yaw: " + yaw + " | Pitch: " + pitch + " | Looking: " + looking + " (Entity: " + entity.getName() + ")");
         return looking;
 
     }
