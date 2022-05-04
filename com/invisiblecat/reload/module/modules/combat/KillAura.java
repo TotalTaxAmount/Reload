@@ -213,11 +213,11 @@ public class KillAura extends Module {
 
             case "Smart":
                 // pitch
-                if (AuraUtils.isLookingAtEntity(entity, yaw, lastPitch))
+                if (AuraUtils.isLookingAtEntity(entity, yaw, lastPitch, 30.512F))
                     pitch = lastPitch;
 
                 // yaw
-                if (AuraUtils.isLookingAtEntity(entity, lastYaw, pitch))
+                if (AuraUtils.isLookingAtEntity(entity, lastYaw, pitch, 19.23F))
                     yaw = lastYaw;
 
                 break;

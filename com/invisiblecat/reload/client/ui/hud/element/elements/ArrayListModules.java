@@ -39,16 +39,15 @@ public class ArrayListModules extends Element {
                 if (this.getX() + this.draggable.getWidth()/2 < sr.getScaledWidth() / 2) {
                     // left side
                     if (showModStats) {
-                        font.drawString(m.getName(), this.getX(), this.getY() + (moduleCount * font.getHeight()), HUD.getClientColor().darker().getRGB());
-                        font.drawString(m.getDisplayName(), this.getX() + font.getWidth(m.getName()), this.getY() + (moduleCount * font.getHeight()), HUD.getClientColor().getRGB());
-
+                        font.drawString(m.getDisplayName(), this.getX() + font.getWidth(m.getName()), this.getY() + (moduleCount * font.getHeight()), Color.GRAY.getRGB());
+                        font.drawString(m.getName(), this.getX(), this.getY() + (moduleCount * font.getHeight()), HUD.getClientColor().getRGB());
                     } else {
                         font.drawString(m.getName(), this.getX(), this.getY() + (moduleCount * font.getHeight()), HUD.getClientColor().getRGB());
                     }
                 } else {
                     // right side
                     if (showModStats) {
-                        font.drawString(m.getDisplayName(), this.getX() - font.getWidth(m.getDisplayName()) + this.draggable.getWidth(), this.getY() + (moduleCount * font.getHeight()), HUD.getClientColor().darker().getRGB());
+                        font.drawString(m.getDisplayName(), this.getX() - font.getWidth(m.getDisplayName()) + this.draggable.getWidth(), this.getY() + (moduleCount * font.getHeight()), Color.GRAY.getRGB());
                         font.drawString(m.getName(), this.getX() - font.getWidth(m.getName() + " " + m.getDisplayName()) + this.draggable.getWidth(), this.getY() + (moduleCount * font.getHeight()), HUD.getClientColor().getRGB());
                     } else {
                         font.drawString(m.getName(), this.getX() - font.getWidth(m.getName()), this.getY() + (moduleCount * font.getHeight()), HUD.getClientColor().getRGB());

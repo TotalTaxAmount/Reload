@@ -24,6 +24,13 @@ public class NotificationManager {
 
         if (currentNotification != null) {
             currentNotification.render();
+        } else {
+            int offset = 10;
+            for (Notification notification : pendingNotifications) {
+                notification.offsetPlacement = offset;
+                notification.render();
+                offset += notification.getHeight() + 10;
+            }
         }
     }
 }

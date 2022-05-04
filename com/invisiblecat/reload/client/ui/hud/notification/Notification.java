@@ -23,6 +23,9 @@ public class Notification {
     private final static TTFFontRenderer light22 = CustomFontUtil.FONT_MANAGER.getFont("Light 24");
 
     private long start, fadeIn, fadeOut, end;
+    public float offsetPlacement;
+    private int height = 30;
+
 
     public Notification(NotificationType type, String title, String message, int duration) {
         this.type = type;
@@ -51,7 +54,6 @@ public class Notification {
 
         double offset = 0;
         double width = fr.getStringWidth(message.length() > title.length() ? message : title) * 1.2;
-        int height = 30;
         long time = getTime();
 
         if (time < fadeIn) {
@@ -65,12 +67,12 @@ public class Notification {
         Color color = new Color(0, 0, 0, 166);
 
 
-        drawRect((GuiScreen.width - 6) - offset, GuiScreen.height - 5 - height, GuiScreen.width, GuiScreen.height - 5, color.getRGB());
+        drawRect((GuiScreen.width - 6) - offset, GuiScreen.height - 5 - height - offsetPlacement, GuiScreen.width, GuiScreen.height - 5, color.getRGB());
         // create a progress bar in the bottom of the notification
-        drawRect((GuiScreen.width - 6) - offset, GuiScreen.height - height + 22, GuiScreen.width - offset + (int) (offset * (getTime() - fadeIn) / (double) (fadeOut - fadeIn)), GuiScreen.height - 5, this.type.color.getRGB());
+        drawRect((GuiScreen.width - 6) - offset, GuiScreen.height - height + 22 - offsetPlacement, GuiScreen.width - offset + (int) (offset * (getTime() - fadeIn) / (double) (fadeOut - fadeIn)), GuiScreen.height - 5, this.type.color.getRGB());
 
-        light22.drawString(title, (int) (GuiScreen.width - offset - 2), GuiScreen.height - 2 - height, -1);
-        light18.drawString(message, (int) (GuiScreen.width - offset - 2), GuiScreen.height - 18, -1);
+        light22.drawString(title, (int) (GuiScreen.width - offset - 2), GuiScreen.height - 2 -height - offsetPlacement, -1);
+        light18.drawString(message, (int) (GuiScreen.width - offset - 2), GuiScreen.height - 18 - offsetPlacement, -1);
 
     }
     public static void drawRect(int mode, double left, double top, double right, double bottom, int color) {
@@ -140,5 +142,9 @@ public class Notification {
         tessellator.draw();
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
+    }
+
+    public int getHeight() {
+        return height;
     }
 }

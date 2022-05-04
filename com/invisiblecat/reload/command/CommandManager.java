@@ -18,6 +18,7 @@ public class CommandManager {
         commands.add(new Dev());
         commands.add(new Hide());
         commands.add(new Vclip());
+        commands.add(new ConfigCommand());
 
     }
 
@@ -35,7 +36,7 @@ public class CommandManager {
 
 
             for (Command c : commands) {
-                if((c.getAliases() != null ? c.getAliases().contains(commandName.toLowerCase()): false)|| c.getName().contains(commandName.toLowerCase())) {
+                if((c.getAliases() != null && c.getAliases().contains(commandName.toLowerCase()))|| c.getName().contains(commandName.toLowerCase())) {
                     c.onCommand(Arrays.copyOfRange(message.split(" "), 1, message.split(" ").length), message);
                     return;
                 }

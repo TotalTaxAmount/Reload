@@ -22,13 +22,13 @@ public class AntiBot extends Module {
     private BooleanSetting nameCheck = new BooleanSetting("Name check", true);
     private BooleanSetting sameName = new BooleanSetting("Same name", true);
     private BooleanSetting ticksExist = new BooleanSetting("Ticks existed", true);
-    private BooleanSetting tb = new BooleanSetting("Teleport", true);
+    private BooleanSetting tp = new BooleanSetting("Teleport", true);
 
     private int ticks = 0;
 
     public AntiBot() {
         super("AntiBot", 0, Category.COMBAT, AutoDisable.NONE);
-        this.addSettings(idCheck, pingCheck, nameCheck, sameName, ticksExist);
+        this.addSettings(idCheck, pingCheck, nameCheck, sameName, ticksExist, tp);
     }
 
     @EventTarget
@@ -75,12 +75,13 @@ public class AntiBot extends Module {
                 names.add(name);
             }
 
-            if (tb.isEnabled()) {
+            if (tp.isEnabled()) {
                 BlockPos oldPos = new BlockPos(player.lastTickPosX, player.lastTickPosY, player.lastTickPosZ);
                 if (ticks > 20) {
                     BlockPos newPos = new BlockPos(player.posX, player.posY, player.posZ);
-                    if (oldPos.distanceSq(newPos) > 100) {
+                    if (oldPos.distanceSq(newPos) > 50) {
                         bots.add(player);
+                        ticks = 0;
                     }
                 }
             }

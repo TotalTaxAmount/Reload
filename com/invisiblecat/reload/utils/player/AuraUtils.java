@@ -25,7 +25,7 @@ public class AuraUtils extends Module {
         }
     }
 
-    public static boolean isLookingAtEntity(EntityLivingBase entity, float yaw, float pitch) {
+    public static boolean isLookingAtEntity(EntityLivingBase entity, float yaw, float pitch, float angleThreshold) {
         Vec3 look = new Vec3(Math.sin(Math.toRadians(yaw)), Math.sin(Math.toRadians(pitch)), Math.cos(Math.toRadians(yaw)));
 
         Vec3 entityPos = new Vec3(entity.posX, entity.posY, entity.posZ);
@@ -41,7 +41,7 @@ public class AuraUtils extends Module {
 
         float angle = (float) Math.acos(dot / (length * lookLength));
         angle = (float) Math.toDegrees(angle);
-        boolean looking = angle < 28.141593F;
+        boolean looking = angle < angleThreshold;
 
         System.out.println("[Smart Angle] Angle: " + angle + " | Yaw: " + yaw + " | Pitch: " + pitch + " | Looking: " + looking + " (Entity: " + entity.getName() + ")");
         return looking;

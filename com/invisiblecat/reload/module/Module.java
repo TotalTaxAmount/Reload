@@ -133,6 +133,10 @@ public class Module {
     }
     public void setEnabled(boolean t) {
         toggled = t;
+        if(toggled)
+            onEnable();
+        else
+            onDisable();
     }
     public void toggle(boolean onToggle) {
         toggled = !toggled;

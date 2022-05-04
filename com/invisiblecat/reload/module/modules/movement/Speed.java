@@ -34,7 +34,7 @@ public class Speed extends Module {
     public void onPreMotionUpdate(EventPreMotionUpdate event) {
         this.setDisplayName(mode.getSelected());
         if (isTimer) {
-            Reload.instance.moduleManager.getModuleByName("Timer").setEnabled(false);
+            Reload.instance.moduleManager.getModuleByName("Timer").toggle(false);
         }
 
         if (mc.thePlayer != null && (mc.thePlayer.moveForward != 0 || mc.thePlayer.moveStrafing != 0) && !mc.thePlayer.isInWater()) {
