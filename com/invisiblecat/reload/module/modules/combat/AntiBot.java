@@ -44,7 +44,7 @@ public class AntiBot extends Module {
                 bots.add(player);
             }
 
-            if (ticksExist.isEnabled() && player.ticksExisted <= 10) {
+            if (ticksExist.isEnabled() && player.ticksExisted <= 200) {
                 bots.add(player);
             }
 
@@ -66,6 +66,7 @@ public class AntiBot extends Module {
                     }
                 }
             }
+
             if (sameName.isEnabled()) {
                 final String name = player.getName();
 
