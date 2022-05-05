@@ -1,5 +1,10 @@
 package com.invisiblecat.reload.module.modules.movement;
 
+import com.invisiblecat.reload.client.Reload;
+import com.invisiblecat.reload.client.ui.hud.notification.Notification;
+import com.invisiblecat.reload.client.ui.hud.notification.NotificationManager;
+import com.invisiblecat.reload.client.ui.hud.notification.NotificationType;
+import com.invisiblecat.reload.event.EventManager;
 import com.invisiblecat.reload.event.EventTarget;
 import com.invisiblecat.reload.event.events.EventPreMotionUpdate;
 import com.invisiblecat.reload.event.events.EventSendPacket;
@@ -12,21 +17,29 @@ import com.invisiblecat.reload.utils.PacketUtils;
 import com.invisiblecat.reload.utils.TimerUtils;
 import com.invisiblecat.reload.utils.player.PlayerUtils;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.item.ItemFishingRod;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.EnumPacketDirection;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.*;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 
+import java.io.Reader;
 import java.util.UUID;
 
 public class Fly extends Module {
-    private final ModeSetting mode = new ModeSetting("Mode", "Verus2", "Velocity", "Vanilla", "Verus", "Verus2","Damage", "Collide", "Vulcan");
+    private final ModeSetting mode = new ModeSetting("Mode", "Verus2", "Vanilla", "Verus", "Verus2","Damage", "Collide", "Vulcan", "Matrix");
     private final NumberSetting speed = new NumberSetting("Speed", 2, 0, 10, 0.1);
     private final BooleanSetting bypassVanillaKick = new BooleanSetting("BypassVanillaKick", true);
     boolean hasBeenDamaged = false;
     private static final TimerUtils timer = new TimerUtils();
     private int count, offGroundTicks, onGroundTicks, ticks = 0;
-    private boolean idk;
+    private boolean idk, matrixRod = false, disable = false;
+
 
 
     public Fly() {
@@ -55,9 +68,36 @@ public class Fly extends Module {
                 PlayerUtils.selfHurt();
                 mc.thePlayer.jump();
                 break;
+            case "matrix":
+                // Look for a fishing rod in the players hot bar
+                for (int i = 0; i < 9; i++) {
+                    if (mc.thePlayer.inventory.getStackInSlot(i) != null) {
+                        if (mc.thePlayer.inventory.getStackInSlot(i).getItem() instanceof ItemFishingRod) {
+                            mc.thePlayer.inventory.currentItem = i;
+                            break;
+                        }
+                    }
+                }
 
+                // if the player is not holding a fishing rod, then disable the module
+                if (!(mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemFishingRod)) {
+                    NotificationManager.show(new Notification(NotificationType.ERROR, "Fly", "You must have a rod in your hotbar", 1));
+                    mc.timer.timerSpeed = 1.0F;
+                    disable = true;
+
+                }
+                break;
         }
         super.onEnable();
+    }
+
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        mc.timer.timerSpeed = 1;
+        matrixRod = false;
+        PlayerUtils.strafe(0);
+        mc.thePlayer.motionY = 0;
     }
 
     @EventTarget
@@ -87,6 +127,9 @@ public class Fly extends Module {
 
     @EventTarget
     public void onPreMotionUpdate(EventPreMotionUpdate event) {
+        if (disable) {
+            this.toggle(false);
+        }
         this.setDisplayName(mode.getSelected());
         ticks++;
         if (mc.thePlayer == null)
@@ -227,6 +270,21 @@ public class Fly extends Module {
                 break;
             }
 
+            case "matrix": {
+                if (!matrixRod) {
+                    if (count > 2) {
+                        PacketUtils.sendPacket(new C08PacketPlayerBlockPlacement(mc.thePlayer.inventory.getCurrentItem()));
+
+                        matrixRod = true;
+                    }
+                }
+
+                if (count < 3) {
+                    event.setPitch(-90);
+                    mc.thePlayer.rotationPitchHead = -90;
+                    count++;
+                }
+            }
 
         }
     }
@@ -235,13 +293,7 @@ public class Fly extends Module {
         return posY - (posY % 0.015625);
     }
 
-    @Override
-    public void onDisable() {
-        super.onDisable();
-        mc.timer.timerSpeed = 1;
-        PlayerUtils.strafe(0);
-        mc.thePlayer.motionY = 0;
-    }
+
 //    @EventTarget
 //    public void onUpdate(EventUpdate event) {
 //        if(bypassVanillaKick.isEnabled())

@@ -9,7 +9,7 @@ import com.invisiblecat.reload.setting.settings.NumberSetting;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
 public class Timer extends Module {
-    private final ModeSetting mode = new ModeSetting("Mode", "Pulse", "Vanilla", "Pulse");
+    private final ModeSetting mode = new ModeSetting("Mode", "Pulse", "Normal", "Pulse");
     private final NumberSetting tpsMin = new NumberSetting("TPS Minimum", 10, 1, 20, 0.5);
     private final NumberSetting tpsMax = new NumberSetting("TPS Maximum", 20, 1, 20, 0.5);
     private final NumberSetting tps = new NumberSetting("TPS", 10, 1, 20, 0.5);
@@ -24,9 +24,10 @@ public class Timer extends Module {
     @EventTarget
     public void onUpdate(EventUpdate event) {
         switch (mode.getSelected().toLowerCase().replaceAll("\\s", "")) {
-            case "vanilla":
+            case "normal":
                 this.setDisplayName(String.valueOf(tps.getValue()));
                 mc.timer.timerSpeed = tps.getValueFloat() / 10;
+                break;
             case "pulse":
                 this.setDisplayName(String.valueOf(ticks));
                 if(ticks > tpsMax.getValueFloat()) {
@@ -35,6 +36,7 @@ public class Timer extends Module {
                     ticks += tps.getIncrement();
                 }
                 mc.timer.timerSpeed = ticks / 10;
+                break;
         }
     }
 

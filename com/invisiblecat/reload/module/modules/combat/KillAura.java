@@ -50,7 +50,7 @@ public class KillAura extends Module {
 
     private BooleanSetting players = new BooleanSetting("Players", true);
     private BooleanSetting others = new BooleanSetting("Outers", true);
-    private BooleanSetting invsibles = new BooleanSetting("Invisibles", false);
+    private BooleanSetting invsibles = new BooleanSetting("Invisible", false);
 
     private BooleanSetting legit = new BooleanSetting("Legit", false);
     private BooleanSetting swing = new BooleanSetting("Swing", true);
@@ -138,6 +138,10 @@ public class KillAura extends Module {
                     if (!entity.isEntityAlive()) return false;
 
                     if (antiBot.bots.contains(entity)) return false;
+
+                    for (EntityLivingBase player : antiBot.bots) {
+                        System.out.println(player.getName());
+                    }
 
                     if (entity.ticksExisted < 2) return false;
 

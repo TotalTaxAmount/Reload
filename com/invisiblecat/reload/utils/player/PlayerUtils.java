@@ -157,4 +157,5 @@ public class PlayerUtils {
     public static Block getBlock(double xCoord, double yCoord, double zCoord) {
         return mc.theWorld.getBlockState(new BlockPos(xCoord, yCoord, zCoord)).getBlock();
     }
+
 }

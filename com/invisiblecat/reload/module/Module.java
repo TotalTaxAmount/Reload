@@ -144,8 +144,9 @@ public class Module {
             onToggle();
         if(toggled)
             onEnable();
-        else
+        else {
             onDisable();
+        }
     }
     public String getName() {
         return name;
