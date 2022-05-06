@@ -85,10 +85,10 @@ public class Speed extends Module {
                     }
                     break;
                 } case "vulcan": {
-                    PlayerUtils.strafe(0.25);
+                    PlayerUtils.strafe(0.29);
                     if (mc.thePlayer.onGround) {
                         mc.thePlayer.jump();
-                        mc.thePlayer.motionY = 0.41999998688698;
+                        mc.thePlayer.motionY = 0.31999998688698;
                     } else {
                         if (timer.hasTimePassed(300, true)) {
                             mc.thePlayer.motionY = -0.367435523;

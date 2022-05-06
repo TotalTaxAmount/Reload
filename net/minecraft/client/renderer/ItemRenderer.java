@@ -385,7 +385,7 @@ public class ItemRenderer
                 ModeSetting blockMode = (ModeSetting) ka.getSetting("Block Mode");
                 BooleanSetting block = (BooleanSetting) ka.getSetting("Block");
 
-                if (ka.isEnabled() && ka.getTarget() != null && block.isEnabled() && blockMode.is("Fake") && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
+                if (ka.isEnabled() && ka.getTarget() != null && (block != null && block.isEnabled()) && ((blockMode != null && blockMode.is("Fake")))) {
                     doBlockAnimation(EnumAction.BLOCK, swingProgress);
                 } else {
                     this.func_178105_d(swingProgress);
