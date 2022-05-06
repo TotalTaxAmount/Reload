@@ -34,7 +34,6 @@ import java.util.UUID;
 public class Fly extends Module {
     private final ModeSetting mode = new ModeSetting("Mode", "Verus2", "Vanilla", "Verus", "Verus2","Damage", "Collide", "Vulcan", "Matrix");
     private final NumberSetting speed = new NumberSetting("Speed", 2, 0, 10, 0.1);
-    private final BooleanSetting bypassVanillaKick = new BooleanSetting("BypassVanillaKick", true);
     boolean hasBeenDamaged = false;
     private static final TimerUtils timer = new TimerUtils();
     private int count, offGroundTicks, onGroundTicks, ticks = 0;
@@ -49,6 +48,9 @@ public class Fly extends Module {
 
     @Override
     public void onEnable() {
+        super.onEnable();
+        disable = false;
+
         count = 0;
         ticks = 0;
         offGroundTicks = 0;
@@ -88,7 +90,6 @@ public class Fly extends Module {
                 }
                 break;
         }
-        super.onEnable();
     }
 
     @Override
@@ -96,6 +97,7 @@ public class Fly extends Module {
         super.onDisable();
         mc.timer.timerSpeed = 1;
         matrixRod = false;
+        disable = false;
         PlayerUtils.strafe(0);
         mc.thePlayer.motionY = 0;
     }
@@ -271,6 +273,7 @@ public class Fly extends Module {
             }
 
             case "matrix": {
+                count++;
                 if (!matrixRod) {
                     if (count > 2) {
                         PacketUtils.sendPacket(new C08PacketPlayerBlockPlacement(mc.thePlayer.inventory.getCurrentItem()));
@@ -282,7 +285,20 @@ public class Fly extends Module {
                 if (count < 3) {
                     event.setPitch(-90);
                     mc.thePlayer.rotationPitchHead = -90;
-                    count++;
+                }
+
+                if (matrixRod && mc.thePlayer.hurtResistantTime > 0) {
+                    mc.timer.timerSpeed = 0.1F;
+                    if (count > 5) {
+                        ;
+                        PacketUtils.sendPacket(new C08PacketPlayerBlockPlacement(mc.thePlayer.inventory.getCurrentItem()));
+                    }
+
+                    mc.thePlayer.motionY = 0;
+                    PlayerUtils.strafe(16);
+                } else {
+                    mc.thePlayer.motionX = 0;
+                    mc.thePlayer.motionZ = 0;
                 }
             }
 
