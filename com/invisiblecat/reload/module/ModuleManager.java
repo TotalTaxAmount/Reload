@@ -4,13 +4,10 @@ import com.invisiblecat.reload.module.modules.combat.*;
 import com.invisiblecat.reload.module.modules.movement.*;
 import com.invisiblecat.reload.module.modules.exploit.*;
 import com.invisiblecat.reload.module.modules.other.*;
-import com.invisiblecat.reload.module.modules.player.InvManager;
-import com.invisiblecat.reload.module.modules.player.Scaffold;
-import com.invisiblecat.reload.module.modules.player.Stealer;
-import com.invisiblecat.reload.module.modules.player.FastPlace;
+import com.invisiblecat.reload.module.modules.player.*;
 import com.invisiblecat.reload.module.modules.render.*;
 import com.invisiblecat.reload.module.modules.test.*;
-import com.invisiblecat.reload.module.modules.world.Timer;
+import com.invisiblecat.reload.module.modules.world.*;
 
 import java.util.ArrayList;
 
@@ -32,7 +29,6 @@ public class ModuleManager {
         modules.add(new Speed());
         modules.add(new Jesus());
         modules.add(new NoSlow());
-        modules.add(new ClickTP());
 
         //Player
         modules.add(new FastPlace());
