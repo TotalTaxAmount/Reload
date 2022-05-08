@@ -87,13 +87,13 @@ public class Speed extends Module {
                     }
                     break;
                 } case "vulcan": {
-                    mc.timer.timerSpeed = 1.2F;
-                    PlayerUtils.strafe(0.25);
+                    mc.timer.timerSpeed = 1.1F;
+                    PlayerUtils.strafe(0.23);
                     if (mc.thePlayer.onGround) {
                         mc.thePlayer.jump();
-                        mc.thePlayer.motionY = 0.384123;
+                        mc.thePlayer.motionY = 0.484123;
                     } else {
-                        if (timer.hasTimePassed(150, false)) {
+                        if (timer.hasTimePassed(250, false)) {
                             mc.thePlayer.motionY = -0.097435523;
                             timer.reset();
                         }
@@ -101,11 +101,11 @@ public class Speed extends Module {
                     break;
                 } case "matrix": {
                     if (!mc.thePlayer.onGround) {
-                       mc.timer.timerSpeed = 0.99F;
+                       mc.timer.timerSpeed = 0.999F;
                     }
 
                     if (mc.thePlayer.onGround) {
-                        mc.thePlayer.motionY = 0.2198688698;
+                        mc.thePlayer.motionY = 0.29999998688698;
                         mc.timer.timerSpeed = 1.39F;
                         PlayerUtils.strafe(0.31);
                     }
