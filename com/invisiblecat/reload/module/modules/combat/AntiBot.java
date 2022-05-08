@@ -2,6 +2,7 @@ package com.invisiblecat.reload.module.modules.combat;
 
 import com.invisiblecat.reload.event.EventTarget;
 import com.invisiblecat.reload.event.events.EventPreMotionUpdate;
+import com.invisiblecat.reload.event.events.EventSendPacket;
 import com.invisiblecat.reload.event.events.EventUpdate;
 import com.invisiblecat.reload.module.Category;
 import com.invisiblecat.reload.module.Module;
@@ -9,6 +10,9 @@ import com.invisiblecat.reload.setting.settings.BooleanSetting;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.client.C02PacketUseEntity;
+import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.util.BlockPos;
 
 import java.util.ArrayList;
@@ -22,13 +26,15 @@ public class AntiBot extends Module {
     private BooleanSetting nameCheck = new BooleanSetting("Name check", true);
     private BooleanSetting sameName = new BooleanSetting("Same name", true);
     private BooleanSetting ticksExist = new BooleanSetting("Ticks existed", true);
-    private BooleanSetting tp = new BooleanSetting("Teleport", true);
+    private BooleanSetting noDamage = new BooleanSetting("No Damage", true);
+    private BooleanSetting tabListCheck = new BooleanSetting("Tablist check", true);
 
     private int ticks = 0;
+    private float lastDamage = 0;
 
     public AntiBot() {
         super("AntiBot", 0, Category.COMBAT, AutoDisable.NONE);
-        this.addSettings(idCheck, pingCheck, nameCheck, sameName, ticksExist, tp);
+        this.addSettings(idCheck, pingCheck, nameCheck, sameName, ticksExist, noDamage, tabListCheck);
     }
 
     @EventTarget
@@ -72,18 +78,19 @@ public class AntiBot extends Module {
 
                 if (names.contains(name))
                     bots.add(player);
-
-                names.add(name);
+                else
+                    names.add(name);
             }
 
-            if (tp.isEnabled()) {
-                BlockPos oldPos = new BlockPos(player.lastTickPosX, player.lastTickPosY, player.lastTickPosZ);
-                if (ticks > 20) {
-                    BlockPos newPos = new BlockPos(player.posX, player.posY, player.posZ);
-                    if (oldPos.distanceSq(newPos) > 50) {
-                        bots.add(player);
-                        ticks = 0;
-                    }
+//            if (noDamage.isEnabled()) {
+//                lastDamage = player.getHealth();
+//            }
+
+            if (tabListCheck.isEnabled()) {
+                 // get all the players in the tablist
+                if (!mc.getNetHandler().getPlayerInfoMap().contains(player.getName())) {
+                    bots.add(player);
+                    System.out.println("Found player in tablist: " + player.getName());
                 }
             }
         }
@@ -92,6 +99,26 @@ public class AntiBot extends Module {
     @EventTarget
     public void onUpdate (EventUpdate event) {
         ticks++;
+        for (EntityLivingBase bot : bots) {
+            mc.theWorld.removeEntity(bot);
+        }
+    }
+
+    @EventTarget
+    public void onSendPacket(EventSendPacket event) {
+        Packet<?> packet = event.getPacket();
+
+//        if (noDamage.isEnabled()) {
+//            if (packet instanceof C02PacketUseEntity) {
+//                C02PacketUseEntity useEntity = (C02PacketUseEntity) packet;
+//                EntityPlayer player = (EntityPlayer) useEntity.getEntityFromWorld(mc.theWorld);
+//                if (player.getHealth() == lastDamage) {
+//                    bots.add(player);
+//                    System.out.println("Removed " + player.getName());
+//                }
+//
+//            }
+//        }
     }
 
     @Override

@@ -8,7 +8,7 @@ import com.invisiblecat.reload.setting.settings.BooleanSetting;
 import com.invisiblecat.reload.setting.settings.ModeSetting;
 
 public class Animations extends Module {
-    private ModeSetting mode = new ModeSetting("Mode", "1.7", "1.7", "Cool");
+    private ModeSetting mode = new ModeSetting("Mode", "1.7", "1.7", "Cool", "Skid");
     private BooleanSetting always = new BooleanSetting("Always", true);
 
     public Animations() {

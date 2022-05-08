@@ -18,11 +18,13 @@ import com.invisiblecat.reload.utils.TimerUtils;
 import com.invisiblecat.reload.utils.player.PlayerUtils;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.EnumPacketDirection;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.*;
+import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MovingObjectPosition;
@@ -37,7 +39,7 @@ public class Fly extends Module {
     boolean hasBeenDamaged = false;
     private static final TimerUtils timer = new TimerUtils();
     private int count, offGroundTicks, onGroundTicks, ticks = 0;
-    private boolean idk, matrixRod = false, disable = false;
+    private boolean idk = true, matrixRod = false, disable = false;
 
 
 
@@ -50,12 +52,13 @@ public class Fly extends Module {
     public void onEnable() {
         super.onEnable();
         disable = false;
-
         count = 0;
         ticks = 0;
         offGroundTicks = 0;
         onGroundTicks = 0;
         hasBeenDamaged = false;
+        matrixRod = false;
+        idk = true;
         switch (mode.getSelected().toLowerCase().replaceAll("\\s", "")) {
             case "damage":
                 if (!hasBeenDamaged) {
@@ -74,7 +77,7 @@ public class Fly extends Module {
                 // Look for a fishing rod in the players hot bar
                 for (int i = 0; i < 9; i++) {
                     if (mc.thePlayer.inventory.getStackInSlot(i) != null) {
-                        if (mc.thePlayer.inventory.getStackInSlot(i).getItem() instanceof ItemFishingRod) {
+                        if (mc.thePlayer.inventory.getStackInSlot(i).getItem() instanceof ItemFishingRod || mc.thePlayer.inventory.getStackInSlot(i).getItem() instanceof ItemBow) {
                             mc.thePlayer.inventory.currentItem = i;
                             break;
                         }
@@ -82,11 +85,17 @@ public class Fly extends Module {
                 }
 
                 // if the player is not holding a fishing rod, then disable the module
-                if (!(mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemFishingRod)) {
+                if (!(mc.thePlayer.getHeldItem() != null && (mc.thePlayer.getHeldItem().getItem() instanceof ItemFishingRod || mc.thePlayer.getHeldItem().getItem() instanceof ItemBow))) {
                     NotificationManager.show(new Notification(NotificationType.ERROR, "Fly", "You must have a rod in your hotbar", 1));
                     mc.timer.timerSpeed = 1.0F;
                     disable = true;
 
+                }
+
+                if (mc.thePlayer.hurtResistantTime > 0) {
+                    NotificationManager.show(new Notification(NotificationType.ERROR, "Fly", "Wait a bit bozo", 1));
+                    disable = true;
+                    mc.timer.timerSpeed = 1.0F;
                 }
                 break;
         }
@@ -96,8 +105,7 @@ public class Fly extends Module {
     public void onDisable() {
         super.onDisable();
         mc.timer.timerSpeed = 1;
-        matrixRod = false;
-        disable = false;
+
         PlayerUtils.strafe(0);
         mc.thePlayer.motionY = 0;
     }
@@ -124,6 +132,11 @@ public class Fly extends Module {
                     }
                 }
                 break;
+            case "minebox": {
+                if (packet instanceof C03PacketPlayer) {
+                    event.setCancelled(true);
+                }
+            }
         }
     }
 
@@ -287,19 +300,28 @@ public class Fly extends Module {
                     mc.thePlayer.rotationPitchHead = -90;
                 }
 
-                if (matrixRod && mc.thePlayer.hurtResistantTime > 0) {
-                    mc.timer.timerSpeed = 0.1F;
-                    if (count > 5) {
-                        ;
+                if (matrixRod && (mc.thePlayer.hurtResistantTime > 0 || hasBeenDamaged)) {
+                    mc.timer.timerSpeed = 0.2F;
+                    if (idk && count > 5) {
+                        idk = false;
                         PacketUtils.sendPacket(new C08PacketPlayerBlockPlacement(mc.thePlayer.inventory.getCurrentItem()));
+                        NotificationManager.show(new Notification(NotificationType.SUCCESS, "Matrix Fly", "You can now fly", 1));
                     }
 
                     mc.thePlayer.motionY = 0;
-                    PlayerUtils.strafe(16);
+                    PlayerUtils.strafe(speed.getValue() * 4.5);
+                    if (mc.gameSettings.keyBindJump.isKeyDown()) {
+                        mc.thePlayer.motionY = 4;
+                    } else if (mc.gameSettings.keyBindSneak.isKeyDown()) {
+                        mc.thePlayer.motionY = -4;
+                    }
+                    // this is not for damage
+                    hasBeenDamaged = true;
                 } else {
                     mc.thePlayer.motionX = 0;
                     mc.thePlayer.motionZ = 0;
                 }
+                break;
             }
 
         }

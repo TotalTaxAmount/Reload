@@ -60,7 +60,7 @@ public class Speed extends Module {
                         mc.thePlayer.jump();
                         mc.thePlayer.motionY = 0.0;
                         PlayerUtils.strafe(speed.getValue());
-                        mc.thePlayer.motionY = 0.41999998688698;
+                        mc.thePlayer.motionY = 0.21999998688698;
                     } else {
                         PlayerUtils.strafe();
                     }
@@ -85,13 +85,14 @@ public class Speed extends Module {
                     }
                     break;
                 } case "vulcan": {
-                    PlayerUtils.strafe(0.29);
+                    PlayerUtils.strafe(0.24);
                     if (mc.thePlayer.onGround) {
                         mc.thePlayer.jump();
-                        mc.thePlayer.motionY = 0.31999998688698;
+                        mc.thePlayer.motionY = 0.284123;
                     } else {
-                        if (timer.hasTimePassed(300, true)) {
-                            mc.thePlayer.motionY = -0.367435523;
+                        if (timer.hasTimePassed(150, false)) {
+                            mc.thePlayer.motionY = -0.167435523;
+                            timer.reset();
                         }
                     }
                     break;

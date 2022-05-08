@@ -62,6 +62,9 @@ public class KillAura extends Module {
     private float yaw, pitch,
             lastYaw, lastPitch;
 
+    private AntiBot antiBot;
+
+
     private boolean blocking;
 
     public KillAura() {
@@ -108,8 +111,8 @@ public class KillAura extends Module {
 
     @EventTarget
     public void onUpdate(EventUpdate event) {
+        antiBot = (AntiBot) Reload.instance.moduleManager.getModuleByClass(AntiBot.class);
         this.setDisplayName(rotMode.getSelected());
-
         if (maxCps.getValue() < minCps.getValue()) maxCps.setValue(minCps.getValueInt());
         if (rotRange.getValueInt() < range.getValueInt()) rotRange.setValue(range.getValueInt());
 
@@ -126,7 +129,6 @@ public class KillAura extends Module {
     }
 
     private List<EntityLivingBase> getTargets() {
-        AntiBot antiBot = (AntiBot) Reload.instance.moduleManager.getModuleByClass(AntiBot.class);
         List<EntityLivingBase> var2 = mc.theWorld.loadedEntityList
                 .stream().filter(entity -> entity instanceof EntityLivingBase)
                 .map(entity -> ((EntityLivingBase) entity))
@@ -139,9 +141,7 @@ public class KillAura extends Module {
 
                     if (antiBot.bots.contains(entity)) return false;
 
-                    for (EntityLivingBase player : antiBot.bots) {
-                        System.out.println(player.getName());
-                    }
+
 
                     if (entity.ticksExisted < 2) return false;
 
@@ -216,15 +216,11 @@ public class KillAura extends Module {
                 break;
 
             case "Smart":
-                if (AuraUtils.isLookingAtEntity(entity, yaw, lastPitch, 35.212F))
+                if (AuraUtils.isLookingAtEntity(entity, yaw, lastPitch, 40.212F))
                     pitch = lastPitch ;
-                else
-                    pitch += Math.random() * 10 - 5;
 
                 if (AuraUtils.isLookingAtEntity(entity, lastYaw, pitch, 19.123F))
                     yaw = lastYaw;
-                else
-                    yaw += Math.random() * 10 - 5;
 
                 break;
 

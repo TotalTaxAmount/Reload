@@ -32,6 +32,7 @@ public class ModuleManager {
         modules.add(new Speed());
         modules.add(new Jesus());
         modules.add(new NoSlow());
+        modules.add(new ClickTP());
 
         //Player
         modules.add(new FastPlace());
