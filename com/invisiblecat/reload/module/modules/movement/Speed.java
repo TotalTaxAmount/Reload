@@ -15,15 +15,17 @@ import com.invisiblecat.reload.utils.player.PlayerUtils;
 
 public class Speed extends Module {
     private final ModeSetting mode = new ModeSetting("Mode", "Vanilla", "Vanilla",
-            "Verus", "Test", "Vulcan");
+            "Verus", "Test", "Vulcan", "Matrix");
     private final NumberSetting speed = new NumberSetting("Speed", 2, 1, 10, 0.1);
 
-    private int wallTicks = 0, verusTicks = 0;
+    private int wallTicks = 0, verusTicks = 0, count = 0;
 
     private TimerUtils timer = new TimerUtils();
 
-    private boolean direction = false;
+    private boolean direction = false, jump = false;
     private boolean isTimer = false;
+
+    private double x = 0, y = 0, z = 0, var1 = 0;
 
     public Speed() {
         super("Speed", 0, Category.MOVEMENT, AutoDisable.FLAG);
@@ -97,6 +99,17 @@ public class Speed extends Module {
                         }
                     }
                     break;
+                } case "matrix": {
+                    if (!mc.thePlayer.onGround) {
+                       mc.timer.timerSpeed = 1F;
+                    }
+
+                    if (mc.thePlayer.onGround) {
+                        mc.thePlayer.motionY = 0.19999998688698;
+                        mc.timer.timerSpeed = 1.41F;
+                        PlayerUtils.strafe(0.32);
+                    }
+                    break;
                 }
             }
         }
@@ -105,17 +118,19 @@ public class Speed extends Module {
 
     @Override
     public void onEnable() {
+        count = 0;
         isTimer = Reload.instance.moduleManager.getModuleByName("Timer").isEnabled();
         if(isTimer) {
             Reload.instance.moduleManager.getModuleByName("Timer").setEnabled(false);
             ChatUtils.sendChatMessageClient("Timer is incompatible with speed, it will be enabled after speed is disabled", ChatUtils.Type.WARN);
         }
-        mc.timer.timerSpeed = 1f;
         super.onEnable();
     }
 
     @Override
     public void onDisable() {
+        jump = false;
+        mc.gameSettings.keyBindJump.setState(mc.gameSettings.keyBindJump.isKeyDown());
         mc.timer.timerSpeed = 1f;
         if(isTimer)
             Reload.instance.moduleManager.getModuleByName("Timer").toggle(false);

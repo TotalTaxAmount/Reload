@@ -44,6 +44,7 @@ public class KillAura extends Module {
     private NumberSetting maxCps = new NumberSetting("Maximum CPS", 15, 1, 20, 1);
 
     private ModeSetting rotMode = new ModeSetting("Rotation Mode", "Normal", "Normal", "Down", "Snap", "Legit");
+    private NumberSetting snapDegree = new NumberSetting("Snap Degree", 10, 1, 45, 1);
 
     private ModeSetting sort = new ModeSetting("Sort", "Distance", "Health", "Distance", "Hurt Time");
     private ModeSetting blockMode = new ModeSetting("Block Mode", "Normal", "Normal", "Fake");
@@ -69,7 +70,7 @@ public class KillAura extends Module {
 
     public KillAura() {
         super("KillAura", 0, Category.PLAYER, AutoDisable.WORLD);
-        this.addSettings(range, rotRange,sort, rotMode, players, others, legit, minCps, maxCps, swing, block, blockMode, invsibles, targetESP);
+        this.addSettings(range, rotRange,sort, rotMode, players, others, legit, minCps, maxCps, swing, block, blockMode, invsibles, targetESP, snapDegree);
     }
 
     @EventTarget
@@ -195,8 +196,8 @@ public class KillAura extends Module {
 
         switch (rotMode.getSelected()) {
             case "Snap":
-                yaw = (float) Math.round(yaw / 20) * 20;
-                pitch = (float) Math.round(pitch / 20) * 20;
+                yaw = (float) Math.round(yaw / snapDegree.getValueInt()) * snapDegree.getValueInt();
+                pitch = (float) Math.round(pitch / snapDegree.getValueInt()) * snapDegree.getValueInt();
                 break;
             case "Normal":
                 break;
