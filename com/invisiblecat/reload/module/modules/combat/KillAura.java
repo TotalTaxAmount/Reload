@@ -43,6 +43,8 @@ public class KillAura extends Module {
     private NumberSetting minCps = new NumberSetting("Minimum CPS", 10, 1, 20, 1);
     private NumberSetting maxCps = new NumberSetting("Maximum CPS", 15, 1, 20, 1);
 
+    private ModeSetting timing = new ModeSetting("Timing", "Post", "Pre", "Post", "Both");
+
     private ModeSetting rotMode = new ModeSetting("Rotation Mode", "Normal", "Normal", "Down", "Snap", "Legit");
     private NumberSetting snapDegree = new NumberSetting("Snap Degree", 10, 1, 45, 1);
 
@@ -93,7 +95,9 @@ public class KillAura extends Module {
                 mc.thePlayer.rotationPitchHead = pitch;
             }
 
-            attack();
+            if (timing.is("Pre") || timing.is("Both")) {
+                attack();
+            }
         }
     }
 
@@ -108,12 +112,21 @@ public class KillAura extends Module {
                 }
             }
         }
+
+        if (timing.is("Post") || timing.is("Both")) {
+            if (entities.size() > 0) {
+                target = entities.get(0);
+                yaw = getRotations(target)[0];
+                pitch = getRotations(target)[1];
+                attack();
+            }
+        }
     }
 
     @EventTarget
     public void onUpdate(EventUpdate event) {
         antiBot = (AntiBot) Reload.instance.moduleManager.getModuleByClass(AntiBot.class);
-        this.setDisplayName(rotMode.getSelected());
+        this.setDisplayName(rotMode.getSelected() + ", " + timing.getSelected());
         if (maxCps.getValue() < minCps.getValue()) maxCps.setValue(minCps.getValueInt());
         if (rotRange.getValueInt() < range.getValueInt()) rotRange.setValue(range.getValueInt());
 

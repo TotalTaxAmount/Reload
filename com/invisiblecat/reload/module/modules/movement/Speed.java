@@ -101,13 +101,14 @@ public class Speed extends Module {
                     break;
                 } case "matrix": {
                     if (!mc.thePlayer.onGround) {
-                       mc.timer.timerSpeed = 0.999F;
+                       mc.timer.timerSpeed = 1F;
                     }
 
                     if (mc.thePlayer.onGround) {
-                        mc.thePlayer.motionY = 0.29999998688698;
+                        if (timer.hasTimePassed(50, true))
+                            mc.thePlayer.motionY = 0.31999998688698;
                         mc.timer.timerSpeed = 1.39F;
-                        PlayerUtils.strafe(0.31);
+                        PlayerUtils.strafe(0.32);
                     }
                     break;
                 }

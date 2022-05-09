@@ -14,6 +14,9 @@ public class Gui
     public static final ResourceLocation icons = new ResourceLocation("textures/gui/icons.png");
     protected float zLevel;
 
+    protected static void drawRect(float v, int i, int i1, int i2, float v1, int i3, int i4) {
+    }
+
     /**
      * Draw a 1 pixel wide horizontal line. Args: x1, x2, y, color
      */

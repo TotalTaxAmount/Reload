@@ -12,6 +12,8 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.invisiblecat.reload.client.Reload;
+import com.invisiblecat.reload.client.mainmenu.alt.DevAltManager;
+import com.invisiblecat.reload.client.mainmenu.alt.GuiAltManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -285,7 +287,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 
         if (button.id == 14 && this.realmsButton.visible)
         {
-            this.switchToRealms();
+            this.mc.displayGuiScreen(new GuiAltManager());
         }
 
         if (button.id == 4)

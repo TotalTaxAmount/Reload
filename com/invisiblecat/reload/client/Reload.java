@@ -1,5 +1,6 @@
 package com.invisiblecat.reload.client;
 
+import com.invisiblecat.reload.client.mainmenu.alt.DevAltManager;
 import com.invisiblecat.reload.client.ui.hud.element.GuiHUDConfig;
 import com.invisiblecat.reload.command.CommandManager;
 import com.invisiblecat.reload.discord.DiscordRP;
@@ -30,6 +31,7 @@ public class Reload {
     public FileManager fileManager;
     public CommandManager commandManager;
     public DiscordRP discordRP;
+    public DevAltManager devAltManager;
 
     public HUD hud;
 
@@ -39,6 +41,7 @@ public class Reload {
         eventManager = new EventManager();
         moduleManager = new ModuleManager();
         fileManager = new FileManager();
+        devAltManager = new DevAltManager();
         hud = new HUD();
         discordRP = new DiscordRP();
 
