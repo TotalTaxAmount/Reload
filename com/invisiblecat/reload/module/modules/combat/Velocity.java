@@ -34,9 +34,7 @@ public class Velocity extends Module {
                     S12PacketEntityVelocity p = (S12PacketEntityVelocity) event.getPacket();
                     if (mc.thePlayer.getEntityId() != p.getEntityID()) return;
                     if(horizontal.getValueInt() == 0 && vertical.getValueInt() == 0) {
-                        p.setMotionX(0);
-                        p.setMotionY(0);
-                        p.setMotionZ(0);
+                        event.setCancelled(true);
                     }
 
                     p.setMotionX(p.getMotionX() * horizontal.getValueInt() / 100);

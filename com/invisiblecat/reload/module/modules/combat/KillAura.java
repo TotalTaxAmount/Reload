@@ -72,19 +72,21 @@ public class KillAura extends Module {
 
     public KillAura() {
         super("KillAura", 0, Category.PLAYER, AutoDisable.WORLD);
-        this.addSettings(range, rotRange,sort, rotMode, players, others, legit, minCps, maxCps, swing, block, blockMode, invsibles, targetESP, snapDegree);
+        this.addSettings(range, rotRange,sort, rotMode, timing,
+                players, others, legit, minCps, maxCps, swing, block, blockMode, invsibles, targetESP, snapDegree);
     }
 
     @EventTarget
     public void onPreMotionUpdate(EventPreMotionUpdate event) {
         entities = getTargets();
+        lastYaw = yaw;
+        lastPitch = pitch;
         if (entities.size() > 0) {
             target = entities.get(0);
             yaw = getRotations(target)[0];
             pitch = getRotations(target)[1];
 
-            lastYaw = yaw;
-            lastPitch = pitch;
+
 
             if (mc.thePlayer.getDistanceToEntity(target) <= rotRange.getValue()) {
                 event.setYaw(yaw);
@@ -195,7 +197,7 @@ public class KillAura extends Module {
 
         double deltaX = entity.posX + (entity.posX - entity.lastTickPosX) - mc.thePlayer.posX;
         double deltaZ = entity.posZ + (entity.posZ - entity.lastTickPosZ) - mc.thePlayer.posZ;
-        double deltaY = entity.posY + (entity.posY - entity.lastTickPosY) - mc.thePlayer.posY;
+        double deltaY = entity.posY - 3.5 + entity.getEyeHeight() - mc.thePlayer.posY + mc.thePlayer.getEyeHeight();
         double dist = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaZ, 2));
         float yaw = (float) Math.toDegrees(-Math.atan(deltaX / deltaZ));
         float pitch = (float) Math.toDegrees(-Math.atan(deltaY / dist));
@@ -219,8 +221,8 @@ public class KillAura extends Module {
                 break;
             case "Smooth":
                 float fps = Minecraft.getDebugFPS();
-                float yawDelta = (float) (((((yaw - lastYaw) + 540) % 360) - 180) / (fps / 90 * (1 + Math.random())));
-                float pitchDelta = (float) (((((pitch - lastPitch) + 540) % 360) - 180) / (fps / 90 * (1 + Math.random())));
+                float yawDelta = (float) (((((yaw - lastYaw) + 540) % 360) - 180) / (fps / 200 * (1 + Math.random())));
+                float pitchDelta = (float) (((((pitch - lastPitch) + 540) % 360) - 180) / (fps / 200 * (1 + Math.random())));
 
                 yaw = lastYaw + yawDelta;
                 pitch = lastPitch + pitchDelta;
@@ -267,6 +269,7 @@ public class KillAura extends Module {
     public void onDisable() {
         super.onDisable();
         target = null;
+
     }
 
     public EntityLivingBase getTarget() {
