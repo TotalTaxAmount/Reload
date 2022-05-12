@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 public class Gui
 {
@@ -15,6 +16,41 @@ public class Gui
     protected float zLevel;
 
     protected static void drawRect(float v, int i, int i1, int i2, float v1, int i3, int i4) {
+    }
+
+    public static void drawFullCircle(int x, int y, int radius, int color) {
+
+        // Draws a full circle with the specified radius and color
+        // The circle is drawn using GL_TRIANGLE_FAN
+        // The circle is drawn using the specified color
+        // The circle is drawn at the specified x and y coordinates
+
+        // Start drawing the circle
+        GL11.glPushMatrix();
+        GL11.glTranslatef((float)x, (float)y, 0.0F);
+
+        // Set the color
+        GL11.glColor4f(
+                (float)(color >> 16 & 255) / 255.0F, // Red
+                (float)(color >> 8 & 255) / 255.0F, // Green
+                (float)(color & 255) / 255.0F, // Blue
+                (float)(color >> 24 & 255) / 255.0F // Alpha
+        );
+
+        // Set the drawing mode
+        GL11.glBegin(GL11.GL_TRIANGLE_FAN);
+
+        // Draw the circle
+        for (int i = 0; i <= 360; i++) {
+            GL11.glVertex2d(Math.cos(i * Math.PI / 180.0D) * (double)radius, Math.sin(i * Math.PI / 180.0D) * (double)radius);
+        }
+
+        // End the drawing mode
+        GL11.glEnd();
+
+        // Stop drawing the circle
+        GL11.glPopMatrix();
+
     }
 
     /**

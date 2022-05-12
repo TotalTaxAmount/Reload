@@ -62,4 +62,9 @@ public class ModeSetting extends Setting {
             selected = modes.get(0);
         }
     }
+
+    public void setMode(String displayString) {
+        index = modes.indexOf(displayString);
+        selected = modes.get(index);
+    }
 }

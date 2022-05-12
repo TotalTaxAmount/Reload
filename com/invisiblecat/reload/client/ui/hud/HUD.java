@@ -1,7 +1,7 @@
 package com.invisiblecat.reload.client.ui.hud;
 
 import com.invisiblecat.reload.client.Reload;
-import com.invisiblecat.reload.client.ui.clickgui.ClickGUI;
+import com.invisiblecat.reload.client.ui.clickgui.reload.ClickGUI;
 import com.invisiblecat.reload.client.ui.hud.element.Element;
 import com.invisiblecat.reload.client.ui.hud.element.elements.ArrayListModules;
 import com.invisiblecat.reload.client.ui.hud.element.elements.User;

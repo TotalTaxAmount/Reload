@@ -1,6 +1,7 @@
 package com.invisiblecat.reload.client;
 
 import com.invisiblecat.reload.client.mainmenu.alt.DevAltManager;
+import com.invisiblecat.reload.client.ui.clickgui.csgo.CSGOGui;
 import com.invisiblecat.reload.client.ui.hud.element.GuiHUDConfig;
 import com.invisiblecat.reload.command.CommandManager;
 import com.invisiblecat.reload.discord.DiscordRP;
@@ -34,6 +35,7 @@ public class Reload {
     public DevAltManager devAltManager;
 
     public HUD hud;
+    public CSGOGui csgogui;
 
 
     public void Start() {
@@ -44,6 +46,7 @@ public class Reload {
         devAltManager = new DevAltManager();
         hud = new HUD();
         discordRP = new DiscordRP();
+        csgogui = new CSGOGui();
 
         discordRP.init();
 
