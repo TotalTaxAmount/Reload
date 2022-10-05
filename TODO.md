@@ -7,13 +7,13 @@ ________________________________________________________
 - ~~Settings System~~
 - ~~Add settings to AutoLogin and AutoDisable~~
 - ~~HUD things~~ (For now)
-- Get setup on comics pc
+- ~~Get setup on comics pc~~
 - Make a client backend?
 - ~~connect dc webhook to server??~~
 - ~~Make notifiction system~~
 - Finish notifications
 - ~~Add chest stealer and inventory manager~~ lol
-- Add killaura (I really need to do this) <- I NEED TO MAKE THIS
+- ~`Add killaura (I really need to do this) <- I NEED TO MAKE THIS~~
 - Add an alt manager
 - ~~Make hud draggables (cosmics get ur pc to work so u can figure out how to do this)~~
 - make scaffold work
@@ -24,7 +24,7 @@ ________________________________________________________
 - fix targetHUD (ass rn)
 - add NoFall
 - add TargetStrafe
-- idk
+- KA rotations accualy bypass
 - Fix scaffold
 - Fix AutoLogin
 - Improve Vulcan disabler, and add bypasses for other servers
